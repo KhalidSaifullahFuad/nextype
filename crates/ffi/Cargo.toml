@@ -1,0 +1,11 @@
+[package]
+name = "nextype-ffi"
+edition.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["staticlib", "lib"]
+
+[dependencies]
+nextype = { version = "0.1.0", path = "../app" }
+uniffi = "=0.32.2"
