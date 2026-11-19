@@ -1,0 +1,1809 @@
+# __cstring address	string (app-owned plain C strings, build 85)
+1012a3b50	domain:github.com
+1012a3b70	com.apple.MobileSMS
+1012a3b90	com.microsoft.teams2
+1012a3bb0	com.apple.FinalCutApp
+1012a3bd0	com.apple.FinalCut
+1012a3bf0	com.apple.FinalCutTrial
+1012a3c10	com.1password.1password
+1012a3c30	com.agilebits.onepassword
+1012a3c50	com.apple.Passwords
+1012a3c70	com.lastpass.lastpassmacdesktop
+1012a3c90	com.lastpass.LastPass
+1012a3cb0	com.dashlane.dashlanephonefinal
+1012a3cd0	com.dashlane.Dashlane
+1012a3cf0	com.bitwarden.desktop
+1012a3d10	com.callpod.keepermac.lite
+1012a3d30	com.keepersecurity.passwordmanager
+1012a3d60	com.sibersystems.RoboFormMac
+1012a3d80	com.nordsec.nordpass
+1012a3da0	in.sinew.Enpass-Desktop
+1012a3dc0	com.ascendo.DataVaultMac
+1012a3de0	me.proton.pass.electron
+1012a3e00	com.mseven.msecuremac
+1012a3e20	com.symantec.NortonPasswordManager.combined
+1012a3e50	org.keepassx.keepassx
+1012a3e70	org.keepassxc.keepassxc
+1012a3e90	com.selznick.PasswordWallet
+1012a3eb0	com.outercorner.Secrets-setapp
+1012a3ed0	com.outercorner.Secrets
+1012a3ef0	com.outercorner.osx.Secrets
+1012a3f10	com.outercorner.Secrets-safari
+1012a3f30	com.apple.dt.Xcode
+1012a3f50	com.apple.dt.IDE.Cocoa-Simulator
+1012a3f80	com.apple.InterfaceBuilder3
+1012a3fa0	org.editra.Editra
+1012a3fc0	com.apple.Terminal
+1012a3fe0	com.googlecode.iterm2
+1012a4000	dev.warp.Warp-Stable
+1012a4020	com.mitchellh.ghostty
+1012a4040	com.mrFridge.Tincta
+1012a4060	com.sublimetext.2
+1012a4080	com.sublimetext.3
+1012a40a0	com.barebones.bbedit
+1012a40c0	com.microsoft.VSCode
+1012a40e0	com.microsoft.VSCodeInsiders
+1012a4100	com.todesktop.230313mzl4w4u92
+1012a4120	com.exafunction.windsurf
+1012a4140	com.google.android.studio
+1012a4160	com.google.android.studio-EAP
+1012a4180	com.jetbrains.intellij
+1012a41a0	com.jetbrains.intellij-EAP
+1012a41c0	com.jetbrains.intellij.ce
+1012a41e0	com.jetbrains.intellij.ce-EAP
+1012a4200	com.jetbrains.AppCode
+1012a4220	com.jetbrains.PhpStorm
+1012a4240	com.jetbrains.PhpStorm-EAP
+1012a4260	com.jetbrains.CLion
+1012a4280	com.jetbrains.CLion-EAP
+1012a42a0	com.jetbrains.pycharm
+1012a42c0	com.jetbrains.pycharm-EAP
+1012a42e0	com.jetbrains.pycharm.ce
+1012a4300	com.jetbrains.pycharm.ce-EAP
+1012a4320	com.jetbrains.goland-EAP
+1012a4340	com.jetbrains.rider
+1012a4360	com.jetbrains.rider-EAP
+1012a4380	com.jetbrains.rubymine
+1012a43a0	com.jetbrains.rubymine-EAP
+1012a43c0	com.mathworks.matlab
+1012a43e0	org.rstudio.RStudio
+1012a4400	com.tinyapp.TablePlus
+1012a4420	com.tinyapp.TablePlus-setapp
+1012a4440	company.thebrowser.Browser
+1012a4460	company.thebrowser.browser
+1012a4480	company.thebrowser.dia
+1012a44a0	com.microsoft.Word
+1012a44c0	com.google.GeminiMacOS
+1012a44e0	com.foldingsky.cumbersome
+1012a4500	net.whatsapp.WhatsApp
+1012a4520	app.fastmail.com
+1012a4540	app:com.tinyspeck.slackmacgap
+1012a4560	app:com.hnc.Discord
+1012a4580	app:net.whatsapp.WhatsApp
+1012a45a0	domain:slack.com
+1012a45c0	domain:app.slack.com
+1012a45e0	domain:notion.so
+1012a4600	domain:discord.com
+1012a4620	domain:web.whatsapp.com
+1012a4640	app:com.apple.MobileSMS
+1012a4660	com.google.Chrome
+1012a4680	com.google.Chrome.canary
+1012a46a0	com.google.Chrome.beta
+1012a46c0	com.google.Chrome.dev
+1012a46e0	org.chromium.Chromium
+1012a4700	com.vivaldi.Vivaldi
+1012a4720	ru.yandex.desktop.yandex-browser
+1012a4750	com.operasoftware.Opera
+1012a4770	com.brave.Browser
+1012a4790	com.ghostbrowser.gb1
+1012a47b0	com.microsoft.edgemac
+1012a47d0	com.microsoft.edgemac.Beta
+1012a47f0	com.microsoft.edgemac.Dev
+1012a4810	com.bookry.wavebox
+1012a4830	com.gener8.Browser
+1012a4850	net.imput.helium
+1012a4870	org.mozilla.thunderbird
+1012a4890	org.mozilla.betterbird
+1012a48b0	com.microsoft.Outlook
+1012a48d0	org.mozilla.firefox
+1012a48f0	org.mozilla.firefoxdeveloperedition
+1012a4920	org.mozilla.com.zen.browser
+1012a4940	app.zen-browser.zen
+1012a4960	com.pushplaylabs.sidekick
+1012a4980	de.iridiumbrowser
+1012a49a0	ai.perplexity.comet
+1012a49c0	com.apple.iWork.Pages
+1012a49e0	com.apple.iWork.Keynote
+1012a4a00	com.apple.iWork.Numbers
+1012a4a20	com.apple.Keynote
+1012a4a40	com.apple.Numbers
+1012a4a60	com.bytedance.macos.feishu
+1012a4a80	com.bytedance.macos.feishu.iron
+1012a4aa0	com.bytedance.macos.feishu.helper
+1012a4ad0	com.tinyspeck.slackmacgap
+1012a4af0	abnerworks.Typora
+1012a4b10	com.bitrixsoft.bitrix24desktop
+1012a4b30	ch.threema.threema-desktop
+1012a4b50	ch.threema.threema-work-desktop
+1012a4b70	ch.threema.threema-onprem-desktop
+1012a4ba0	com.thebrain.dekutron
+1012a4bc0	app:com.microsoft.teams2
+1012a4be0	com.microsoft.teams
+1012a4c00	com.microsoft.teams.helper
+1012a4c20	com.microsoft.teams2.helper
+1012a4c40	domain:*.atlassian.net
+1012a4c60	com.smallcubed.mailmaven
+1012a4c80	app:com.lukilabs.lukiapp
+1012a4ca0	app:com.lukilabs.lukiapp-setapp
+1012a4cc0	app:com.microsoft.Outlook
+1012a4ce0	app:com.apple.mail
+1012a4d00	domain:docs.google.com
+1012a4d20	domain:*.sharepoint.com
+1012a4d40	app:com.finaldraft.finaldraft.v12
+1012a4d70	app:com.finaldraft.finaldraft.v13
+1012a4da0	app:com.freron.MailMate
+1012a4dc0	app:me.paolino.fastsapp
+1012a4de0	app:com.mimestream.Mimestream
+1012a4e00	app:co.bytemail.ByteMail
+1012a4e20	app:com.raycast.macos
+1012a4e40	app:com.raycast.macos.internal
+1012a4e60	app:com.raycast.macos.debug
+1012a4e80	domain:mail.google.com
+1012a4ea0	app.cotypist.Cotypist
+1012a4ec0	com.apple.finder
+1012a4ee0	com.microsoft.Excel
+1012a4f00	com.apple.Preview
+1012a4f20	com.getcleanshot.app-setapp
+1012a4f40	pl.maketheweb.cleanshotx
+1012a4f60	com.serato.seratodj
+1012a4f80	com.moleskine.journey
+1012a4fa0	com.figma.Desktop
+1012a4fc0	com.figma.DesktopBeta
+1012a4fe0	com.runningwithcrayons.Alfred
+1012a5000	at.obdev.LaunchBar
+1012a5020	com.apple.systempreferences
+1012a5040	dev.serafim.fast
+1012a5060	com.mitchellh.ghostty.debug
+1012a5080	com.cmuxterm.app
+1012a50a0	 doesn't provide the access Cotypist needs to read or insert text, so this toggle has no effect. See [our compatibility notes](https://cotypist.app/compatibility#warp) for details.
+1012a5160	dev.zed.Zed-Preview
+1012a5180	dev.zed.Zed-Nightly
+1012a51a0	 doesn't tell Cotypist when the text in it changes, so completions can't follow what you type. See [our compatibility notes](https://cotypist.app/compatibility) for details.
+1012a5250	com.sublimetext.4
+1012a5270	com.microsoft.onenote.mac
+1012a5290	net.ankiweb.launcher
+1012a52b0	net.ankiweb.dtop
+1012a52d0	This toggle won't help for 
+1012a52f0	 — the app doesn't expose the accessibility information Cotypist needs. See [our compatibility notes](https://cotypist.app/compatibility) for details.
+1012a5390	 — the app doesn't yet expose the accessibility information Cotypist needs. See [our compatibility notes](https://cotypist.app/compatibility#zed) for details.
+1012a5440	 — the app doesn't yet expose the accessibility information Cotypist needs. See [our compatibility notes](https://cotypist.app/compatibility#ghostty) for details.
+1012a54f0	Failed to save app override for '
+1012a5520	Failed to delete app override for '
+1012a5550	Failed to load app overrides from DB: 
+1012a5580	GRDB/arm64-apple-macos.private.swiftinterface
+1012a55b0	Skipping an unreadable app override record 
+1012a55e0	cotypist://setOverride
+1012a5600	https://cotypist.app/launchCotypist/setOverride
+1012a5630	The link is not a valid URL.
+1012a5650	The link needs an app or domain, a setting and a value.
+1012a5690	 is not an app (app:…), a domain (domain:…) or default:.
+1012a56d0	Cotypist has no setting named 
+1012a56f0	 is not a valid setting name.
+1012a5710	The link needs exactly an app or domain, a setting and a value, or a value type (
+1012a5770	) before the value. Write a / inside a value as %2F.
+1012a57b0	" is not a valid 
+1012a57d0	. For a setting a later version adds, give the value's type, e.g. …/
+1012a5820	This version of Cotypist does not know 
+1012a5850	 yet. It has been saved as 
+1012a5870	 and takes effect after an update that adds it, if the setting applies to this kind of entry.
+1012a58d0	" is not a valid value for 
+1012a58f0	 has been set to 
+1012a5910	 can only be set for an app or a domain, not for all of them.
+1012a5950	 can only be set for an app.
+1012a5970	 stores no value under that name.
+1012a59a0	 has been removed.
+1012a59c0	 had no override for 
+1012a59e0	, so nothing changed.
+1012a5a00	The link names the type 
+1012a5a20	 but no value after it.
+1012a5a40	 is not a valid domain.
+1012a5a60	The link contains ? or #, which would cut the value off. Write them as %3F and %23.
+1012a5ac0	Override Updated
+1012a5ae0	Override URL Command: Alert title
+1012a5b10	Override URL Command: Alert button
+1012a5b40	Override Not Changed
+1012a5b60	Override URL Command: Alert title when the link is invalid
+1012a5ba0	text.badge.xmark
+1012a5bc0	camera.metering.unknown
+1012a5be0	AttentionCenter.issuesMayHaveChanged
+1012a5c10	exclamationmark.icloud
+1012a5c30	Status/accessory menu item for a stopped iCloud sync; %@ is a short sentence naming the cause.
+1012a5c90	Cotypist keeps trying on its own. Nothing on this Mac was lost.
+1012a5cd0	Sync banner detail: unspecified persistent error.
+1012a5d10	Sync is set up for another account. If you switch it to this one, everything on this Mac is uploaded again.
+1012a5d80	Sync banner detail: account mismatch.
+1012a5db0	Nothing on this Mac was deleted. You can turn sync off, or upload everything again.
+1012a5e10	Sync banner detail: cloud data removed elsewhere.
+1012a5e50	New writing hasn’t reached your other Macs. Free up iCloud storage, or buy more, and syncing resumes on its own.
+1012a5ed0	Sync banner detail: iCloud storage full.
+1012a5f00	Sign in to iCloud in System Settings to start syncing again. Nothing on this Mac was changed.
+1012a5f60	Sync banner detail: no iCloud account.
+1012a5f90	Sync has been stopped for a while
+1012a5fc0	Short menu summary of a paused sync.
+1012a5ff0	Sync is paused: a different iCloud account is signed in
+1012a6030	Sync is paused: another Mac removed the iCloud data
+1012a6070	Sync is paused: your iCloud storage is full
+1012a60a0	Sync is paused: you’re not signed in to iCloud
+1012a60e0	Mac feeling slow? “%@” may be the cause…
+1012a6110	Status/accessory menu item warning that an app has leaked event taps, slowing down the whole Mac. %@ is the offending app's name or bundle identifier.
+1012a61b0	Secure Input is blocking %@…
+1012a61d0	Status/accessory menu item when the responsible app can't be reliably named; %@ is the affected key glyph(s), e.g. “^”.
+1012a6250	Secure Input is blocking a shortcut
+1012a6280	Secure Input banner headline.
+1012a62a0	Secure Input (via “%1$@”) is blocking %2$@…
+1012a62e0	Status/accessory menu item naming the app that has Secure Input held. %1$@ is the app name; %2$@ is the affected key glyph(s), e.g. “^”.
+1012a6370	Another app has turned on macOS Secure Input, which stops your %@ shortcut from working.
+1012a63d0	Secure Input banner: culprit app unknown; %@ is the affected key glyph(s) like “^”.
+1012a6430	Quit that app, or lock and unlock your Mac, and your shortcuts work again. It is usually a password manager that turns Secure Input on.
+1012a64c0	Secure Input banner: how to clear the condition.
+1012a6500	You can still press %@ to accept completions one word at a time.
+1012a6550	Secure Input banner: workaround tip; %@ is the partial-accept key glyph (Tab by default).
+1012a65b0	“%1$@” has turned on macOS Secure Input, which stops your %2$@ shortcut from working.
+1012a6610	Secure Input banner: %1$@ is the responsible app name, %2$@ is the affected key glyph(s) like “^”.
+1012a6680	exclamationmark.triangle.fill
+1012a66a0	Cotypist can’t complete text: the AI model is missing…
+1012a66e0	Status/accessory menu item when no model is downloaded.
+1012a6720	Cotypist needs Accessibility permission…
+1012a6750	Status/accessory menu item when Accessibility permission is missing.
+1012a67a0	Cotypist needs the Device Control and Data Access permission…
+1012a67e0	Status/accessory menu item when Accessibility permission is missing, on macOS 27 and later, where System Settings calls the pane 'Device Control and Data Access'.
+1012a6890	Contents/Resources/Fonts
+1012a68b0	Editor:DefaultFontName
+1012a68d0	/Library/Containers/
+1012a68f0	/Data/Library/Preferences/
+1012a6910	/Library/Preferences/com.barebones.bbedit.plist
+1012a6940	/Library/Application Support/com.mitchellh.ghostty/config.ghostty
+1012a6990	/Library/Application Support/com.mitchellh.ghostty/config
+1012a69d0	/.config/ghostty/config.ghostty
+1012a69f0	/.config/ghostty/config
+1012a6a10	Default Bookmark Guid
+1012a6a30	Foreground Color
+1012a6a50	Default Window Settings
+1012a6a70	Menlo, Monaco, 'Courier New', monospace
+1012a6aa0	/Library/Application Support/
+1012a6ac0	/User/settings.json
+1012a6ae0	editor.fontFamily
+1012a6b10	Ask anything… "
+1012a6b30	Ask anything... "
+1012a6b50	(?:^|\s)(?:\d+\.\d%|\?)/\d+(?:\.\d+)?[kM]?(?: \(auto\))?(?:\s|$)
+1012a6ba0	text_direction=(?:ltr|rtl|ttb|btt)([A-Za-z,]*)
+1012a6bd0	Fatal error
+1012a6be0	font_weight=(\d+)
+1012a6c00	font-family=(.*?)(?= [a-z_-]+=|$)
+1012a6c30	Contents/Resources/DFonts
+1012a6c50	 {10,}[\r\n]+ {0,2}
+1012a6c70	org.libreoffice.script
+1012a6c87	midWord
+1012a6c8f	previousWord
+1012a6ca0	AXSelectedTextChanged
+1012a6cc0	Contents/Frameworks/Electron Framework.framework
+1012a6d00	Contents/Frameworks
+1012a6d20	 Framework.framework
+1012a6d40	Chromium Embedded Framework.framework
+1012a6d70	com.apple.Safari
+1012a6d90	com.apple.SafariTechnologyPreview
+1012a6dc0	com.readdle.SparkDesktop
+1012a6de0	com.readdle.SparkDesktop-setapp
+1012a6e00	com.DanPristupov.Fork
+1012a6e20	AXFocusedUIElementChanged
+1012a6e40	AXFocusedWindowChanged
+1012a6e60	general.architecture
+1012a6e80	No TUI agent prompt detected; hiding completions.
+1012a6ec0	_Concurrency/arm64e-apple-macos.swiftinterface
+1012a6ef0	bundleIdentifier
+1012a6f10	\n\nNow, please complete the following text that I am typing. Write full, grammatically correct sentences in the language and style of the existing text. Avoid using placeholders. Do not mention that your task is to provide completions, or e.g. the fact that I am typing, etc.; just try to complete the sentence.
+1012a7050	No alternatives found.
+1012a7070	infer-from-ghost
+1012a7090	 (space-committed search)
+1012a70b0	fullCompletionsOnly
+1012a70d0	Trailing-punctuation picker: neither accept shortcut inserts the punctuation at the end of what it accepts.
+1012a7140	Only with full completion
+1012a7160	Trailing-punctuation picker: only the full-completion shortcut inserts punctuation.
+1012a71c0	With both shortcuts
+1012a71e0	Trailing-punctuation picker: both the next-word and the full-completion shortcut insert punctuation.
+1012a7250	AXUIElementDestroyed
+1012a7270	AXWindowMiniaturized
+1012a7290	AXAnnouncementRequested
+1012a72b0	AXApplicationDeactivated
+1012a72d0	AXApplicationHidden
+1012a72f0	No synonyms found.
+1012a7310	s
+1012a7320	[Error] Interval already ended
+1012a7340	%.0f,%.0f %.0fx%.0f
+1012a7360	emoji_shortcode_list_merged_no_modifiers
+1012a7390	emoji_list_non_modifiable
+1012a73b0	emoji_list_modifiable_base
+1012a73d0	emoji_gender_variants
+1012a73f0	stuck_out_tongue
+1012a7410	waxing_gibbous_moon
+1012a7430	neutral
+1012a7438	light
+1012a743e	mediumLight
+1012a744a	medium
+1012a7451	mediumDark
+1012a745c	dark
+1012a7470	osUsername
+1012a7481	name
+1012a7486	windowTitle
+1012a7492	url
+1012a7496	onz
+1012a74a0	placeholderValue
+1012a74c0	<|im_start|>user\n
+1012a74e0	<|im_end|>\n<|im_start|>assistant\n
+1012a7510	<|im_start|>system\n
+1012a7530	<|im_end|>\n<|im_start|>user\n
+1012a7550	com.plumamazing.copypastepro
+1012a7570	\b[A-Z]{2}\d{2}(?:[ ]?[A-Z0-9]{4}){2,7}(?:[ ]?[A-Z0-9]{1,3})?\b
+1012a75b0	([?&][A-Za-z0-9_.\-]*sig(?:nature)?=)[^&\s"'<>()\[\]]{8,}
+1012a75f0	(\b(?:pass(?:word|wort|wd|phrase)|kennwort)[ \t]*[:=][ \t]*)(\S*[^\s.,;:!?])
+1012a7640	^([ \t]*(?:export[ \t]+)?[A-Za-z_][A-Za-z0-9_]*[ \t]*=)[ \t]*(\S.*)$
+1012a7690	pass(?:word|wort|wd|phrase)|kennwort
+1012a76c0	(?-i:[A-Z]{2}\d{2}[ ]?[A-Z0-9]{4})
+1012a76f0	[?&][A-Za-z0-9_.\-]*sig(?:nature)?=
+1012a7720	secret|password|passwd|token|api[_-]?key|access[_-]?key|private[_-]?key|credential|client[_-]?secret|authorization
+1012a77a0	-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z0-9 ]*PRIVATE KEY-----
+1012a7800	\b(?:AKIA|ASIA)[0-9A-Z]{16}
+1012a7820	\b(?:sk|rk)_(?:live|test)_[0-9A-Za-z]{16,}
+1012a7850	\bsk-(?:proj-)?[0-9A-Za-z_-]{20,}
+1012a7880	\bgh[pousr]_[0-9A-Za-z]{20,}
+1012a78a0	\bAIza[0-9A-Za-z_-]{35}
+1012a78c0	\bxox[baprs]-[0-9A-Za-z-]{10,}
+1012a78e0	\beyJ[0-9A-Za-z_-]{8,}\.[0-9A-Za-z_-]{8,}\.[0-9A-Za-z_-]{8,}
+1012a7920	[A-Za-z][A-Za-z0-9+.\-]*://[^\s/:@]+:[^\s/@]+@
+1012a7950	^[ \t]*(?:export[ \t]+)?[A-Z][A-Z0-9_]*=
+1012a7980	Text field snapshot: Failed to persist: 
+1012a79b0	Dropping container capture for 
+1012a79d0	Failed to warm-start recent snapshots: 
+1012a7a00	DELETE FROM sync_recycle_bin WHERE app_bundle_identifier = ?
+1012a7a40	SELECT appBundleIdentifier, COUNT(*) AS cnt\nFROM user_inputs\nGROUP BY appBundleIdentifier
+1012a7aa0	appBundleIdentifier
+1012a7ac0	SELECT domain, COUNT(*) AS cnt\nFROM user_inputs\nWHERE domain IS NOT NULL\nGROUP BY domain
+1012a7b20	DELETE FROM sync_recycle_bin WHERE domain = ?
+1012a7b50	DELETE FROM sync_recycle_bin
+1012a7b70	UserInputRecord.createTable
+1012a7b90	UserInputRecord.createIndex.appBundleIdentifier_updatedAt
+1012a7bd0	UserInputRecord.addScreenshotData
+1012a7c00	UserInputRecord.addDomain
+1012a7c20	UserInputRecord.addTypingContext
+1012a7c50	UserInputRecord.addEnvironmentContext
+1012a7c80	environmentContext
+1012a7ca0	environmentContextDescription
+1012a7cc0	idx_user_inputs_typingContext_updatedAt
+1012a7cf0	idx_user_inputs_domain_updatedAt
+1012a7d20	idx_user_inputs_appBundleIdentifier
+1012a7d50	idx_user_inputs_appBundleIdentifier_updatedAt
+1012a7d80	idx_user_inputs_createdAt
+1012a7da0	idx_user_inputs_updatedAt
+1012a7dc0	idx_user_inputs_textLanguage
+1012a7de0	textFieldProperties
+1012a7e00	propertyBagString
+1012a7e15	createdAt
+1012a7e1f	updatedAt
+1012a7e29	cotypistVersion
+1012a7e40	typingContext
+1012a7e4e	appProperties
+1012a7e5c	screenshotText
+1012a7e6b	textUpToCursor
+1012a7e7a	selectedText
+1012a7e87	textAfterCursor
+1012a7e97	textLanguage
+1012a7ea4	screenshotData
+1012a7eb3	rev
+1012a7eb7	originDeviceID
+1012a7ed0	syncUnknownFields
+1012a7ef0	app.cotypist.Cotypist.database
+1012a7f10	Failed to store encryption key
+1012a7f30	Database integrity check reported: 
+1012a7f60	Database integrity check failed to run: 
+1012a7f90	PRAGMA quick_check(1)
+1012a7fb0	Failed to initialize DatabaseManager: 
+1012a7fe0	AppOverrideRecord.createTable
+1012a8000	SyncSchema.createTables
+1012a8020	SyncSchema.syncStatePayloadBytes
+1012a8050	cotypist-unreadable-
+1012a8070	Could not preserve 
+1012a8090	yyyy-MM-dd-HHmmss
+1012a80b0	 could not be opened: 
+1012a80d0	. Setting it aside.
+1012a80f0	SELECT COUNT(*) FROM sqlite_master
+1012a8120	PRAGMA mmap_size = 0
+1012a8140	PRAGMA cache_size = -10240
+1012a8160	PRAGMA analysis_limit = 400
+1012a8180	PRAGMA journal_size_limit = 0
+1012a81a0	PRAGMA synchronous = FULL
+1012a81c0	PRAGMA auto_vacuum = INCREMENTAL
+1012a81f0	PRAGMA journal_mode = WAL
+1012a8210	PRAGMA foreign_keys = ON
+1012a8230	PRAGMA fullfsync = 1
+1012a8250	PRAGMA checkpoint_fullfsync = 1
+1012a8270	PRAGMA wal_autocheckpoint = 1000
+1012a82a0	\[([^]]+)\]\(([^)]+)\)
+1012a82c0	org.nspasteboard.source
+1012a82e0	org.nspasteboard.AutoGeneratedType
+1012a8310	org.nspasteboard.TransientType
+1012a8330	org.nspasteboard.ConcealedType
+1012a834f	horizontal
+1012a835a	vertical
+1012a8370	auto
+1012a8375	british
+1012a837d	canadian
+1012a8386	disabled
+1012a8390	characterization
+1012a83b0	characterisation
+1012a83d0	industrialization
+1012a83f0	industrialisation
+1012a8410	acknowledgements
+1012a8430	,;.!?/\\()\[\]{}<>*#\-+*_@:"'…~^|=&%`“”‘’–—、。·
+1012a8480	,;.!?:…、。)]}”’
+1012a84a0	\s,;.!?/\\()\[\]{}<>*#\-+*_@:"'…~^|=&%`“”‘’–—、。·
+1012a84f0	,;.!?:…、。，；！？：؟،
+1012a8520	.!?:;…。！？：；؟
+1012a8540	 when registering for 
+1012a8560	debugDescription
+1012a8580	nodeDebugDescription
+1012a85a0	numberOfLaunches
+1012a85c0	NSApplicationCrashOnExceptions
+1012a85e0	LaunchStatistics.systemProperties
+1012a8610	LaunchStatistics.userSettings
+1012a8630	LaunchStatistics.keyboardAndShortcuts
+1012a8660	LaunchStatistics.loadedModules
+1012a8680	userApplications
+1012a86a0	LaunchStatistics.trainingData
+1012a86c0	AW.logEvent.valueNotJSONValueConvertible
+1012a86f0	stringifiedValue
+1012a8710	AnalyticsWrapper.integerStringified
+1012a8740	originalValueLength
+1012a8760	AnalyticsWrapper.valueTruncated
+1012a8780	originalEventName
+1012a87a0	AnalyticsWrapper.keyTruncated
+1012a87c0	truncatedEventName
+1012a87e0	AnalyticsWrapper.eventTruncated
+1012a8800	sanitizedNameAndKey
+1012a8820	AW.logEvent.valueContainsAddress
+1012a8850	AW.logEvent.keyContainsAddress
+1012a8870	AW.logEvent.eventNameContainsAddress
+1012a88a0	eventNameAndAttributeKey
+1012a88c0	CFBundleShortVersionString
+1012a88e0	Diagnostics.EventTapLeak
+1012a8900	Retention.Launch
+1012a8920	com.setapp.DesktopClient
+1012a8940	Retention.Heartbeat
+1012a8960	XCODE_RUNNING_FOR_PREVIEWS
+1012a8980	bundle_identifier
+1012a89a0	Cotypist.InitializationError
+1012a89c0	Unsupported NSNumber type
+1012a89e0	JSONValue cannot be decoded
+1012a8a00	secondaryLabelForAttributedString
+1012a8a30	page_indicator_color
+1012a8a50	onboarding_highlight_focus_bg
+1012a8a70	onboarding_highlight_row
+1012a8a90	onboarding_video_border
+1012a8ab0	onboarding_text_field_error_background
+1012a8ae0	onboarding_text_field_background
+1012a8b10	onboarding_text_field_border
+1012a8b30	Cotypist.nCu
+1012a8b3d	init(frame:)
+1012a8b50	Method not implemented [init(coder:)]
+1012a8b80	AppTranslocation
+1012a8ba0	machdep.cpu.brand_string
+1012a8bc0	/private/var/folders/
+1012a8be0	Sync: resuming after a long pause; reconciling deletions
+1012a8c20	Sync: adopting this Mac's existing key after a database reset
+1012a8c60	Sync: hardware fingerprint changed; minting a new device ID
+1012a8ca0	Saving completion stats...
+1012a8cc0	Cannot create TrainingDataCollector: DatabaseManager failed to initialize
+1012a8d10	Failed to initialize context
+1012a8d30	Failed to start download for recommended model.
+1012a8d60	Could not determine rect for cursor
+1012a8d90	No more suggestions available
+1012a8db0	app.cotypist.Cotypist.log-file-tee
+1012a8dd3	off
+1012a8dd7	idle
+1012a8ddc	afterCompletion
+1012a8df0	Cotypist.sxD
+1012a8dfd	Cotypist.YOq
+1012a8e10	MainPreferences.json
+1012a8e30	pmscohja643b25crjqv9363o3k
+1012a8e50	Please find the requested information attached.
+1012a8e80	Pre-filled support request text when showing a support form programmatically.
+1012a8ed0	Thank you for contacting us!
+1012a8ef0	Title of the alert after a user sent a support request.
+1012a8f30	Your message has been sent.
+1012a8f50	Message of the alert after a user sent a support request.
+1012a8f90	Updates Installed
+1012a8fb0	 suppressed by an unidentified app
+1012a8fe0	Keyboard Layout ID
+1012a9000	Build Configuration 1
+1012a9020	Build Configuration 2
+1012a9040	Build Configuration 3
+1012a9060	Build Configuration 4
+1012a9080	Last Sentry Crash
+1012a90a0	Last OS Update At
+1012a90c0	disable reason: 
+1012a90e0	needs renewal by: 
+1012a9100	Swift/arm64e-apple-macos.swiftinterface
+1012a9130	 value cannot be converted to 
+1012a9150	 because it is outside the representable range
+1012a9180	Available Disk Space (GB)
+1012a91a0	 suppressed by “
+1012a91c0	io_replies_suggestions
+1012a91e0	SessionIdHistory
+1012a9200	pro (trial extension)
+1012a9220	, ModifierFlags=
+1012a9240	, ConflictsWithSystemShortcut=true
+1012a9270	Accept Full Completion
+1012a9290	Accept Next Word
+1012a92b0	Accept Full Completion (Alternate)
+1012a92e0	Accept Next Word (Alternate)
+1012a9300	Force-Activate Completions
+1012a9320	Temporarily Toggle Completions
+1012a9340	Toggle Completions Globally
+1012a9360	Reveal Word Alternatives
+1012a9380	Accessibility Permission
+1012a93a0	Screen Recording Permission
+1012a93c0	Event Posting Permission
+1012a93e0	Onboarding Completed
+1012a9400	Selected Model Downloaded
+1012a9420	Completions Enabled by Default
+1012a9440	macOS Inline Prediction Disabled
+1012a9470	Accept-Full Shortcut Configured
+1012a9490	Automatic Activation on Battery
+1012a94b0	Model File Size Valid
+1012a94d0	Model Download In Progress
+1012a94f0	SystemProperties
+1012a9510	Not an Apple Silicon chip
+1012a9530	\b(m|a)([1-9][0-9]*)\s*(pro|max|ultra)?\b
+1012a9560	Could not parse Apple Silicon chip details
+1012a9590	offUntilAppSwitch
+1012a95b0	TextFieldWithLinkSupport.support
+1012a95e0	TextFieldWithLinkSupport.open
+1012a9600	TRHelper.createSupportRequest
+1012a9620	TextFieldWithLinkSupport.createSupportRequest
+1012a9650	$72 / yr (or $8 monthly)
+1012a9670	$108 / yr (or $12 monthly)
+1012a9690	application/json
+1012a96b0	appliedDiscountCode
+1012a96d0	annualEquivalentMonthlyDisplay
+1012a96f0	monthlyDiscountedAmount
+1012a9710	annualDiscountedAmount
+1012a9730	Cotypist has dozed off for the day
+1012a9760	You've used today's free completions. Upgrade for unlimited completions, day and night.
+1012a97c0	Cotypist is getting sleepy
+1012a97e0	You're nearing today's free completions, so suggestions are starting to fade. Upgrade to keep Cotypist wide awake.
+1012a9860	DailyCap.Exhausted
+1012a9880	DailyCap.Approaching
+1012a98a0	application/octet-stream
+1012a98c0	UpgradeEligibility.Purchase
+1012a98e0	ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
+1012a9930	paywall_shown_count
+1012a9950	days_since_first_launch
+1012a9970	<hex-redacted>
+1012a99c0	<hex-redacted>
+1012a9a50	<hex-redacted>
+1012a9ae0	<hex-redacted>
+1012a9b70	<hex-redacted>
+1012a9c00	<hex-redacted>
+1012a9c50	<hex-redacted>
+1012a9ce0	<hex-redacted>
+1012a9d80	asc
+1012a9d84	desc
+1012a9d90	cotypist-plan-order-2026/1
+1012a9db0	View.task @ Cotypist/PaywallView.swift:
+1012a9de0	Paywall.ForcedAtLaunch.
+1012a9e00	Paywall.UserInitiated.
+1012a9e20	Paywall.TrialEndDay30
+1012a9e40	Paywall.MidTrialDay14
+1012a9e60	https://cotypist.app/help
+1012a9e80	questionmark.circle
+1012a9ea0	https://cotypist.app/pricing#faq
+1012a9ed0	arrow.up.forward.square
+1012a9ef0	https://cotypist.app/pricing
+1012a9f10	info.circle.fill
+1012a9f30	Test Plus free for 7 days.
+1012a9f50	Cotypist has already typed 
+1012a9f70	 words for you so far. At normal typing speed, that's roughly 
+1012a9fb0	arrow.up.circle.fill
+1012a9fd0	Upgrading from Plus to Pro
+1012a9ff0	You'll only pay the prorated difference for the rest of your current 
+1012aa040	Pick the tier that fits how you write.
+1012aa070	You're now on the Free tier — keep using Cotypist free every day, or subscribe to unlock everything.
+1012aa0e0	Subscribe now to keep every feature, or continue your trial.
+1012aa120	Get even more from Cotypist Pro
+1012aa140	Thank you for trying Cotypist Pro
+1012aa170	Thanks for trying Cotypist during early access!
+1012aa1a0	Hope you're enjoying Cotypist Pro!
+1012aa1d0	Your Cotypist Pro trial is wrapping up
+1012aa200	 days left to try Cotypist Pro
+1012aa220	1 day left to try Cotypist Pro
+1012aa240	Continue on Free plan
+1012aa260	For the power users who already think faster than they type. Unlimited writing on up to three Macs, with the full model lineup and the deepest customization.
+1012aa300	For people who write every day.\nUnlimited completions on one Mac, with full autocorrect and your own writing instructions.
+1012aa380	For occasional writing.\n100 completed words a day.
+1012aa3c0	Billed annually as 
+1012aa3e0	No card required
+1012aa400	You've used this in Cotypist
+1012aa420	circle.lefthalf.filled
+1012aa440	campaignWithdrawn
+1012aa460	Early access to Labs features
+1012aa480	New experimental features land in Cotypist Labs first. Pro users get them before anyone else.
+1012aa4e0	word-alternatives
+1012aa500	Word alternatives
+1012aa520	Hit writer's block on a word, or not happy with the one Cotypist suggested? Pick from a few alternatives and keep your writing flowing.
+1012aa5b0	Synonyms for selected words
+1012aa5d0	Select a word or short phrase and Cotypist offers synonyms that fit the sentence. Pick one by number to replace it.
+1012aa650	Sync between your Macs
+1012aa670	Have your collected writing samples across all your Macs, end-to-end encrypted through your own iCloud.
+1012aa6e0	completion-length
+1012aa700	Configurable completion length
+1012aa720	Choose how many words Cotypist suggests at once. Free is locked to the default short length.
+1012aa780	global-instructions
+1012aa7a0	Custom writing instructions
+1012aa7c0	Tell Cotypist about your role and style; it factors that into every suggestion.
+1012aa810	per-app-instructions
+1012aa830	Per-app instructions
+1012aa850	Set a different voice for different apps: tighter for Slack, more careful for Mail, code-aware for your editor.
+1012aa8c0	sharper-suggestions
+1012aa8e0	Sharper suggestions
+1012aa900	Screen-aware suggestions
+1012aa920	Cotypist reads the surrounding text on screen, so suggestions match the email thread, document, or chat you're in.
+1012aa9a0	Learns from your voice
+1012aa9c0	Cotypist picks up your writing style as you go, so suggestions sound more like you over time.
+1012aaa20	personalization-strength
+1012aaa40	Personalization strength
+1012aaa60	How strongly Cotypist leans suggestions toward your own writing style.
+1012aaab0	Gentle personalization
+1012aaad0	Balanced personalization
+1012aaaf0	Strong personalization
+1012aab10	A subtle nudge toward how you write.
+1012aab40	Suggestions lean more clearly toward your style.
+1012aab80	The fullest match to your voice.
+1012aabb0	Curated set of models
+1012aabd0	Full model catalog
+1012aabf0	Gemma 4 E2B & E4B, Qwen 3 1.7B & 4B, Gemma 3 1B & 4B. Light and mid-size models that run well on most Macs.
+1012aac60	Adds Gemma 4 26B A4B, Qwen 3 30B A3B, Qwen 3 8B. The largest models in the catalog, for the most capable Macs.
+1012aacd0	pasteboard-context
+1012aacf0	Clipboard awareness
+1012aad10	Cotypist can factor in what you just copied; useful when writing a reply about something on your clipboard.
+1012aad80	Word-by-word acceptance
+1012aada0	Tab to accept the whole suggestion, or just the next word. Keep typing to dismiss.
+1012aae00	Emoji suggestions
+1012aae20	Type a colon and Cotypist suggests an emoji. Add a shortcode like ':joy:' to filter.
+1012aae80	Works across languages
+1012aaea0	English plus most languages Cotypist's models know. Follows you when you switch mid-sentence.
+1012aaf00	Full autocorrect
+1012aaf20	Holds back suggestions when Cotypist suspects you've made a typo, so it doesn't build on the mistake.
+1012aaf90	Spots typos as you type and gently suggests a fix.
+1012aafd0	Mid-line completion
+1012aaff0	Get suggestions when there is still text after the cursor on the same line, not only at the end of a line you're still writing.
+1012ab070	Works in every Mac app
+1012ab090	Inline suggestions wherever you type: Mail, Slack, Notes, browsers, chat apps, your editor.
+1012ab0f0	Private and on-device
+1012ab110	Everything runs on your Mac. Your words never reach our servers, and it works offline.
+1012ab170	30-day Pro free trial
+1012ab190	Every new install starts with 30 days of Pro. No credit card.
+1012ab1d0	100 completed words/day
+1012ab1f0	Unlimited completions
+1012ab210	Enough for casual use without thinking about payment. Suggestions taper off gently as you approach the daily cap.
+1012ab290	Sentry_appHangTimeoutInterval
+1012ab2b0	Retention_heartbeatIntervalSeconds
+1012ab2e0	PromptCoordinator_uiHintMode
+1012ab2fd	fresh_session
+1012ab30b	any
+1012ab30f	launch_only
+1012ab31b	betaPreLaunch
+1012ab329	launchDay
+1012ab333	generic
+1012ab340	Not a JSON object
+1012ab360	discount_yearly_off_usd
+1012ab380	require_recent_completion
+1012ab3a0	applies_to_recurrence
+1012ab3b6	monthly
+1012ab3be	annual
+1012ab3d0	applies_to_tiers
+1012ab3f0	updatePreference
+1012ab410	Subscription Information Updater: dismiss button on a server-pushed informational alert
+1012ab470	gemma-3-1b-it-UD-Q4_K_XL
+1012ab490	Llama-3.2-1B-Instruct-UD-Q5_K_XL
+1012ab4c0	gemma-3-4b-it-UD-Q4_K_XL
+1012ab4e0	Llama-3.2-3B-Instruct-UD-Q4_K_XL
+1012ab510	unsloth/gemma-3-1b-it-GGUF
+1012ab530	Gemma 3 Instruct 1B
+1012ab550	unsloth/gemma-3-4b-it-GGUF
+1012ab570	Gemma 3 Instruct 4B
+1012ab590	Llama-3.2-1B-Instruct
+1012ab5b0	unsloth/Llama-3.2-1B-Instruct-GGUF
+1012ab5e0	Llama 3.2 Instruct 1B
+1012ab600	Llama-3.2-3B-Instruct
+1012ab620	unsloth/Llama-3.2-3B-Instruct-GGUF
+1012ab650	Llama 3.2 Instruct 3B
+1012ab670	Cotypist needs a different model
+1012ab6a0	Your Plus plan needs a different model
+1012ab6d0	Your Free plan needs a different model
+1012ab700	 to keep your completions running.
+1012ab730	) to keep your completions running.
+1012ab760	TrialEnded.Notice
+1012ab780	You're now on the Free tier of Cotypist
+1012ab7b0	Keep using it free every day, or upgrade anytime for unlimited completions and more.
+1012ab810	Try free for 7 days
+1012ab830	Trial extension: in-card label, tier conveyed by the surrounding plan card
+1012ab880	Trial extension request: in-flight button label
+1012ab8b0	Something went wrong
+1012ab8d0	Trial extension generic failure alert title
+1012ab900	We couldn't activate your trial extension. Please contact support if this keeps happening.
+1012ab960	Trial extension generic failure alert body
+1012ab990	Trial extension unavailable
+1012ab9b0	Trial extension cooldown alert title
+1012ab9e0	This Mac has already used its trial extension recently. You can subscribe any time to keep using Cotypist's paid features.
+1012aba60	Trial extension cooldown alert body
+1012aba90	missingClientGuid
+1012abab0	invalidSignature
+1012abad0	Engagement.HeavyWritingDayLast7Days
+1012abb00	Engagement.HeavyDailyUsage
+1012abb20	Plus.GlobalCustomInstructions
+1012abb40	Plus.CustomCompletionLength
+1012abb60	Plus.PersonalizationBeyondGentle
+1012abb90	Pro.RegularHeavyDailyUsage
+1012abbb0	Pro.MidLineCompletion
+1012abbd0	Pro.PerAppFontStyle
+1012abbf0	Pro.PasteboardContext
+1012abc10	Pro.PerAppCustomInstructions
+1012abc30	Pro.PersonalizationBeyondBalanced
+1012abc52	Pro.LargeModel
+1012abc61	Pro.LabsFeature
+1012abc71	None
+1012abc80	tokenizer.ggml.model
+1012abca0	tokenizer.ggml.merges
+1012abcc0	The quick brown fox jumps over the lazy dog.
+1012abcf0	  leading and  double  spaces 
+1012abd10	<b>▁</b> and >▁</ raw
+1012abd30	emoji 🤖 and bytes 
+1012abd50	space before combiner ́x
+1012abd70	literal mark then space ▁ x and ▁▁ runs
+1012abda0	a <|tool_call> mid-text and trailing spaces <tool_response|> here
+1012abdf0	Active candidates
+1012abe10	<invalid UTF-8: 
+1012abe30	completion: Freshly completed candidates
+1012abe60	GGML_METAL_RESIDENCY_KEEP_ALIVE_S
+1012abe90	GGML_METAL_TENSOR_DISABLE
+1012abeaa	1
+1012abeb0	GGML_METAL_NO_RESIDENCY
+1012abed0	create_tensor: loading tensor 
+1012abef0	load_tensors: layer 
+1012abf10	llama_model_loader: - kv 
+1012abf30	llama_model_loader: - type 
+1012abf50	ggml_metal_device_init: 
+1012abf70	is not marked as EOG
+1012abf90	assigned to device
+1012abfa3	__TEXT
+1012abfaa	__text
+1012abfc0	Successfully loaded adapter: 
+1012abfde	MTL
+1012abff0	ggml_backend_get_features
+1012ac00a	TENSOR_API
+1012ac020	Foundation/arm64e-apple-macos.swiftinterface
+1012ac050	input of String.init(cString:encoding:) must be null-terminated
+1012ac090	Cotypist.rjI
+1012ac0a0	Download handshake failed (
+1012ac0c0	); retrying over TLS 1.2 so the ClientHello fits into one segment
+1012ac110	Download failed: 
+1012ac130	the server responded with an unexpected status (HTTP %d)
+1012ac170	Download failure reason; %d is an HTTP status code such as 404
+1012ac1b0	File successfully downloaded to 
+1012ac1e0	Error moving file to destination: 
+1012ac210	downloaded file to 
+1012ac230	) are not a model file, for URL 
+1012ac260	Download failed: HTTP status code is 
+1012ac290	%@ sent something other than the model file
+1012ac2c0	Download failure reason; %@ is the download host name such as models.cotypist.app
+1012ac320	speedMBPerSecond
+1012ac340	ModelRepository.downloadCompleted
+1012ac370	The model download failed: %@\nPlease check your internet connection and try again.
+1012ac3d0	Shown when downloading the AI model failed; %@ is the underlying error
+1012ac420	The model download failed: %1$@ sent a web page or another file instead of the model.\nA network filter, for example on a company network, has probably blocked the download. Please ask your IT department to allow %1$@, or try again from a different network, such as your phone's hotspot. If that isn't possible, [contact us](cotypist://contactSupport) and we'll help you get the model.
+1012ac5b0	Shown when a network filter replaced the AI model download; %1$@ is the download host name such as models.cotypist.app
+1012ac630	app.cotypist.Cotypist.ModelRepository
+1012ac660	StatusItemIconAlt
+1012ac680	Cotypist daily limit reached
+1012ac6a0	ModelRepository.toggleCompletionsGlobally
+1012ac6d0	ModelRepository.toggleCompletionsForCurrentApp
+1012ac700	enableCompletionsForApplication
+1012ac720	includeApplication
+1012ac740	excludeApplication
+1012ac760	Hide this Button
+1012ac780	Status Item Menu: Hide Accessory Buttons.
+1012ac7b0	Cotypist Settings
+1012ac7d0	Status Item Menu: Open Preferences.
+1012ac800	Status Item Menu: Contact Support.
+1012ac830	Status Item Menu: Quit.
+1012ac850	Disable Completions in %@
+1012ac870	Status Item Menu: Disable Completions in Application.
+1012ac8b0	Disable Completions Globally
+1012ac8d0	Status Item Menu: Disable Completions Everywhere.
+1012ac910	Not Recording in Private Windows
+1012ac940	Status Item Menu: Shown instead of the writing recording items while a private browser window is in front.
+1012ac9b0	Disable Completions on %@
+1012ac9d0	Status Item Menu: Disable Completions on Domain.
+1012aca10	Completions disabled for the next %.0f seconds
+1012aca40	Status Item Menu: Completions disabled for the next seconds.
+1012aca80	Resume Completions
+1012acaa0	Status Item Menu: Enable temporarily disabled completions.
+1012acae0	Completions disabled for the next %.0f minutes
+1012acb10	Status Item Menu: Completions disabled for the next minutes.
+1012acb50	Enable Completions
+1012acb70	Status Item Menu: Enable completions.
+1012acba0	Disable Completions with the Tab Key
+1012acbd0	Status Item Menu: Disable Tab Shortcuts.
+1012acc00	Toggling this allows you to continue using ⇥ for other purposes (e.g. indenting, switching fields), while keeping Cotypist's other shortcut available. As an alternative, you can press ⌥⇥ or ⌥-click the Cotypist icon to simulate pressing the ⇥ key.
+1012acd10	Status Item Menu: Explanation for disabling the Tab shortcut in a specific app.
+1012acd60	Enable Completions with the Tab Key
+1012acd90	Status Item Menu: Enable Tab Shortcuts.
+1012acdc0	Resume Completions in %@
+1012acde0	Status Item Menu: Enable temporarily disabled completions in Application.
+1012ace30	Resume Completions on %@
+1012ace50	Status Item Menu: Enable temporarily disabled completions on Domain.
+1012acea0	Status Item Menu: Prefix for app-specific completions being disabled, '<App Name>: '.
+1012acf00	Enable Completions in %@
+1012acf20	Status Item Menu: Enable completions in Application.
+1012acf60	Enable Completions on %@
+1012acf80	Status Item Menu: Enable completions on Domain.
+1012acfb0	https://cotypist.app/help/troubleshooting?utm_source=app&utm_medium=link&utm_campaign=eventTapLeaks#event-tap-leaks
+1012ad030	disableAndEraseTrainingData
+1012ad050	Failed to erase persisted training data for 
+1012ad080	disableTrainingDataCollection
+1012ad0a0	enableTrainingDataCollection
+1012ad0c0	ModelRepository.toggleTabShortcuts
+1012ad0f0	disableCompletionsGlobally
+1012ad110	enableCompletionsGlobally
+1012ad130	ModelRepository.
+1012ad150	https://cotypist.app
+1012ad170	AppDelegate.createSupportRequest
+1012ad1a0	Show Accessory Button Again
+1012ad1c0	Status Item Menu: Show Accessory Button.
+1012ad1f0	Visit Cotypist Website
+1012ad210	Status Item Menu: Visit Website.
+1012ad240	Check for Updates
+1012ad260	Status Item Menu: Check for Updates.
+1012ad290	Model download progress: %d %%
+1012ad2b0	Status Item Menu: AI Model download progress.
+1012ad2e0	Words saved today: %d
+1012ad300	Status Item Menu: Completions today.
+1012ad330	Show Word Count in Menu Bar
+1012ad350	Status Item Menu: Show Word Count in Menu Bar.
+1012ad380	Status Item Menu: Upgrade to a paid Cotypist plan.
+1012ad3c0	Record Your Writing in %@
+1012ad3e0	Status Item Menu: Enable writing recording (formerly training data collection) in Application.
+1012ad440	Recording Your Writing in %@
+1012ad460	Status Item Menu: Writing recording (formerly training data collection) in Application.
+1012ad4c0	Status Item Menu: Disable Training Data Collection.
+1012ad500	Stop and Erase All Data
+1012ad520	Status Item Menu: Disable Training Data Collection and Erase Data.
+1012ad570	Record Your Writing on %@
+1012ad590	Status Item Menu: Enable writing recording (formerly training data collection) on Domain.
+1012ad5f0	Recording Your Writing on %@
+1012ad610	Status Item Menu: Writing recording (formerly training data collection) on Domain.
+1012ad670	Status Item Menu: Disable Completions forever.
+1012ad6a0	For the next %d minutes
+1012ad6c0	Status Item Menu: Disable Completions for the next minutes.
+1012ad700	mradermacher/gemma-3-1b-pt-i1-GGUF
+1012ad730	mradermacher/Qwen3-1.7B-Base-i1-GGUF
+1012ad760	mradermacher/gemma-3-4b-pt-i1-GGUF
+1012ad790	unsloth/Qwen3-30B-A3B-GGUF
+1012ad7b0	Qwen 3 Instruct 30B A3B
+1012ad7d0	<|im_start|>user\n/no_think\n
+1012ad7f0	<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n
+1012ad830	unsloth/Qwen3-8B-GGUF
+1012ad850	Qwen 3 Instruct 8B
+1012ad870	ggml-org/gemma-3-270m-GGUF
+1012ad890	mradermacher/Qwen3-0.6B-Base-i1-GGUF
+1012ad8c0	Ministral-3-3B-Base-2512
+1012ad8e0	Ministral-3-3B-2512
+1012ad900	mradermacher/Ministral-3-3B-Base-2512-GGUF
+1012ad930	mradermacher/SmolLM3-3B-Base-i1-GGUF
+1012ad960	Phi-4-mini-instruct
+1012ad980	unsloth/Phi-4-mini-instruct-GGUF
+1012ad9b0	Phi 4 mini Instruct
+1012ad9d0	<|end|><|assistant|>
+1012ad9f0	unsloth/Qwen3-4B-GGUF
+1012ada10	Qwen 3 Instruct 4B
+1012ada30	unsloth/Qwen3-1.7B-GGUF
+1012ada50	Qwen 3 Instruct 1.7B
+1012ada70	unsloth/Qwen3-0.6B-GGUF
+1012ada90	Qwen 3 Instruct 0.6B
+1012adab0	mradermacher/Qwen3-4B-Base-i1-GGUF
+1012adae0	Qwen3-30B-A3B-Base
+1012adb00	mradermacher/Qwen3-30B-A3B-Base-i1-GGUF
+1012adb30	mradermacher/Qwen3-8B-Base-i1-GGUF
+1012adb60	^(.+?)([.-])((UD-|i\d-)?(f16|F16|bf16|BF16|f32|F32|Q\d+([_\w]+)?))$
+1012adbb0	Custom model found in models directory
+1012adbe0	<|start_header_id|>user<|end_header_id|>\n\n
+1012adc10	<|eot_id|>\n<|start_header_id|>assistant<|end_header_id|>\n\n
+1012adc50	<start_of_turn>user\n
+1012adc70	<end_of_turn>\n<start_of_turn>model\n
+1012adca0	Gemma AI models are subject to Google's [Gemma Terms of Use](%@).
+1012adcf0	Notice shown when downloading Gemma models
+1012add20	https://ai.google.dev/gemma/terms
+1012add50	Warning: This model uses a large portion (
+1012add80	) % of your system memory.
+1012adda0	It is possible that your system does not have enough system memory for this model.
+1012ade00	It is possible that your system does not have enough free disk space for this model.
+1012ade60	Model size: unknown
+1012ade80	https://models.cotypist.app/
+1012adea0	https://huggingface.co/
+1012adec0	Cotypist.odT
+1012aded0	init(elements:animationsEnabled:)
+1012adf00	Method not implemented [init(frame:)]
+1012adf30	onboarding-accessibility-ventura
+1012adf60	onboarding-accessibility-macos27
+1012adf90	AVPlayerItemDidPlayToEndTimeNotification
+1012adfc6	Cotypist.qLz
+1012adfe0	Cotypist.Dod
+1012adff0	accessibilityGranted
+1012ae010	Title of a button to open System Settings.
+1012ae040	To show completions, Cotypist needs permission to use your Mac’s Accessibility features.\nCotypist generates completions locally on your Mac, and [your writing stays private to you](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=accessibilityOnboarding).
+1012ae160	Onboarding. The bracketed phrase links to the privacy help page.
+1012ae1b0	To show completions, Cotypist needs the Device Control and Data Access permission.\nCotypist generates completions locally on your Mac, and [your writing stays private to you](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=accessibilityOnboarding).
+1012ae2d0	Onboarding, on macOS 27 and later, where System Settings calls the Accessibility pane 'Device Control and Data Access'. The bracketed phrase links to the privacy help page.
+1012ae380	Cotypist.mbA
+1012ae390	completedTabDance
+1012ae3b0	Press ⇥ to Continue
+1012ae3d0	Onboarding: Continue by pressing Tab
+1012ae400	**Hi there!**\nCotypist **auto-completes as you type** on your Mac. Completions **happen locally** and never leave your Mac.\n**You stay in the driver’s seat**, only picking the completions _you_ want.
+1012ae4d0	Onboarding: Autocomplete intro text
+1012ae500	**Let’s try this.** Press the **⇥** (Tab) key to complete
+1012ae540	Onboarding: Autocomplete tab key text
+1012ae570	 one| word| at| a| time.
+1012ae590	Onboarding: Autocomplete intro grey text
+1012ae5c0	**Great!** Notice how you are **“dancing” with the AI**:\nPress **⇥** to pick the words you like and simply type yourself when you are looking for something different. Cotypist’s suggestions will update automatically in real-time.\nAnd if you want to accept the entire suggestion at once, you can set up a shortcut for that in the settings.\nThat’s all there is to it; feel free to continue.
+1012ae750	Onboarding: Autocomplete done text (full-completion shortcut not bound by default on this keyboard layout)
+1012ae7c0	V:|[intro]-(spacing)-[single]-(spacing)-[done]|
+1012ae7f0	**Great!** Notice how you are **“dancing” with the AI**:\nPress **⇥** to pick the words you like and simply type yourself when you are looking for something different. Cotypist’s suggestions will update automatically in real-time.\nAnd to accept the entire suggestion at once, try the key above **⇥** — or change this shortcut in the settings.\nThat’s all there is to it; feel free to continue.
+1012ae990	Onboarding: Autocomplete done text (full-completion shortcut already bound to the key above Tab)
+1012aea00	No greyed text found in attributed string (longestEffectiveRange: 
+1012aea50	Cotypist.tnT
+1012aea60	personalizationCheckboxChecked
+1012aea80	inlineCheckboxChecked
+1012aeaa0	personalizationEnabled
+1012aeac0	inlinePredictionEnabledAtPresentation
+1012aeaf0	inlinePredictionDisabled
+1012aeb10	userPromptEditedFromSample
+1012aeb30	userPromptEditedInSession
+1012aeb50	I usually write in 
+1012aeb70	Write in a friendly, professional and empathetic voice. Keep your sentences short, concise and readable.
+1012aebe0	Personalize completions to my writing
+1012aec10	Onboarding: Enable personalization checkbox label
+1012aec50	Turn off macOS’s built-in text suggestions
+1012aec80	Onboarding: Disable macOS inline-prediction checkbox label
+1012aecc0	Cotypist will record what you type in the fields where it suggests text, so its completions match your own words and phrases. The recorded text is encrypted and stays on your Mac. Turn this off if you regularly write particularly sensitive material.
+1012aedc0	Onboarding: Description of personalization (training-data) opt-in
+1012aee10	Get the most out of Cotypist
+1012aee30	**Customize how Cotypist completes your text** by providing instructions below. We have already prepared a basic example based on your Mac’s settings; feel free to adjust it. Don’t worry about getting this exactly right — Cotypist can also learn your voice from how you write (see the option below), and you can always edit your instructions later in Settings.
+1012aefa0	Onboarding: Custom prompt instructions
+1012aefd0	You can disable personalization for specific apps via the Cotypist menu bar icon, and delete the recorded text at any time in Settings. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=customPromptOnboarding).
+1012af100	Onboarding: Privacy small print for the customize-Cotypist screen. The bracketed phrase links to the privacy help page.
+1012af180	macOS’s grey-text suggestions can conflict with Cotypist’s.
+1012af1c0	Onboarding: Description of why to disable macOS inline prediction
+1012af210	Turn Off macOS Text Predictions
+1012af230	What's New: Disable inline prediction button
+1012af260	Avoid clashes with macOS text predictions
+1012af290	What's New heading for disabling inline prediction
+1012af2d0	macOS’s built-in grey-text predictions sit in the same spot as Cotypist’s suggestions, which can lead to display glitches and conflicts: the two overlays can overlap or cover each other up, and pressing **⇥** (Tab) may accept the macOS suggestion instead of Cotypist’s.\nTurning the built-in predictions off ensures Cotypist’s completions always display correctly and that **⇥** always accepts what you actually see.\nAnd — not that we’re biased — we think Cotypist’s completions are the better ones anyway 😉
+1012af4f0	What's New: Disable macOS inline prediction explanation
+1012af530	You can turn macOS’s text predictions back on at any time in System Settings > Keyboard > Input Sources > Edit… with the “Show inline predictive text” switch.
+1012af5e0	What's New: Note about re-enabling inline prediction
+1012af615	Cotypist.LHj
+1012af630	InlinePredictionDisableController.willAbortOnboarding
+1012af670	userClickedDisableButton
+1012af690	InlinePredictionDisableController.goForward
+1012af6c0	What's New: Skip disable inline prediction button
+1012af700	InlinePredictionDisableController.disableButtonAction
+1012af740	macOS Text Predictions Turned Off.
+1012af770	What's New: Disabled confirmation
+1012af7a0	reverseAnimation
+1012af7c0	shadowRadiusAnimation
+1012af7e0	glowAndScaleAnimation
+1012af800	rectangle.3.group
+1012af820	speaker.slash.fill
+1012af840	speaker.wave.1.fill
+1012af860	speaker.wave.3.fill
+1012af880	OnboardingKeyboard_legendDetail
+1012af8a0	Cotypist.Nrw
+1012af8b0	fellBackFromIdealModel
+1012af8d0	Model download progress: 
+1012af8f0	All set! The AI model is ready, and Cotypist will now show completions.
+1012af940	Onboarding: Model setup completion
+1012af970	Downloading the AI model. You can proceed with the next step; Cotypist will continue to download in the background.\nCompletions will start appearing automatically once the download has finished.
+1012afa40	Onboarding: Model downloading
+1012afa60	We need to download an AI model in order to show completions.
+1012afaa0	Onboarding: Model setup intro
+1012afac0	For better performance, a larger model would be recommended, but it requires %@ of free disk space. You can switch to a different model in Settings later once more space is available.
+1012afb80	Onboarding: Suboptimal model notice with size of the larger recommended model
+1012afbd0	Download AI Model (%@)
+1012afbf0	Onboarding: Download model button with size
+1012afc20	One more thing…
+1012afc40	Cotypist.CJP
+1012afc50	subscribeAttempted
+1012afc70	subscribeSucceeded
+1012afc90	https://cotypist.app/api/subscribe
+1012afcc0	application/x-www-form-urlencoded
+1012afcf0	The newsletter service returned an unexpected response.
+1012afd30	Onboarding: Newsletter: fallback error when the response can't be parsed.
+1012afd80	Could not sign you up:\n%@
+1012afda0	Onboarding: Newsletter: error message when subscribing fails.
+1012afde0	Please enter a valid email address.
+1012afe10	Onboarding: Newsletter: invalid email validation message.
+1012afe50	^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}$
+1012afe90	Onboarding: Newsletter: forward button title to subscribe.
+1012afed0	Type even faster
+1012afef0	Onboarding: Newsletter: heading.
+1012aff20	Want to get even more out of Cotypist?
+1012aff50	Onboarding: Newsletter: subheading pitching more value.
+1012aff90	Get occasional tips and tricks from the developer, starting with the one habit that makes it really click.
+1012b0000	Onboarding: Newsletter: body text pitching tips and tricks.
+1012b0040	onboarding_mail_icon
+1012b0060	We’ll only use your email to send you the occasional tip — no spam, unsubscribe anytime. [Learn more](https://cotypist.app/help/privacy).
+1012b00f0	Onboarding: Newsletter: privacy small print. The bracketed phrase links to the privacy page.
+1012b0150	Your email address
+1012b0170	Onboarding: Newsletter: email field placeholder.
+1012b01b0	Title of the button to advance to the next onboarding page.
+1012b01f0	Title of the button to complete the onboarding.
+1012b0220	Title of the button to complete the onboarding, if there is only one page.
+1012b0270	allStepsCompleted
+1012b0290	selectedOnboardingElement
+1012b02b0	selectedOnboardingElementIndex
+1012b02d0	viewControllersCount
+1012b02f0	timeSinceInitializationLog
+1012b0310	OnboardingWindowControllerV2.windowWillClose
+1012b0340	backButtonEnabled
+1012b0360	forwardButtonEnabled
+1012b0380	forwardButtonTitle
+1012b0393	Cotypist.Cbj
+1012b03a0	init()
+1012b03b0	pageController.selectedIndex
+1012b03d0	Cotypist.nYG
+1012b03e0	Cotypist now comes with a new default AI model (%@)!\nWe recommend switching to it for the best experience.
+1012b0450	Onboarding: Recommended model update intro
+1012b0480	Download Recommended Model (%@)
+1012b04a0	Onboarding: Download recommended model button with size
+1012b04e0	Model Update Recommended
+1012b0500	Onboarding heading for recommended model update screen
+1012b0540	Select Recommended Model
+1012b0560	Onboarding: Select recommended model button
+1012b0590	Great choice! Cotypist is now ready to use the new model.
+1012b05d0	Onboarding: Model selected and downloaded
+1012b0600	Download Recommended Model
+1012b0620	Onboarding: Download recommended model button
+1012b0650	You can skip this update and try again later from Settings.
+1012b0690	Onboarding: Hint shown when recommended model has a warning
+1012b06d0	Downloading the model. You can close this window; Cotypist will continue to download in the background.\nThe new model will be used automatically once the download has finished.
+1012b0790	A new recommended AI model, %@, is available!\nIt generally offers better performance and quality compared to your current model.\nWe recommend switching to it for the best experience.
+1012b0850	A new recommended AI model, %@, is available!\nIt would give you better completions, but requires %@ of free disk space, which doesn't appear to be available on your system right now.\nPlease free up some disk space, then switch to the new model from Settings.
+1012b0960	Onboarding: Recommended model update intro — disk too full
+1012b099d	Cotypist.Vqr
+1012b09b0	RecommendedModelUpdateController.willAbortOnboarding
+1012b09f0	RecommendedModelUpdateController.goForward
+1012b0a20	Onboarding: Skip recommended model update button
+1012b0a60	RecommendedModelUpdateController.mainButtonAction
+1012b0aa0	recommendedModelIsDownloaded
+1012b0ac0	Recommended Model download progress: 
+1012b0af0	Cotypist.khe
+1012b0b00	screenRecordingGranted
+1012b0b20	Grant Permission
+1012b0b40	Title of a button to open Screen Recording permission dialog.
+1012b0b80	Cotypist can make more relevant suggestions when it has permission to take screenshots.\nThese [**screenshots are neither stored nor sent anywhere**](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=screenRecordingOnboarding); they are used only to give you better completions.\nIf you are asked to quit and reopen Cotypist while granting permission, please do that.
+1012b0d10	Cotypist.sCP
+1012b0d21	Cotypist.cvx
+1012b0d30	init(nibName:bundle:)
+1012b0d50	Onboarding, skipping a step.
+1012b0d70	Cotypist.voU
+1012b0d80	Cotypist.AyM
+1012b0d91	Cotypist.vMc
+1012b0da0	init(heading:subheading:labeledElements:)
+1012b0dd0	(?s)(?:^|\s+)\bUse typographically.*?\.(?:\s+|$)
+1012b0e10	solidColor
+1012b0e1b	visualEffect
+1012b0e28	customBlur
+1012b0e40	windowServerBlur
+1012b0e60	SmartInsertWarningViewController_show
+1012b0e90	GoogleDocsEnableAccessibilityViewController_show
+1012b0ed0	Cotypist.lye
+1012b0ee0	init(contentRect:styleMask:backing:defer:)
+1012b0f10	Don't Show Again
+1012b0f30	Cotypist.BPd
+1012b0f40	init(coder:) has not been implemented [init(coder:)]
+1012b0f80	autocorrectCorrectionGreen
+1012b0fa0	Cotypist.hhw
+1012b0fb0	autocorrectStrikethroughRed
+1012b0fd0	SingleCompletionOverlay_useLayoutManager
+1012b1000	suggestionDefault
+1012b1020	Disable Automatically
+1012b1040	performedActions
+1012b1060	:|-(contentInset)-[actualContentView]-(contentInset)-|
+1012b10a0	actualContentView
+1012b10b2	Cotypist.Fgh
+1012b10c0	SuggestionsTableCellView
+1012b10e0	not implemented [init(coder:)]
+1012b1100	Cotypist.NuN
+1012b1110	For this app, Cotypist can’t show suggestions in line with the cursor in the actual text field, so it will preview completions in this "mirror". Please use this for previewing completions, but continue to edit your text in the actual text field. [*Hide Message*](hide-message)
+1012b1230	For inline suggestions, enable Text Metrics in the 
+1012b1270	 Accessibility settings.
+1012b1290	 [*Learn More*](learn-more)
+1012b12b0	https://cotypist.app/appHelp/textMetrics
+1012b12e0	 launch at login: 
+1012b1300	ContactSupportURLCommand.handle
+1012b1320	Cotypist.sim
+1012b132d	Cotypist.QUV
+1012b1340	performPreferenceAction
+1012b1360	restoreSyncFromCloud
+1012b1380	PerformPreferenceActionURLCommand.handle
+1012b13b0	Incorrect actor executor assumption; Expected same executor as 
+1012b13f0	Restore Your Writing From iCloud
+1012b1420	Confirmation title for the restore-from-iCloud URL action.
+1012b1460	Cotypist downloads everything in your iCloud and puts back whatever is missing on this Mac. Texts already here are kept, and anything you deleted stays deleted.\n\nOnly recorded texts come back. Screenshots, per-app settings and statistics were never synced.
+1012b1570	Confirmation body for the restore-from-iCloud URL action.
+1012b15b0	Confirmation button for the restore-from-iCloud URL action.
+1012b15f0	Alert cancel button.
+1012b1605	Cotypist.PIEN
+1012b1620	Method not implemented [defaultsDomainName]
+1012b1650	defaultsDomainName
+1012b1667	afterPause
+1012b1672	onShortcut
+1012b167d	stable
+1012b1684	beta
+1012b1689	keepNewlines
+1012b1696	sentinelBased
+1012b16a4	never
+1012b16aa	always
+1012b16b1	detectPrompt
+1012b16be	longestOnly
+1012b16ca	allSlots
+1012b16d3	sameField
+1012b16dd	png
+1012b16e1	heic
+1012b16ee	female
+1012b16f5	male
+1012b16fa	strikethrough
+1012b1708	backdrop
+1012b1711	fullWord
+1012b171a	partialDiff
+1012b1734	onSelection
+1012b1740	pauseBriefly
+1012b1752	passToApp
+1012b1760	above-text-field
+1012b1771	full-window
+1012b177d	legacy
+1012b1790	screencapturekit
+1012b17a1	both
+1012b17a6	none
+1012b17ab	base
+1012b17b0	baseAndShifted
+1012b17bf	Cotypist.rIX
+1012b17d0	showPreferencePane
+1012b17f0	ShowPreferencePaneURLCommand.handle
+1012b1820	cotypist://setPreference
+1012b1840	https://cotypist.app/setPreference
+1012b1870	UpdatePreferenceFromURLCommand.getURL
+1012b18a0	UpdatePreferenceFromURLCommand.set
+1012b18d0	UpdatePreferenceFromURLCommand.delete
+1012b1900	Change a hidden Cotypist setting?
+1012b1930	Update Preference From URL Command: Alert title when a link asks to change a setting that needs the user's approval.
+1012b19b0	A link wants to reset “%@” to its default value.
+1012b19f0	Update Preference From URL Command: Alert message. %@ is the preference key.
+1012b1a40	Only continue if Cotypist's support sent you this link.
+1012b1a80	Update Preference From URL Command: Second paragraph of the alert that asks before changing a setting.
+1012b1af0	Update Preference From URL Command: Alert button title
+1012b1b30	A link wants to set “%1$@” to “%2$@”.
+1012b1b60	Update Preference From URL Command: Alert message. %1$@ is the preference key, %2$@ its new value.
+1012b1bd0	Here is a link to apply the desired preference:
+1012b1c00	Update Preference From URL Command: Alert title when the user has clicked a URL that gets a Cotypist preference.
+1012b1c80	The preference “%@” has been reset.
+1012b1cb0	Update Preference From URL Command: Alert title when the user has clicked a URL that erases a Cotypist preference. %@ is the preference key.
+1012b1d40	You might need to relaunch Cotypist for this change to take effect.
+1012b1d90	Preferences URL Handling: Extra alert message when the user has clicked a URL that changes a Cotypist preference.
+1012b1e10	Restart Cotypist
+1012b1e30	The preference “%1$@” has been set to “%2$@”.
+1012b1e70	Update Preference From URL Command: Alert title when the user has clicked a URL that sets a Cotypist preference. %1$@ is the preference key, %2$@ its new value.
+1012b1f20	#!/bin/bash\nsleep 5\nopen "
+1012b1f40	https://cotypist.app/setPreference/
+1012b1f70	/stringStringDictionary/
+1012b1f90	/stringIntDictionary/
+1012b1fb0	stringIntDictionary
+1012b1fd0	stringStringDictionary
+1012b1ff0	cotypist://subscription
+1012b2010	VNRecognizeTextRequest
+1012b2030	(?:^|\s)(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*[AP]M)?(?:\s*[\p{L}\p{S}/]{1,2})?\s*$
+1012b2080	AppOverrideDetailView.DisplaySection
+1012b20b0	AppOverrideDetailView.CustomInstructions
+1012b20e0	Cotypist.UxP
+1012b20f0	Cotypist.Coordinator
+1012b2110	Accessing Environment's value outside of being installed on a View. This will always read the default value and will not update.
+1012b21a0	ControlActiveState
+1012b21c0	Default Settings
+1012b21e0	Third-Party Acknowledgments
+1012b2200	http://sparkle-project.org/
+1012b2220	https://github.com/blackpixel/LetsMove
+1012b2250	by The Potion Factory & Black Pixel
+1012b2280	https://github.com/cocoabits/MASShortcut
+1012b22b0	by Vadim Shpakovski
+1012b22d0	https://github.com/ggml-org/llama.cpp
+1012b2300	by the ggml authors
+1012b2320	Sentry SDK for macOS
+1012b2340	https://github.com/getsentry/sentry-cocoa
+1012b2370	Copyright (c) 2015-2024 Sentry
+1012b2390	https://github.com/mattgallagher/CwlUtils
+1012b23c0	by Matt Gallagher
+1012b23e0	https://github.com/facebook/zstd
+1012b2410	Copyright (c) 2016-present, Facebook, Inc.
+1012b2440	https://github.com/groue/GRDB.swift
+1012b2470	Copyright (C) 2015-2025 Gwendal Roué
+1012b24a0	https://github.com/apple/swift-protobuf
+1012b24d0	https://fonts.google.com/specimen/Inter/about
+1012b2500	Copyright 2020 The Inter Project Authors
+1012b2530	https://fonts.google.com/specimen/Lato/license
+1012b2560	Copyright (c) 2010-2014 by tyPoland Lukasz Dziedzic
+1012b25a0	https://fonts.google.com/specimen/Nunito/license
+1012b25e0	Copyright 2014 The Nunito Project Authors
+1012b2610	https://fonts.google.com/specimen/Nunito+Sans/license
+1012b2650	Copyright 2016 The Nunito Sans Project Authors
+1012b2680	https://fonts.google.com/specimen/Open+Sans/license
+1012b26c0	Copyright 2010-2020 The Open Sans Project Authors
+1012b2700	https://fonts.google.com/specimen/Roboto/license
+1012b2740	Copyright 2011 The Roboto Project Authors
+1012b2770	https://github.com/JetBrains/JetBrainsMono
+1012b27a0	Copyright 2020 The JetBrains Mono Project Authors
+1012b27e0	https://fonts.google.com/specimen/Source+Code+Pro/license
+1012b2820	Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.
+1012b2910	https://fonts.google.com/specimen/Source+Sans+3/license
+1012b2950	Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe in the United States and/or other countries.
+1012b2a10	Gemma is provided under and subject to the Gemma Terms of Use
+1012b2a50	https://ai.google.dev/gemma/docs/core/model_card_4
+1012b2a90	Copyright 2026 Google LLC; licensed under the Apache License 2.0
+1012b2ae0	Check for updates automatically
+1012b2b00	Cotypist looks for a new version every couple of hours while it is running.
+1012b2b50	Beta versions bring new features and fixes earlier, but they receive less testing than a release.
+1012b2bc0	AboutSettingsPane.UpdateChannel
+1012b2be0	Beta versions bring new features and fixes earlier, but they receive less testing than a release. This build is a beta itself, so it stays on the beta channel.
+1012b2c80	Beta versions bring new features and fixes earlier, but they receive less testing than a release. They are part of a paid Cotypist Pro subscription and are not included in a trial.
+1012b2d40	https://cotypist.app/
+1012b2d60	Created by Accelerated Thought GmbH
+1012b2d90	You may also want to check out our other app, 
+1012b2dc0	https://timingapp.com/
+1012b2de0	On Battery Power
+1012b2e00	Only show completions on demand
+1012b2e20	On battery power, Cotypist doesn’t start showing completions on its own. Bring them up exactly where they’re most useful with the force-activate shortcut, which you can change in [Shortcuts settings](cotypist://showPreferencePane/shortcuts).
+1012b2f20	Generate slightly shorter completions
+1012b2f50	Shorter completions are quicker to generate, which reduces power draw.
+1012b2fa0	Use a smaller model
+1012b2fc0	A lighter model draws less power and responds faster, at some cost to completion quality.
+1012b3020	This model isn’t downloaded yet, so completions stay on your normal model until it is.
+1012b3080	You’re currently plugged in. These settings take effect automatically when you switch to battery power.
+1012b30f0	You’re currently running on battery. These settings are active now.
+1012b3140	completionStats.json
+1012b3160	Today's Activity
+1012b3180	Completion Statistics
+1012b31a0	Estimated Time Saved
+1012b31c0	Daily Average (Active Days)
+1012b31e0	No data available for the selected time range
+1012b3210	No completions recorded today
+1012b322e	Day
+1012b3232	Week
+1012b3237	Month
+1012b323d	Completions
+1012b3249	Words
+1012b324f	Characters
+1012b325a	Last 7 Days
+1012b3266	Last 30 Days
+1012b3273	Last 90 Days
+1012b3280	All Time
+1012b3290	Screenshot Settings
+1012b32b0	Clipboard Settings
+1012b32d0	Use clipboard for context
+1012b32f0	Cotypist reads your clipboard when it suggests completions, to understand what you're working with. Clipboard contents are processed locally on your Mac and are never stored or sent anywhere. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=contextSettingsClipboard).
+1012b3450	ContextSettingsPane.PasteboardContextToggle
+1012b3480	Cotypist does not have permission to read the clipboard. You can grant access in System Settings > Privacy & Security > Paste from Other Apps.
+1012b3510	Open System Settings
+1012b3530	x-apple.systempreferences:com.apple.preference.security?Privacy_Pasteboard
+1012b3580	Use screenshots for context
+1012b35a0	Reading your screen requires Screen Recording permission. Screen contents are processed locally on your Mac and are never stored or sent anywhere. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=contextSettingsScreenshotsNeedPermission).
+1012b36f0	Cotypist reads your screen to understand the surrounding context and provide more relevant completions. Screen contents are processed locally on your Mac and are never stored or sent anywhere. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=contextSettingsScreenshots).
+1012b3860	Use screenshots to improve suggestion appearance
+1012b38a0	Uses screenshots to improve how suggestions integrate with their surroundings. This may occasionally cause a purple Screen Recording notice to appear in the menu bar. Feel free to disable this if you are uncomfortable with that.
+1012b3990	Emoji Customization
+1012b39b0	Preferred skin tone
+1012b39d0	Applied to emoji that support skin tone modifiers.
+1012b3a10	Include neutral variant
+1012b3a30	Also suggests the neutral (default) skin tone variant alongside your preferred skin tone.
+1012b3a90	Preferred gender
+1012b3ab0	Applies to people emoji that have separate male/female variants (e.g., firefighters, doctors, artists).
+1012b3b20	Enable emoji suggestions
+1012b3b40	Show emoji suggestions when typing "
+1012b3b70	". You can also type after it to filter suggestions (e.g. "
+1012b3bb0	"). Note that Emoji search may not always yield the desired emoji, but you can always use the emoji picker built into macOS (⌃ + ⌘ + Space) as a fallback.
+1012b3c50	Suggest emoji from emoticons
+1012b3c70	Also suggest emoji when you type common text emoticons like ":-)", ";-)", ":(" or "<3". When off, only the "
+1012b3ce0	" picker and search remain.
+1012b3d00	Disable completions by default?
+1012b3d20	If Cotypist isn't working the way you expect, please contact support so we can help — disabling completions globally is probably not what you actually want.
+1012b3dc0	Completion Settings
+1012b3de0	Don't show completions when typo suspected
+1012b3e10	Hides the completion when Cotypist suspects a typo in the word you're currently typing. The main purpose is to keep Cotypist from extending a word that already contains a typo: it only ever looks at the current word and may occasionally miss or misjudge a typo. It is not a substitute for a full spell-checker.
+1012b3f50	Show suggested fixes
+1012b3f70	When a likely correction is available, show it inline as a strikethrough on the typo with the fix next to it.
+1012b3fe0	GeneralSettingsPane.ShowSuggestedFixes
+1012b4010	Share anonymous usage statistics and crash reports
+1012b4050	Help us improve Cotypist by sharing anonymous usage statistics and crash reports. **Your writing is never sent to us** — completions happen entirely on your Mac. We only see general app info, e.g. what features are used, how Cotypist is performing, and details about any crashes. Changes take effect after restarting Cotypist. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=generalSettingsAnalytics).
+1012b4240	Maximum completion length
+1012b4260	Controls how long generated completions can be.\n\nWe recommend sticking with a medium length: Longer completions are slower to generate, disrupting your typing flow. In addition, longer completions are more likely to deviate from your intent, although parts of them can be "salvaged" using the single-word completion shortcut.\n\n"Current word only" finishes the word you're typing but never suggests the next one, for when you want spelling help without suggestions of what to write.
+1012b4450	GeneralSettingsPane.MaxCompletionLength
+1012b4480	generates shorter completions
+1012b44a0	Current word only
+1012b44c0	Short (~ 1 – 2 words)
+1012b44e0	Medium (~ 2 – 4 words)
+1012b4500	Long (~ 4 – 7 words)
+1012b4520	Very Long (~ 7 – 10 words)
+1012b4540	Ultra Long (~ 10 – 15 words)
+1012b4560	Complete inside existing text
+1012b4580	Normally Cotypist suggests only at the end of a line you haven't finished writing yet. Turn this on to also get suggestions when there is still text after the cursor on the same line.
+1012b4640	GeneralSettingsPane.MidLineCompletions
+1012b4670	Granting Screen Recording permission in [Context settings](cotypist://showPreferencePane/context) improves the appearance of these completions.
+1012b4700	Enable completions by default
+1012b4720	When off, completions stay off in every app except those you turn them on for in App Settings.
+1012b4780	shows completions only on demand
+1012b47b0	Select a LoRA adapter to customize the model behavior.
+1012b47f0	Open the folder containing downloaded models.
+1012b4820	Reveal in Finder
+1012b4840	Select the model used for completions.
+1012b4870	This model may be slower than expected on your system. For the best experience, consider using the recommended model below.
+1012b48f0	Download Recommended Model (
+1012b4910	Recommended for your system: 
+1012b4930	uses a smaller model (
+1012b4950	uses a smaller model
+1012b4970	Launch automatically at login
+1012b4990	Show menu bar icon
+1012b49b0	Display the Cotypist icon in the menu bar for quick access to settings and statistics.
+1012b4a10	Show accessory button
+1012b4a30	Display a floating button that provides quick access to Cotypist's menu when working in text fields.
+1012b4aa0	bolt.batteryblock
+1012b4ac0	On battery power, Cotypist 
+1012b4ae0	. Manage this in [Battery settings](cotypist://showPreferencePane/battery).
+1012b4b30	 — in effect right now
+1012b4b50	Cotypist Labs collects experimental features that work well enough to ship. They might not be as polished as other features.
+1012b4bd0	Remove Synced Data From iCloud
+1012b4bf0	Couldn’t Remove iCloud Data
+1012b4c10	iCloud Keychain Is Turned Off
+1012b4c30	Cotypist sends the encryption key to your other Macs through iCloud Keychain. With it off, your writing still travels to iCloud, but this Mac can’t read the writing from your other Macs. You can turn sync on now and switch iCloud Keychain on later.
+1012b4d30	x-apple.systempreferences:com.apple.systempreferences.AppleIDSettings?iCloud
+1012b4d80	This removes all synced inputs from your iCloud and turns syncing off. The data already on each Mac stays there.
+1012b4e00	Remove From iCloud
+1012b4e20	The data could not be removed from iCloud. Please try again later. (%@)
+1012b4e70	Alert after Remove From iCloud failed; %@ is a one-sentence reason, e.g. that no iCloud account is available.
+1012b4ee0	This Mac is signed in to a different iCloud account than the one sync was set up with. Sign in to that account in System Settings, then try again.
+1012b4f80	Alert after Remove From iCloud was refused because another iCloud account is signed in.
+1012b4fe0	Sync your writing between your Macs
+1012b5010	Cotypist syncs your recorded writing between your Macs through your own iCloud account, along with the on-screen context it was written in. Everything is end-to-end encrypted, and the key reaches your other Macs through iCloud Keychain, which Apple cannot read either. So neither Apple nor we can read your writing. Synced data counts toward your iCloud storage, usually no more than a few MB in total. [Learn more](https://cotypist.app/help/sync?utm_source=app&utm_medium=link&utm_campaign=cloudSyncSettings)
+1012b5210	LabsSettingsPane.CloudSync
+1012b5230	iCloud Keychain is turned off on this Mac.\nCotypist sends the encryption key to your other Macs through it. Without it, this Mac can’t read the writing from your other Macs. Turn it on in System Settings > your name > iCloud > Passwords & Keychain.
+1012b5330	 inputs · about 
+1012b5350	 waiting for its key)
+1012b5370	 · last synced 
+1012b5390	Remove iCloud Data…
+1012b53b0	Upload Everything Again
+1012b53d0	Sync With This Account
+1012b53f0	Checking status…
+1012b5410	Sync stopped because of an unexpected problem. Cotypist will try again on its own.
+1012b5470	 inputs are no longer in iCloud, but this Mac kept them. Too many went missing at once to be sure they were really deleted.
+1012b54f0	 inputs arrived damaged and couldn’t be read.
+1012b5520	 inputs couldn’t be uploaded.
+1012b5540	 inputs need a newer version of Cotypist.
+1012b5570	 inputs waiting to upload.
+1012b5590	A different iCloud account is signed in than the one sync was set up for.
+1012b55e0	Another Mac removed the synced data from iCloud. Nothing on this Mac was deleted. You can turn sync off, or upload everything again.
+1012b5670	Sign in to iCloud to keep your Macs in sync. Nothing on this Mac was changed.
+1012b56c0	Your iCloud storage is full, so nothing new can be uploaded. Free up space, or remove Cotypist’s data from iCloud below.
+1012b5740	Restoring from iCloud. 
+1012b5760	 inputs so far…
+1012b5780	 are waiting for their encryption key.
+1012b57b0	 can’t be read on this Mac. Their encryption key hasn’t arrived, which usually means iCloud Keychain is turned off on this Mac or on 
+1012b5840	. Check System Settings > your name > iCloud > Passwords & Keychain on both Macs. They stay readable on the Mac that created them.
+1012b58d0	Suggest synonyms for selected words
+1012b5900	Select a word or short phrase to see contextual synonyms below it, either automatically after a moment or when you press the shortcut; press the corresponding number to replace the selection.
+1012b59c0	LabsSettingsPane.Thesaurus
+1012b59e0	Press this while a word is selected to show synonyms.
+1012b5a20	Look up synonyms with shortcut
+1012b5a40	Optionally press this while a word is selected to show synonyms immediately.
+1012b5a90	Delay before showing
+1012b5ab0	How long a selection has to stay unchanged before Cotypist looks up synonyms.
+1012b5b00	Only on shortcut
+1012b5b20	After selecting text
+1012b5b40	Show alternative suggestions
+1012b5b60	Offer other words for the current completion below the cursor after a short delay or upon invoking a shortcut; press the corresponding number to insert one. This is meant for the occasional writer's block or wording hiccup, not for choosing a word on every keystroke (which would only invite decision fatigue). If you already know the word you want, it usually flows better to just start typing its first few letters and let Cotypist update its completion to match, rather than waiting for the picker and choosing.
+1012b5d70	LabsSettingsPane.WordAlternatives
+1012b5da0	Optionally press this to reveal the alternatives picker immediately.
+1012b5df0	Invoke with shortcut
+1012b5e10	opens the alternatives picker
+1012b5e30	Consequence named in the typing-key shortcut warning.
+1012b5e70	Press this to reveal the alternatives picker.
+1012b5ea0	How long Cotypist waits after your last keystroke before it shows the picker.
+1012b5ef0	After a short pause
+1012b5f10	setup
+1012b5f16	general
+1012b5f1e	battery
+1012b5f26	context
+1012b5f2e	personalization
+1012b5f3e	emoji
+1012b5f44	shortcuts
+1012b5f4e	appSettings
+1012b5f5a	labs
+1012b5f5f	statistics
+1012b5f6a	subscription
+1012b5f77	about
+1012b5f7d	contactSupport
+1012b5f90	slider.horizontal.3
+1012b5fb0	Custom AI Instructions
+1012b5fd0	Customize how Cotypist completes your text by providing instructions below. Focus on adding information highly relevant to your writing, such as your occupation and the types of writing tasks you frequently perform. There's no strict limit, but a few hundred words is a good upper bound — shorter instructions work just as well.
+1012b6120	Reset to Default
+1012b6140	PersonalizationSettingsPane.CustomInstructions
+1012b6170	Record your writing for personalization
+1012b61a0	Cotypist can record what you type in the fields where it suggests text, so its completions match your own words and phrases.\n\nAll recorded text is encrypted and stored locally on your Mac — nothing is sent to external servers unless you switch on the end-to-end encrypted iCloud sync between your Macs (in Cotypist Labs settings). In addition, you can switch off the recording for specific apps via the Cotypist menu bar icon. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=personalizationSettings).\n\nNevertheless, we do not recommend enabling this option if you work with particularly sensitive information or feel uncomfortable with the idea of nearly all your writing being recorded — even if only locally on your Mac.
+1012b64d0	Record text even when you accept no suggestion
+1012b6500	Cotypist records the text in every field it monitors, even when you don’t accept any completions, which builds a fuller picture of your writing. When off, Cotypist records only text where you accepted at least one completion.
+1012b65f0	Delete the recorded texts of one app, or all of them, in App Settings.
+1012b6640	Show Typing History
+1012b6660	Uses your typing history to slightly favor the words and phrases you prefer. Subtle at lower values; too high may occasionally suggest a less fitting word.
+1012b6700	More levels with
+1012b6720	PersonalizationSettingsPane.PersonalizationStrengthSlider
+1012b6760	Personalize word choice
+1012b6780	exclamationmark.circle.fill
+1012b67a0	Setup step remaining
+1012b67c0	arrow.up.forward
+1012b67e0	settingsWindowDidBecomeKey
+1012b6800	x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility
+1012b6850	After granting permissions, please come back here. If a permission still does not show up as granted, try removing Cotypist from the permission list via the "-" button in its bottom left corner, then add it again by dragging its icon from the Applications folder onto the list.
+1012b6970	Required for Cotypist to provide completions.
+1012b69a0	Screen Recording permission
+1012b69c0	Recommended for better context-aware suggestions. Screenshots are processed locally on your Mac and are never stored or sent anywhere. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=permissionsSettingsScreenRecording).
+1012b6af0	macOS inline predictive text
+1012b6b10	Disable the predictions built into macOS to avoid conflicts with Cotypist. To turn them back on, open [System Settings > Keyboard](x-apple.systempreferences:com.apple.Keyboard-Settings.extension) > Input Sources > Edit… and turn on "Show inline predictive text".
+1012b6c20	Clipboard context
+1012b6c40	Cotypist reads your clipboard to better understand what you're working on, for more relevant completions. Clipboard contents are processed locally and are never stored or sent anywhere. You can change this later in [Context settings](cotypist://showPreferencePane/context).
+1012b6d60	SetupSettingsPane.PasteboardContext
+1012b6d90	Device Control and Data Access
+1012b6db0	AI model download
+1012b6dd0	Download the AI model required for completions.
+1012b6e00	x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture
+1012b6e50	To provide auto-complete functionality, Cotypist needs permission to use your Mac's Accessibility system.
+1012b6ec0	\n\nCotypist only uses these permissions to provide completions. All processing happens locally on your Mac, and your writing stays private to you. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=permissionsSettingsAccessibilityWarning).
+1012b7000	To provide auto-complete functionality, Cotypist needs the Device Control and Data Access permission.
+1012b7070	 permission is granted.\n\nTo start using Cotypist, you need to download an AI model. The recommended model (
+1012b70e0	) will be downloaded automatically when you click the button below.\n\nThe download may take a few minutes depending on your internet connection.
+1012b7170	For better suggestions based on the app you're typing in, we recommend granting Screen Recording permission and then relaunching Cotypist.\n\nThis permission helps Cotypist understand the context of your writing better, but basic completions will be available even without it. Screenshots are processed locally on your Mac and are never stored or sent anywhere. [Learn more about how Cotypist protects your privacy](https://cotypist.app/help/privacy?utm_source=app&utm_medium=link&utm_campaign=permissionsSettingsScreenRecordingWarning).
+1012b7390	Clipboard context is still off. With it on, Cotypist reads your clipboard so completions fit what you're working on. Contents are processed locally on your Mac and are never stored or sent anywhere.\n\nYou can skip this, and change it later in Context settings.
+1012b74a0	Cotypist is set up and ready to use. You can now close this window or continue to the other settings.
+1012b7510	We recommend disabling the inline predictive text built into macOS, as it can interfere with the (better 😉) suggestions provided by Cotypist.\n\nYou can turn it back on at any time in System Settings > Keyboard > Input Sources > Edit… with the "Show inline predictive text" switch.
+1012b7630	checkmark.circle.fill
+1012b7650	Setup pane header.
+1012b7670	%d Optional Steps Left
+1012b7690	Setup pane header; %d is a count of two or more.
+1012b76d0	One Optional Step Left
+1012b76f0	When you press Escape
+1012b7710	This only changes what the Escape key does while a suggestion is showing. The rest of the time, Escape works as usual. Once it clears a suggestion, a second press goes straight to the app; to switch completions off for longer, use the per-app or global toggle below.
+1012b7820	Force-activate completions
+1012b7840	In some cases, Cotypist can't automatically detect that you have started typing. Invoke this shortcut to take matters into your own hands!
+1012b78d0	Temporarily toggle completions in the current app
+1012b7910	Quickly turns completions off for a few minutes in the current application, or back on if they're currently disabled.
+1012b7990	Toggle completions globally
+1012b79b0	Disables completions everywhere until you press the shortcut again. Useful when you want Cotypist to stay out of the way entirely for a while.
+1012b7a40	Complete only the next word
+1012b7a60	Often, only a completion's first few words might reflect what you want to type. In that case, press this key repeatedly to insert only those words, and then resume typing yourself until you get the next matching completion. This is surprisingly effective in practice, try it!
+1012b7b80	accepts the next word
+1012b7ba0	Include trailing space
+1012b7bc0	Accepting a single word also inserts the space after it, so you can type the next word right away.
+1012b7c30	Trigger full completion
+1012b7c50	This will accept the entire completion at once. We recommend using the key above Tab (often ` or §, depending on your keyboard layout).
+1012b7ce0	accepts the suggestion
+1012b7d00	Include trailing punctuation
+1012b7d20	Choose whether accepting a suggestion also inserts the punctuation after it, such as a comma or period. Leaving it out is useful when you want to keep writing, or don't want to end a chat message with a period. Any punctuation left out stays in the suggestion, so pressing either shortcut again inserts it.
+1012b7e60	“%@” already accepts a completion, so it can't also reveal the alternatives. Please pick a different key.
+1012b7ed0	Warning under the word-alternatives shortcut recorder; %@ is the key, e.g. “⇥”.
+1012b7f30	“%1$@” is a key you write with. While a suggestion is showing, pressing it %2$@ instead of writing “%1$@”. We recommend using Tab or the key above Tab.
+1012b7fd0	Warning under a shortcut recorder; %1$@ is the chosen key, e.g. “a”; %2$@ is what the shortcut does, e.g. “accepts the suggestion”.
+1012b8060	Manage Subscription
+1012b8080	SubscriptionPane.LicenseSection.TrialExtension
+1012b80b0	Restore Purchase
+1012b80d0	SubscriptionPane.LicenseSection
+1012b80f0	person.crop.circle
+1012b8110	Unlimited completions with Plus or Pro
+1012b8140	Subscription active
+1012b8160	Cotypist Pro Trial
+1012b8180	hourglass.tophalf.filled
+1012b81a0	Full Pro access during trial
+1012b81c0	 extension active
+1012b81e0	checkmark.seal.fill
+1012b8200	Your subscription is now active on this Mac.
+1012b8230	Activation confirmation banner — paid subscription secondary line
+1012b8280	Enjoy your trial on this Mac.
+1012b82a0	Activation confirmation banner — generic trial extension secondary line (fallback)
+1012b8300	Enjoy every Pro feature on this Mac during your trial.
+1012b8340	Activation confirmation banner — Pro trial extension secondary line
+1012b8390	Enjoy every Plus feature on this Mac during your trial.
+1012b83d0	Activation confirmation banner — Plus trial extension secondary line
+1012b8420	Thank you for subscribing to Cotypist!
+1012b8450	Activation confirmation banner — paid subscription headline
+1012b8490	Your Cotypist trial extension is now active for 7 days
+1012b84d0	Activation confirmation banner — generic trial extension headline (fallback)
+1012b8520	Cotypist Pro is now active for 7 days
+1012b8550	Activation confirmation banner — Pro trial extension headline
+1012b8590	Cotypist Plus is now active for 7 days
+1012b85c0	Activation confirmation banner — Plus trial extension headline
+1012b8610	Completed all-time
+1012b8630	person.circle.fill
+1012b8650	calendar.circle.fill
+1012b8670	 display updates over 
+1012b8690	 display updates
+1012b86b0	 (unconfirmed — may just be the frontmost app)
+1012b86f0	com.apple.loginwindow
+1012b8710	kCGSSessionSecureInputPID
+1012b8730	https://cotypist.app/help/troubleshooting?utm_source=app&utm_medium=link&utm_campaign=secureInput#secure-input
+1012b87a0	ShortcutListener: cleared unsafe always-on shortcut for 
+1012b87e0	Do nothing (always send Escape to the app)
+1012b8810	Escape-key picker: Cotypist never intercepts Escape; every press reaches the app.
+1012b8870	Turn completions off until I switch apps
+1012b88a0	Escape-key picker: a single Escape turns completions off in the current app until the user switches apps.
+1012b8910	Pause completions for a few seconds
+1012b8940	Escape-key picker: a single Escape briefly pauses completions, which then resume on their own.
+1012b89a0	ShortcutManager: RegisterEventHotKey failed for accept shortcut 
+1012b89f0	) — it will not fire.
+1012b8a10	ShortcutManager: ignoring unparseable alternate accept shortcut "
+1012b8a60	wordCountAboveLengthThreshold
+1012b8a80	CompletionStats.Last30Days
+1012b8aa0	CompletionStats.DailyRecord.
+1012b8ac0	Failed to upload previous completion stats: 
+1012b8af0	Failed to save completion stats: 
+1012b8b20	Duplicate values for key: '
+1012b8b3c	scale
+1012b8b42	bins
+1012b8b47	a
+1012b8b49	b
+1012b8b4b	c
+1012b8b4d	d
+1012b8b4f	e
+1012b8b51	f
+1012b8b53	g
+1012b8b55	h
+1012b8b57	i
+1012b8b59	j
+1012b8b5b	ms
+1012b8b5e	n
+1012b8b60	unknown ReuseKind wire value
+1012b8b80	bucketOverflowCount
+1012b8b94	word
+1012b8b9f	autocorrect
+1012b8bab	thesaurus
+1012b8bc0	unknown CycleOutcome wire value
+1012b8be0	value
+1012b8be6	marker
+1012b8bed	hybrid
+1012b8bf4	termPage
+1012b8bfd	strRange
+1012b8c06	unknown
+1012b8c10	Completion.LatencyDaily
+1012b8c30	Failed to save latency telemetry: 
+1012b8c60	com.kagi.kagimacOS
+1012b8c80	com.visualstudio.code.oss
+1012b8ca0	com.microsoft.Powerpoint
+1012b8cc0	com.mimestream.Mimestream
+1012b8ce0	org.whispersystems.signal-desktop
+1012b8d10	com.apple.TextEdit
+1012b8d30	ru.keepcoder.Telegram
+1012b8d50	net.shinyfrog.bear
+1012b8d70	com.lukilabs.lukiapp
+1012b8d90	com.anthropic.claudefordesktop
+1012b8db0	com.openai.codex
+1012b8dd0	iCloud.app.cotypist.Cotypist
+1012b8df0	fetchAllRecords() called before setDelegate(); fetched events would be discarded
+1012b8e50	Sync: fetched record 
+1012b8e70	 is missing envelope fields
+1012b8e90	record save failed
+1012b8eb0	Sync: retryable save failure for 
+1012b8ee0	Sync: backlog still remains after 
+1012b8f10	 pumps; continuing on the next cycle
+1012b8f40	Cotypist Sync Needs Attention
+1012b8f60	Sync notification title.
+1012b8f80	cloudDataRemoved
+1012b8fa0	com.apple.developer.icloud-container-identifiers
+1012b8fe0	no database is available
+1012b9000	DELETE FROM sync_dirty WHERE record_type = ? AND record_id = ? AND changed_at <= ?
+1012b9060	INSERT INTO sync_unsyncable(record_type, record_id, reason, detail, noted_at) VALUES (?, ?, ?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET reason = excluded.reason, detail = excluded.detail, noted_at = excluded.noted_at
+1012b9150	 is too large to upload (
+1012b9170	Sync: failed to build envelope for 
+1012b91a0	sync.engineState
+1012b91c0	INSERT INTO sync_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value
+1012b9230	sync.boundUserRecordID
+1012b9250	DELETE FROM sync_recycle_bin WHERE deleted_at < ?
+1012b9290	sync.lastSyncDate
+1012b92b0	SELECT record_id FROM sync_dirty WHERE record_type = ?
+1012b92f0	 ORDER BY changed_at ASC
+1012b9310	 AND changed_at < ?
+1012b9330	sync.lastFullRefetch
+1012b9350	 local records against 
+1012b9370	 confirmed synced; refetching
+1012b9390	Sync: full refetch found an empty zone while 
+1012b93c0	 records are synced; skipping deletion reconciliation
+1012b9400	DELETE FROM sync_pending WHERE record_type = ? AND record_id = ?
+1012b9450	Sync: failed to apply 
+1012b9470	 remote deletions: 
+1012b9490	INSERT INTO sync_tombstones(record_type, record_id, deleted_at, pushed_at) VALUES (?, ?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET deleted_at = excluded.deleted_at, pushed_at = excluded.pushed_at
+1012b9570	DELETE FROM sync_state WHERE record_type = ? AND record_id = ?
+1012b95b0	INSERT INTO sync_recycle_bin(record_type, record_id, row_json, app_bundle_identifier, domain, deleted_at)\nVALUES (?, ?, ?, ?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET\n\trow_json = excluded.row_json,\n\tapp_bundle_identifier = excluded.app_bundle_identifier,\n\tdomain = excluded.domain,\n\tdeleted_at = excluded.deleted_at
+1012b9700	INSERT INTO sync_suppress(flag) VALUES (1)
+1012b9730	DELETE FROM sync_suppress
+1012b9750	sync.skippedReconciliationCount
+1012b9770	DELETE FROM sync_kv WHERE key = ?
+1012b97a0	Sync: full refetch would delete 
+1012b97d0	 synced records; skipping deletion reconciliation
+1012b9810	SELECT record_id FROM sync_state WHERE record_type = ?
+1012b9850	Sync: failed to apply fetched changes: 
+1012b9880	INSERT INTO sync_state(record_type, record_id, ck_system_fields, last_synced_rev, payload_bytes) VALUES (?, ?, ?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET\n\tck_system_fields = excluded.ck_system_fields,\n\tlast_synced_rev = excluded.last_synced_rev,\n\tpayload_bytes = COALESCE(excluded.payload_bytes, payload_bytes)
+1012b99d0	INSERT INTO sync_dirty(record_type, record_id, changed_at) VALUES (?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET changed_at = excluded.changed_at
+1012b9a70	SELECT screenshotData, screenshotText, environmentContext, environmentContextDescription\nFROM user_inputs WHERE id = ?
+1012b9af0	SELECT rev, updatedAt, originDeviceID FROM user_inputs WHERE id = ?
+1012b9b40	Sync: malformed payload for record 
+1012b9b70	Sync: failed to open record 
+1012b9b90	Sync: failed to handle key announcement 
+1012b9bc0	Sync pump failed: 
+1012b9be0	sync.bootstrapCompleted
+1012b9c00	SELECT * FROM sync_keys WHERE key_id = ?
+1012b9c30	Sync enable failed: 
+1012b9c50	DELETE FROM sync_state
+1012b9c70	Sync: recovery after encrypted-data reset failed: 
+1012b9cb0	Sync: permanent send failure for 
+1012b9ce0	UPDATE sync_tombstones SET pushed_at = ? WHERE record_type = ? AND record_id = ?
+1012b9d40	Sync: failed to apply record 
+1012b9d60	sync.stuckMonitor
+1012b9d80	INSERT INTO sync_dirty(record_type, record_id, changed_at)\nSELECT record_type, record_id, 0 FROM sync_unsyncable WHERE record_type = ?\nON CONFLICT(record_type, record_id) DO NOTHING
+1012b9e40	DELETE FROM sync_unsyncable WHERE record_type = ?
+1012b9e80	Sync: restore from iCloud failed: 
+1012b9eb0	SELECT ck_system_fields FROM sync_state WHERE record_type = ? AND record_id = ?
+1012b9f00	SELECT * FROM sync_keys WHERE is_own_key = 1
+1012b9f30	SELECT * FROM sync_devices WHERE key_id = ?
+1012b9f60	SELECT * FROM sync_pending
+1012b9f80	 ORDER BY fetched_at ASC
+1012b9f99	missingKey
+1012b9fa4	newerFormat
+1012b9fb0	authFailure
+1012b9fc0	envelope_version
+1012b9fe0	SELECT 1 FROM sync_tombstones WHERE record_type = ? AND record_id = ?
+1012ba030	SELECT value FROM sync_kv WHERE key = ?
+1012ba060	DELETE FROM sync_tombstones WHERE pushed_at IS NOT NULL AND deleted_at < ?
+1012ba0b0	DELETE FROM sync_tombstones WHERE pushed_at IS NULL AND deleted_at < ?
+1012ba100	SELECT COUNT(*) FROM sync_tombstones WHERE record_type = ? AND pushed_at IS NULL
+1012ba160	SELECT COUNT(*) FROM sync_dirty
+1012ba180	SELECT record_id FROM sync_tombstones WHERE record_type = ? AND pushed_at IS NULL ORDER BY deleted_at ASC
+1012ba1f0	INSERT INTO sync_pending(record_type, record_id, key_id, envelope_version, ciphertext, system_fields, reason, fetched_at, last_attempt_at)\nVALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\nON CONFLICT(record_type, record_id) DO UPDATE SET\n\tkey_id = excluded.key_id,\n\tenvelope_version = excluded.envelope_version,\n\tciphertext = excluded.ciphertext,\n\tsystem_fields = excluded.system_fields,\n\treason = excluded.reason,\n\tlast_attempt_at = excluded.last_attempt_at
+1012ba3b0	SELECT last_synced_rev FROM sync_state WHERE record_type = ? AND record_id = ?
+1012ba400	INSERT INTO sync_devices(device_id, device_name, device_model, key_id, first_seen_at, last_seen_at, is_own_device)\nVALUES (?, ?, ?, ?, ?, ?, ?)\nON CONFLICT(device_id) DO UPDATE SET\n\tdevice_name = COALESCE(excluded.device_name, device_name),\n\tdevice_model = COALESCE(excluded.device_model, device_model),\n\tkey_id = COALESCE(excluded.key_id, key_id),\n\tlast_seen_at = MAX(last_seen_at, excluded.last_seen_at),\n\tis_own_device = MAX(is_own_device, excluded.is_own_device)
+1012ba5e0	INSERT INTO sync_keys(key_id, key_data, device_name, created_at, is_own_key) VALUES (?, ?, ?, ?, ?)\nON CONFLICT(key_id) DO UPDATE SET\n\tkey_data = excluded.key_data,\n\tdevice_name = excluded.device_name,\n\tis_own_key = MAX(is_own_key, excluded.is_own_key)
+1012ba6e0	SELECT * FROM sync_keys ORDER BY created_at ASC
+1012ba710	WHERE s.record_id IS NULL OR s.last_synced_rev IS NULL OR s.last_synced_rev < u.rev
+1012ba770	INSERT INTO sync_dirty(record_type, record_id, changed_at)\nSELECT ?, u.id, 0 FROM user_inputs u\nLEFT JOIN sync_state s ON s.record_type = ? AND s.record_id = u.id\n
+1012ba820	\nON CONFLICT(record_type, record_id) DO NOTHING
+1012ba850	SELECT * FROM sync_devices ORDER BY first_seen_at ASC
+1012ba890	SELECT key_id, COUNT(*) AS n FROM sync_pending WHERE record_type = ? AND key_id IS NOT NULL GROUP BY key_id
+1012ba900	SELECT originDeviceID, COUNT(*) AS n FROM user_inputs GROUP BY originDeviceID
+1012ba950	SELECT COUNT(*) AS n, COALESCE(SUM(payload_bytes), 0) AS bytes FROM sync_state WHERE record_type = ?
+1012ba9c0	SELECT COUNT(*) FROM sync_unsyncable WHERE record_type = ?
+1012baa00	SELECT COUNT(*) FROM sync_pending
+1012baa30	SELECT record_id FROM sync_pending WHERE record_type = ?
+1012baa70	DELETE FROM sync_pending WHERE record_type = ?
+1012baaa0	IOPlatformExpertDevice
+1012baac0	Sync error shown in parentheses after a failed iCloud action: account mismatch.
+1012bab10	iCloud didn’t confirm the change.
+1012bab40	Sync error shown in parentheses after a failed iCloud action: the server rejected it.
+1012baba0	No iCloud account is available on this Mac.
+1012babd0	Sync error shown in parentheses after a failed iCloud action: signed out or restricted.
+1012bac30	differentAccountSignedIn
+1012bac50	zoneOperationFailed(
+1012bac70	accountUnavailable
+1012bac90	app.cotypist.Cotypist.sync
+1012bacb0	MobileMeAccounts
+1012bacd0	Cotypist Sync Key (
+1012bacf0	 has invalid length 
+1012bad10	sync.deviceFingerprint
+1012bad30	sync.retiredDeviceIDs
+1012bad50	app.cotypist.Cotypist.sync.stuck
+1012bad80	Sync: could not post the stuck-sync notification: 
+1012badc0	cotypist-pre-sync-
+1012bade0	Sync: wrote a pre-sync backup to 
+1012bae10	Sync: skipping the pre-sync backup, the database is 
+1012bae50	Sync: could not write the pre-sync backup: 
+1012bae80	WHEN NOT EXISTS (SELECT 1 FROM sync_suppress)
+1012baeb0	EXISTS (SELECT 1 FROM sync_tombstones WHERE record_type = '
+1012baef0	' AND record_id = NEW.id)
+1012baf10	CREATE TRIGGER IF NOT EXISTS sync_user_inputs_insert_tombstoned\nAFTER INSERT ON user_inputs\nWHEN NOT EXISTS (SELECT 1 FROM sync_suppress) AND 
+1012bafa0	\nBEGIN\n\tDELETE FROM user_inputs WHERE id = NEW.id;\nEND
+1012bafe0	CREATE TRIGGER IF NOT EXISTS 
+1012bb000	sync_user_inputs_insert
+1012bb020	\nAFTER INSERT ON user_inputs\nWHEN NOT EXISTS (SELECT 1 FROM sync_suppress) AND NOT 
+1012bb080	\nBEGIN\n\tINSERT INTO sync_dirty(record_type, record_id, changed_at)\n\tVALUES ('
+1012bb0d0	(julianday('now') - 2440587.5) * 86400.0
+1012bb100	)\n\tON CONFLICT(record_type, record_id) DO UPDATE SET changed_at = excluded.changed_at;\nEND
+1012bb160	CREATE TRIGGER IF NOT EXISTS sync_user_inputs_update\nAFTER UPDATE ON user_inputs\n
+1012bb1c0	CREATE TRIGGER IF NOT EXISTS sync_user_inputs_delete\nAFTER DELETE ON user_inputs\n
+1012bb220	\nBEGIN\n\tINSERT INTO sync_tombstones(record_type, record_id, deleted_at)\n\tVALUES ('
+1012bb280	)\n\tON CONFLICT(record_type, record_id) DO UPDATE SET deleted_at = excluded.deleted_at, pushed_at = NULL;\n\tDELETE FROM sync_dirty WHERE record_type = '
+1012bb320	' AND record_id = OLD.id;\nEND
+1012bb340	sync_recycle_bin
+1012bb360	user_inputs_on_originDeviceID
+1012bb380	app_bundle_identifier
+1012bb3a0	ck_system_fields
+1012bb3c0	Syncing has been stuck for a while. Open Cotypist’s Labs settings for details.
+1012bb420	Sync notification body: unspecified persistent error.
+1012bb460	A different iCloud account is signed in, so syncing has stopped.
+1012bb4b0	Sync notification body: account mismatch.
+1012bb4e0	Another Mac removed the synced data from iCloud. Nothing on this Mac was deleted.
+1012bb540	Sync notification body: cloud data removed elsewhere.
+1012bb580	Your iCloud storage is full, so your writing hasn’t been backed up for a while.
+1012bb5e0	Sync notification body: iCloud storage full.
+1012bb610	Sync notification body: no iCloud account.
+1012bb640	consecutiveCycles
+1012bb660	_02_rendered.png
+1012bb680	Side-by-side comparison: 
+1012bb6a0	Dark mode (inverted): 
+1012bb6c0	Confidence (1 - RMSE): 
+1012bb6e0	R² (coefficient of determination): 
+1012bb710	Total Sum of Squares (SS_tot): 
+1012bb730	Root Mean Squared Error (RMSE): 
+1012bb760	Mean Squared Error (MSE): 
+1012bb780	Sum of Squared Errors (SSE): 
+1012bb7a0	Normalized rendered: 
+1012bb7c0	Rendered column: 
+1012bb7e0	AppDelegate.whatsNew
+1012bb800	AppDelegate.initialOnboarding
+1012bb820	Cotypist Started With an Empty History
+1012bb850	Alert title shown when the recorded-writing database could not be opened.
+1012bb8a0	Cotypist could not open the file that holds your recorded writing, most likely because the key that unlocks it is no longer in your keychain. Your old file was kept as “%@” in case that key turns up.\n\nIf you have iCloud sync switched on, Cotypist will restore your recorded writing from iCloud automatically.
+1012bb9e0	Alert body shown when the recorded-writing database could not be opened. %@ is a file name.
+1012bba40	Alert dismiss button.
+1012bba60	Alert button revealing the preserved database file.
+1012bbaa0	0 0 700 600 0 0 1000 700
+1012bbac0	NSWindow Frame SUUpdateAlert
+1012bbae0	NSWindow Frame SUUpdateAlert2
+1012bbb00	AppDelegate.onboardingStarted
+1012bbb20	intelligencecont
+1012bbb31	MASShortcut_MASShortcut
+1012bbb49	%@.bundle
+1012bbb53	SwiftPMResourcesAccessor
+1012bbb6c	unable to find bundle named %@
+1012bbb8b	KeyCode
+1012bbb93	ModifierFlags
+1012bbba1	%@%@
+1012bbba6	F1
+1012bbba9	F2
+1012bbbac	F3
+1012bbbaf	F4
+1012bbbb2	F5
+1012bbbb5	F6
+1012bbbb8	F7
+1012bbbbb	F8
+1012bbbbe	F9
+1012bbbc1	F10
+1012bbbc5	F11
+1012bbbc9	F12
+1012bbbcd	F13
+1012bbbd1	F14
+1012bbbd5	F15
+1012bbbd9	F16
+1012bbbdd	F17
+1012bbbe1	F18
+1012bbbe5	F19
+1012bbbe9	F20
+1012bbbed	Space

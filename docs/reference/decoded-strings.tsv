@@ -1,0 +1,1711 @@
+# decoder_fn_address	decoded string (Cotypist build 85, statically decoded; vendor tokens/paths redacted)
+100014b24	completionsDisabled
+100014f08	midLineCompletionsDisabled
+10001540c	autocorrectDisabled
+10001595c	tabShortcutsDisabled
+100015eac	smartQuotesDisabled
+100016290	textMirroringEnabled
+1000167cc	ignoreSizeThresholds
+100016ba8	codeEditorCompletionsEnabled
+100017100	emojiCompletionsDisabled
+1000174d4	emojiSearchDisabled
+1000178b8	requiresNonBreakingSpaceWorkaround
+100017cc8	requiresSpaceKeyEventWorkaround
+1000181bc	requiresPasteAndMatchStyleWorkaround
+1000185c4	requiresBackspaceRightAfterPaste
+100018b0c	stringInjectionChunkSize
+100019040	fontSizeAdjustmentFactor
+10001940c	verticalAlignmentOffset
+1000197f8	greySuggestionColorEnabled
+100019d58	needsEnhancedUserInterface
+10001a250	proxyEditorSupportDisabled
+10001a79c	onlyAdmissibleRoles
+10001abc0	onlyAdmissibleRolesActivateEagerly
+10001b134	trainingDataCollectionDisabled
+10001b520	customInstructions
+100023664	AppOverridesMigrator_completed
+100023a58	CompletionManager_excludedApplications
+100023e60	CompletionManager_applicationsWithTabShortcutsDisabled
+100024434	CompletionManager_applicationsInadmissibleForSmartQuotes
+100024a60	CompletionManager_applicationsAdmissibleForTextMirroring
+100025098	TrainingDataCollector_applicationsWithCollectionDisabled
+1000256c4	EmojiCompletionSupport_applicationsInadmissibleForEmojiCompletions
+100025c98	EmojiCompletionSupport_applicationsInadmissibleForEmojiSearch
+1000262cc	CompletionAccessibilityMonitor_applicationsIgnoringSizeThresholds
+100026794	CompletionInserter_applicationsRequiringNonBreakingSpaceWorkaround
+100026dd4	CompletionInserter_applicationsRequiringSpaceKeyEventWorkaround
+100027298	CompletionInserter_applicationsRequiringPasteAndMatchStyleWorkaround
+100027870	CompletionInserter_applicationsRequiringBackspaceRightAfterPaste
+100027d3c	CompletionManager_applicationsNeedingEnhancedUserInterface
+100028200	CompletionInserter_stringInjectionChunkSizes
+1000288a4	CursorAttributes_fontSizeAdjustmentFactors
+100028f40	CursorAttributes_verticalAlignmentOffsetOverrides
+100045a54	BBEditAttributeCustomizer_preferencesParserDisabled
+10004bef4	TUISupport_questionInputEnabled
+100057738	CursorAttributes_thresholdForImplausibleCursorWidth_textMarkerRange
+100057cbc	CursorAttributes_thresholdForImplausibleCursorWidth_regularRange
+10005823c	CursorAttributes_debugEnabled
+100058c08	Previous output of the AI coding agent:
+100059358	Extraction aborted in %@: malformed selectedTextRange (loc %ld len %ld)
+100059930	Previous output of the AI coding agent:
+10005acc8	Value extraction aborted in %@: range (loc %ld len %ld) outside value of %ld
+10005b308	Range extraction aborted in %@: range (loc %ld len %ld) outside %ld chars
+10005bc8c	docs-editor-container
+10005c090	docs-editor
+10005c5d8	kix-appview
+10005c9c8	kix-appview-editor-container
+10005cddc	kix-appview-editor
+10005d1e0	kix-appview-clipped-ui-elements-container
+10005d894	kix-cursor
+10005dddc	kix-current-user-cursor-caret
+10006c384	native-edit-context
+10006f150	Aptos
+10006f50c	Open Sans
+10006f8d0	Inter
+10006fc84	Source Sans 3
+100070058	Lato
+10007041c	Calibri
+100073a28	~/Library/Application Support/orca/orca-runtime.json
+100074dcc	terminal.list
+100075190	includeVisualLayouts
+100075ba4	visualLayouts
+100076618	root
+100076f3c	activeTabId
+10007730c	tabs
+1000779b8	tabId
+100077ee4	panes
+1000785c8	tabs
+100078a94	active
+100078e5c	handle
+100079374	first
+10007988c	second
+100079c54	terminal.read
+10007a124	terminal
+10007a63c	screen
+10007ab68	terminal
+10007b078	source
+10007b548	screen
+10007ba18	tail
+10007bdd0	draft
+10007c7d8	id
+10007cc94	authToken
+10007d1c8	method
+10007d6e0	params
+10007daa8	ok
+10007de64	result
+10007e22c	pid
+10007e750	authToken
+10007ec24	transports
+10007eff4	kind
+10007f514	unix
+10007f8c4	endpoint
+10007fc78	_keepalive
+10008578c	TUISupport_terminalCompletionMode
+100085d84	TUISupport_debugEnabled
+100089244	TUISupport_axCaretCursorEnabled
+100089654	TUISupport_optimisticCursorEnabled
+100089b00	TUISupport_confirmIntervalMs
+10008a120	TUISupport_confirmOnTrailingChange
+10008e3e0	TUISupport_multiLineNormalizationMode
+10008f6c0	TUISupport_multiplexerPanesEnabled
+10008fbdc	TUISupport_multiplexerFocusedPaneSelectionEnabled
+10009021c	TUISupport_multiplexerStackedPaneSelectionEnabled
+100093de8	TUISupport_cursorAmbiguityRetryDelayMs
+100097808	xterm-helper-textarea
+100097d0c	xterm-screen
+1000980f4	xterm-accessibility
+1000985f8	xterm-accessibility-tree
+100098c98	com.stablyai.orca
+100099d34	Try "
+10009a0f4	Try “
+10009a624	Ask Codex to do anything
+10009aaf0	Ask a follow-up question
+1000a0044	AutocorrectSupport_filterByLocaleLanguages
+1000a0784	AutocorrectSupport_displayStyle
+1000a0c2c	AutocorrectSupport_renderingMode
+1000a118c	AutocorrectSupport_strikethroughLineWidth
+1000a1848	AutocorrectSupport_showContinuationAsSuggestion
+1000a20cc	AutocorrectSupport_minLogprobDelta
+1000a24e8	AutocorrectSupport_requireContextFreeMisspelling
+1000a2d18	AutocorrectSupport_suppressCompletionsOnSuspectedTypo
+1000a3464	AutocorrectSupport_displayAutocorrectFixes
+1000a3c94	AutocorrectSupport_runOnSentenceEnd
+1000a8610	AutocorrectSupport_debugEnabled
+1000ad500	CompletionManager_focusedElementPollingInterval
+1000adcc0	CompletionManager_disableNotificationBasedAutomaticActivation
+1000ae2b4	CompletionManager_vsCodeForksActivateAnywhere
+1000aea14	CompletionAccessibilityMonitor_debugEnabled
+1000af14c	CompletionManager_automaticCompletionCharacterThreshold
+1000af6b4	CompletionManager_automaticCompletionTextFieldHeightThreshold
+1000afd84	CompletionManager_automaticCompletionTextFieldAreaThreshold
+1000b02e4	CompletionManager_automaticCompletionTextFieldWidthThreshold
+1000b083c	CompletionManager_automaticCompletionCharacterThresholdUponWhichToIgnoreSizeThresholds
+1000b9a50	focus lost
+1000ba59c	focus moved to a different element
+1000bab0c	browser tab on another domain
+1000bcba4	focus moved to another text field
+1000bf8d0	app launched
+1000c4668	CompletionAccessibilityMonitor_enhancedUIBlockedApps
+1000c4b30	Monitoring gate closed (integrity check); not attaching to any app
+1000c4ffc	app switch
+1000c5524	Observing app %@
+1000c6ffc	Focused element changed in %@ (role %@)
+1000c7d68	Rewrote the accessibility flags of %@ (%@, reported %@)
+1000c8244	no focused element
+1000c8614	no cursor rect
+1000c8b48	off
+1000c8f0c	on
+1000cb8f8	aislash-editor-input
+1000cbdec	ui-prompt-input-editor__input
+1000cc344	composer-editor
+1000cc714	ck-content
+1000ccbe8	ck-editor__editable
+1000ccfc4	composer-editor
+1000cd394	ck-content
+1000cd864	ck-editor__editable
+1000cdc4c	native-edit-context
+1000ce028	native-edit-context
+1000ce570	cursor-text
+1000cf090	workbench.panel.chat
+1000cf5e0	workbench.parts.sessions
+1000cf9a4	workbench.panel.chat
+1000cfe98	workbench.parts.sessions
+1000d0374	windsurf.cascadePanel
+1000d0a08	WEB_BROWSER_ADDRESS_AND_SEARCH_FIELD
+1000d1418	Mail.toField
+1000d17e8	Mail.ccField
+1000d1d1c	Mail.bccField
+1000d21fc	Mail.replyToField
+1000d2820	save-panel
+1000d2bf4	open-panel
+1000d2fd0	OmniboxViewViews
+1000d3d58	suggest-widget
+1000d4150	workbench.parts.editor
+1000d46bc	native-edit-context
+1000d4bb0	inputarea
+1000d4f80	monaco-mouse-cursor-text
+1000d5ec4	focused element changed
+1000d640c	Watching field for input in %@ (role %@)
+1000db890	Force-activation waited for the accessibility tree of %@; ready %ld after %.1f s
+1000e1ca4	completions turned off
+1000e2188	monitoring parked: daily cap
+1000e257c	monitoring parked: battery
+1000e2bac	completions turned off
+1000e3210	persistent-editor-content
+100105298	CompletionManager_pasteboardPasteDelay
+1001057a4	CompletionManager_pasteboardRestoreDelay
+100109d24	Insertion dispatched nothing for %@ (completion len %ld)
+10010aadc	CompletionInserter_defaultStringInjectionChunkSize
+10010b140	CompletionInserter_delayBetweenChunks
+10010b6c4	CompletionInserter_keyEventsAfterPasteDelay
+10010d3b0	CompletionManager_maxCompletionLength
+10010d8b0	CompletionManager_wordAlternativesMode
+10010ded4	CompletionManager_wordAlternativesPauseDelay
+10010e574	CompletionManager_wordAlternativesIncludeMainOption
+10010ea54	CompletionManager_wordAlternativesSearchWidth
+10010f274	CompletionManager_wordAlternativesMaxCompletionTokens
+10010f8cc	CompletionManager_acceptNextWordOnly_includeTrailingSpaceIfAvailable
+10010fe78	CompletionManager_trailingPunctuationMode
+100110514	CompletionManager_acceptNextWordOnly_includeTrailingPunctuation
+1001109e4	CompletionManager_forceTrailingSpaceOnConvergenceTrim
+100110eb8	CompletionManager_acceptNextWordOnly_stopAtCaseChange
+100111398	CompletionManager_acceptNextWordOnly_cjkPerCharacter
+1001119ec	CompletionManager_acceptNextWordOnly_cjkGrouped
+100112264	CompletionManager_acceptNextWordOnly_backgroundRecomputeMaxRemainingWords
+100112860	CompletionManager_midLineRequireRecentTyping
+100112f10	CompletionManager_suppressCompletionsOnRTLText
+100113814	CompletionManager_debugEnabled
+100113ed4	CompletionManager_generationManagerReleaseDelay
+100114770	CompletionManager_skipSmartQuotesIfLastNUserInputCharactersContainRegularQuotes
+100114ce0	CompletionManager_completionUpdateDebounceMs
+100115510	CompletionManager_terminalCompletionUpdateDebounceMs
+100115a74	CompletionManager_mouseClickCompletionUpdateDelayMs
+100116154	CompletionManager_googleDocsCompletionUpdateRetryDelay
+100116820	CompletionManager_googleDocsCaretPollLimit
+100116f00	CompletionManager_maxResultsToShow
+10011c830	CompletionManager_shouldRegisterOptionTabShortcutAsFallback
+10011cd04	CompletionManager_shouldUnregisterCompletionShortcutsForMostFailures
+10012f928	CompletionManager active; monitoring will begin
+10014274c	Daily completion cap reached; completions suppressed
+100145c44	Generation threw: %@
+100146184	First completion shown for %@ (prompt %ld tok, %ld beams)
+100147318	AppOverrides.EnhancedUIPossiblyHelped
+100147c48	dismissed with Escape
+100148030	CompletionManager_extendedPrefillEnabled
+100148b1c	shortcut refresh
+10015ace4	cancelledInDebounce
+10015b234	managerGone
+10015b730	assemblyAborted
+10015d250	Generation threw: %@
+10015d8f8	taskCancelled
+10015ddc8	steerYielded
+10015e304	contextChanged
+10015e840	error
+10015ec00	noResult
+10015f110	noResult
+10015f5cc	stagedEmpty
+10015f998	staged
+100166448	CompletionManager_fadeAcceptedCompletionEnabled
+100166b90	CompletionManager_acceptDisplayFallbackDelay
+100175ec0	visible suggestions hidden: %@
+10019d518	CompletionManager_insertionConfirmationTTL
+1001a0584	WordAlternatives.Accepted
+1001a0970	index
+1001a0d30	alternativeCount
+1001a1244	wasMainOption
+1001a1724	mode
+1001a1c38	bundleIdentifier
+1001a23e4	First completion accepted for %@
+1001a3650	Insertion never reached %@ (%ld insertions; AX trusted %ld, post events %ld)
+1001a5b54	PromptCoordinator_previousInputLanguageRecheck
+1001b5514	CompletionManager_detectRemoteViewHostedFields
+1001b61c8	app deactivated
+1001b6704	app hidden
+1001b6acc	window changed
+1001b7344	new field session
+1001b7838	startMonitoring aborted (active: %@, tokenizer: %@)
+1001b7e64	Field in %@ is hosted in a remote view; posting insertion events globally
+1001b8448	Field in %@ is rendered by a helper of the frontmost app; posting insertion events to that app
+1001b8ba4	Monitoring %@ (prompt %ld tok, screenshot ctx: %@)
+1001b9b80	layout change (%@)
+1001ba350	scroll wheel
+1001c6540	Speculative_useEnabled
+1001c69f4	Speculative_primarySource
+1001c6de8	cgtap
+1001c7258	Speculative_debounceMs
+1001c77c0	Speculative_runningAheadFallbackDelayMs
+1001c7cf4	Speculative_stagedAheadFallbackDelayMs
+1001c8110	Speculative_eagerHideEnabled
+1001d2418	Thesaurus_mode
+1001d2964	Thesaurus_autoRevealDelay
+1001d2ec8	Thesaurus_autoRevealMaxWordCount
+1001d33c0	Thesaurus_maxSuggestions
+1001d38fc	Thesaurus_candidateCount
+1001d3ce8	Thesaurus_maxSelectionWordCount
+1001d41f4	Thesaurus_suffixWordCount
+1001d470c	Thesaurus_scoreWholeSentence
+1001d4b14	Thesaurus_maxFragmentTokens
+1001d4f08	Thesaurus_crossLanguageEnabled
+1001d5314	Thesaurus_listProbWeight
+1001d585c	Thesaurus_fragmentTokensPerWord
+1001d5d78	Thesaurus_longSelectionWordCount
+1001d6178	Thesaurus_longSelectionCandidateCount
+1001d66fc	Thesaurus_longSelectionMaxSuggestions
+1001d6c28	Thesaurus_longSelectionScoreWeight
+1001d7158	Thesaurus_displayScoreGap
+1001d7558	Thesaurus_displayMinSuggestions
+1001d7968	Thesaurus_dropContextCopies
+1001df38c	Thesaurus.Accepted
+1001df75c	index
+1001dfc1c	suggestionCount
+1001dffe0	trigger
+1001e0510	selection
+1001e09f0	shortcut
+1001e0d88	mode
+1001e1148	bundleIdentifier
+1001e7bb0	CompletionManager_prefixExpansionLimit
+1001e8134	CompletionManager_expansionLimit
+1001e8d00	CompletionTrace_enabled
+1001e90f8	CompletionTrace_consoleEnabled
+1001e96b4	app.cotypist.Cotypist
+1001e9a98	CP
+1001ea078	CompletionTrace_flowEnabled
+100206218	Display Pipeline (Recent Apps)
+100206624	Display Pipeline (Last 7 Days)
+100206a34	Screens
+100206e18	OverlayStats_dailyAppCounts
+10020722c	%@: last gate check %@; session %@
+100207758	decision %@
+100207b48	cursor %@ (%@)
+100207f2c	field %@
+100208450	app window %@
+100208998	origin correction %.0f,%.0f
+100208f04	extraction %@
+1002092ec	mirror mode
+100209834	paint %@
+100209d10	overlay %@
+10020a104	last hides %@
+10020a4e0	insertion %@
+10020a9e0	result %@
+10020adbc	last failed insertion %@
+10020b1a8	AX %@
+10020b588	%@: %@
+10020b954	%@ %ld
+10020c1b4	decided
+10020c700	suppressed
+10020caec	not painted
+10020cfdc	misplaced
+10020d3b8	accepted
+10020d780	AX refused
+10020db78	%@ (%@ ago)
+10020e0cc	%ld s
+10020e4b4	%ld min
+10020e9f0	%ld h
+10020edc4	%ld d
+10020f1a0	none
+10020f6d4	yes
+10020fbc0	no
+100210100	started
+1002104d0	on no screen
+1002109d0	on screen, app window unknown
+100210de4	on screen, in the app window
+1002111fc	outside the app window
+1002115f8	allowed
+100211ae0	off on battery
+100211fd0	off globally
+10021252c	off for this app or site
+100212904	temporarily off
+100212e04	shown
+1002131dc	inactive
+1002135a4	no context
+100213b00	no cursor rect
+100213ef0	field may not show
+1002143f8	daily cap
+1002147dc	painted
+100214bbc	cursor on no screen
+100214fb8	cursor outside window
+1002153bc	superseded
+1002157ac	unsafe cursor rect
+100215d14	unsafe window frame
+100216110	no window
+100216668	panel not placed
+100216a44	text mirror only
+100216f8c	hybrid
+1002174d4	marker
+100217a1c	value
+100217dfc	range
+1002182ec	terminal page
+1002187ec	xterm screen
+100218be0	unknown
+10021912c	%@ %@
+10021961c	string injection
+1002199f8	paste
+100219edc	key events, then paste
+10021a444	key events
+10021a834	to the app
+10021ac10	through the HID tap
+10021b01c	nothing sent
+10021b51c	%@ (Accessibility trusted %@, event posting allowed %@)
+10021bb74	landed
+10021c0b8	nothing landed
+10021c4b0	text differed
+10021c9a4	text unreadable
+10021ceec	unresolved
+10021d440	refused
+100221658	EmojiCompletionSupport_useFilteredEmojiSearch
+100221d0c	EmojiCompletion_triggerCharacter
+1002221bc	EmojiCompletion_winkTriggerCharacter
+100222730	EmojiCompletion_winkTriggerEnabled
+100222b4c	EmojiCompletion_emoticonsEnabled
+100223098	EmojiCompletion_heartEmoticonsEnabled
+100223618	EmojiCompletion_listPickerForSearch
+100223b34	EmojiCompletion_listPickerWithoutSearch
+1002240bc	EmojiCompletion_shortcutsEnabled
+100224fac	Emoji shortcode pattern failed to compile
+1002257dc	Emoji shortcode trie not available
+10022afd0	Failed to load emoji resource: 
+10022c8ec	Failed to load emoji gender variants: 
+10022d18c	Emoji shortcode data not available
+100230d8c	EmojiCompletion_enabled
+100231390	EmojiCompletion_preferredSkinTone
+10023183c	EmojiCompletion_includeVanillaVariants
+100231e60	EmojiCompletion_preferredGender
+10023d708	PromptCoordinator_midLineSplitLayout
+10023dc38	PromptCoordinator_midLineSplitAllCycles
+10023e168	PromptCoordinator_midLineNearBeforeTokenBudget
+10023e988	PromptCoordinator_maxNearAfterCursorTokens
+10023f13c	PromptCoordinator_debugEnabled
+10023f6f0	.!?\n
+10023fbbc	(^|\\n)\\s*-\\s?$
+10023ff88	PromptCoordinator_maxPromptLengthEstimate
+10024dfc4	I am typing the text at the end on my Mac. Additional context; some of it could be irrelevant:\n\n
+10024e4b4	\n\nWhat comes next:\n
+10024ea24	\n\nMy text so far, up to the part I am currently typing:\n
+10024ef0c	\n\nWhat comes right after the part I am currently typing:\n
+10024f50c	\n\nText visible on screen around where I am typing:\n
+10024f9fc	\n\nRecent examples of my writing:\n
+10024ff90	\n\n
+100250588	\n\nClipboard contents:\n
+100250c04	Today is 
+100250fd8	. The current time is 
+1002513c4	Operating system languages and locales: 
+1002517b8	My name: 
+100251b88	Active app: 
+100252068	Window title: 
+100252424	Domain: 
+10025293c	Context in which I am typing (e.g. domain/contact/channel/document): 
+100252e58	Here is the entire text I am typing:\n
+1002533ec	Here is the part of the text I am currently typing:\n
+100253984	PromptCoordinator_previousUserInputFetchSize
+1002541c4	PromptCoordinator_previousUserInputMinimumCharacters
+100254724	PromptCoordinator_previousUserInputLongestCount
+100254dd4	PromptCoordinator_previousUserInputMostRecentCount
+100255354	PromptCoordinator_previousUserInputAcrossAppsRecentCount
+1002558b8	PromptCoordinator_previousUserInputTokenBudget
+100256068	PromptCoordinator_useSameAppOnly
+1002564d4	PromptCoordinator_tokenTruncationPreferredUtilization
+1002569bc	PromptCoordinator_maxScreenshotTokens
+10025707c	PromptCoordinator_filterSingleWordLinesInScreenshot
+100257704	PromptCoordinator_scaffoldingMarker
+100257b14	PromptCoordinator_maxEnvironmentContextTokens
+100258268	PromptCoordinator_terminalEnvironmentContextTakesScreenshotBudget
+1002587f0	PromptCoordinator_maxPasteboardTokens
+100258c84	PromptCoordinator_maxInputBeforeCursorTokens
+1002593ac	PromptCoordinator_maxInputAfterCursorTokens
+100259a60	PromptCoordinator_tokenBudgetRedistributionStepSize
+10025a1ec	PromptCoordinator_maxCustomInstructionsReserveTokens
+10025a8bc	PromptCoordinator_contextDateRoundingToNearestSeconds
+10025af54	My writing:\n\n
+10025b320	The part of my writing I am currently typing:\n\n
+10025efbc	.,;:!?"'()[]{}«»-/~–—…“”‘’
+10025fc84	English
+10026003c	German
+1002603fc	French
+100260920	Spanish
+100260cec	Italian
+100261208	Portuguese
+100261744	Dutch
+100261c7c	"'([{«»“”‘’
+1002623c8	not 
+100262884	":;()[]{}<>=_
+100262cc0	.!?…,;:
+10026f928	CompletionManager_shouldPostPasteEventsGlobally_override
+10026ff94	TypingEvents_sendEventsGlobally
+100270758	TypingEvents_sendEventsGloballyForApps
+1002710a8	TypingEvents_pasteChunksStartingOutsideBMP
+100279ea4	TextFieldSnapshot_debugEnabled
+10027d200	TrainingDataCollector_enabled
+10027d610	TrainingDataCollector_includePreviousUserInputsInPrompt_v2
+10027dc5c	TrainingDataCollector_storeInputsWithoutAcceptedCompletions
+10027e29c	TrainingDataCollector_storeScreenshotsInUserInputRecords
+10027e77c	TrainingDataCollector_skipPrivateBrowsingWindows
+10027efa8	TrainingDataCollector_dropContainerCaptures
+10027f804	PromptCoordinator_previousInputLanguagePolicy
+10028001c	TrainingDataCollector_cleanTerminalCaptures
+10028083c	TrainingDataCollector_suppressNearDuplicateCaptures
+100280d28	PromptCoordinator_rankExamplesByContentLength
+100281468	PromptCoordinator_previousInputFolderWindowDays
+100281d18	TrainingDataCollector_screenshotStorageFormat
+100282740	TrainingDataCollector_snapshotRetentionWindow
+100282e6c	TrainingDataCollector_maxRecentSnapshots
+100283460	TrainingDataCollector_minimumStorageCharacterLength
+1002986d4	DatabaseManager_databaseFolderOverride
+10029cf6c	EEEE, MMMM d, yyyy
+10029f9d4	BritishEnglishSubstitutionMode
+1002a8fa4	NSAutomaticQuoteSubstitutionEnabled
+1002a95ac	NSUserQuotesArray
+1002aeb78	AXWebArea
+1002aef50	AXWebApplication
+1002af420	AXLanguage
+1002af914	AXUserInputLabels
+1002afd00	AXEnhancedUserInterface
+1002b00f8	AXManualAccessibility
+1002b0600	AXDOMIdentifier
+1002b0b4c	AXDOMClassList
+1002b1040	AXSelectedTextMarkerRange
+1002b1558	AXTextInputMarkedRange
+1002b1aec	AXIndexForTextMarker
+1002b204c	AXUIElementForTextMarker
+1002b253c	AXTextMarkerRangeForUIElement
+1002b2a54	AXTextMarkerForPosition
+1002b2e4c	AXPreviousTextMarkerForTextMarker
+1002b33d4	AXNextTextMarkerForTextMarker
+1002b3934	AXPreviousLineStartTextMarkerForTextMarker
+1002b3fe8	AXNextLineEndTextMarkerForTextMarker
+1002b4514	AXPreviousParagraphStartTextMarkerForTextMarker
+1002b4bcc	AXStringForTextMarkerRange
+1002b4fc8	AXLengthForTextMarkerRange
+1002b5534	AXAttributedStringForTextMarkerRange
+1002b5948	AXBoundsForTextMarkerRange
+1002b5ea8	AXTextMarkerDebugDescription
+1002b63f4	AXTextMarkerNodeDebugDescription
+1002b99f0	docs-a11y-aria-enable
+1002ba5b8	AXObserverCreate failed for pid %d (%ld notifications)
+1002bb6d4	AnalyticsManager_firstLaunchAt
+1002bbc18	PaywallWindowController_paywallShownCount
+1002bc43c	AnalyticsManager_currentOSVersion
+1002bc974	AnalyticsManager_osVersionLastChangedAt
+1002bcdf4	AnalyticsManager_lastSentLoadedModulesHash
+1002bd4b0	AnalyticsManager_lastSentSeamOriginHash
+1002bd970	AnalyticsManager_analyticsDisabled
+1002c6488	loadedModulesHash
+1002c6858	seamOriginHash
+1002c6c14	seamAnomalyCount
+1002c70d0	modules
+1002c75a4	modulesHash
+1002c7968	moduleCount
+1002c7e90	bundle_loc
+1002c83c4	seams
+1002c8778	seamsHash
+1002c8c48	seamCount
+1002c9018	Metrics.DispatchProfiled
+1002c9548	seam_dev
+1002e85b4	CotypistAnalyticsAdapter_eventAgeThreshold
+1002e8e3c	CotypistAnalyticsAdapter_eventCountThreshold
+1002e956c	CotypistAnalyticsAdapter_initialUploadDelay
+1002e9dac	CotypistAnalyticsAdapter_uploadTimerInterval
+1002ea648	CotypistAnalyticsAdapter_warmUpDuration
+1002eaa64	CotypistAnalyticsAdapter_steadyUploadInterval
+1002eb194	CotypistAnalyticsAdapter_uploadBackoffBaseInterval
+1002eb834	CotypistAnalyticsAdapter_uploadBackoffMaxInterval
+1002ebf30	CotypistAnalyticsAdapter_analyticsURL
+1002ec34c	https://web.cotypist.app/api/licensing/analytics
+1002ecd0c	CotypistAnalytics
+1002efe08	CotypistAnalyticsAdapter.MistypedAttribute
+1002f0910	v
+1002f0cbc	tier
+1002f11d0	LayoutCache_revision
+1002f16c4	Metrics_lastResyncStamp
+1002f1aa8	Preferences_domainEpoch
+1002f1f9c	off_builds
+1002f236c	LayoutCache_revision
+1002f2758	Metrics_lastResyncStamp
+1002f2b38	Preferences_domainEpoch
+1002f2f1c	FeatureFlags_syncGeneration
+1002f3420	Diagnostics_rolloutBucket
+1002f3914	FeatureFlags_syncGeneration
+1002f3e6c	Diagnostics_rolloutBucket
+1002ffdb8	Retention_heartbeatIntervalSeconds
+100301088	tapCountsByApp
+100301558	zombieTapCountsByApp
+100301a4c	threshold
+100301e14	offendingAppCount
+1003023e8	installDate
+100302924	timezone
+100302e28	timezoneOffsetSeconds
+100303204	bundleID
+10030371c	appVersion
+100303c50	buildNumber
+100304184	deviceModel
+100304664	architecture
+100304a2c	osVersion
+100304f0c	osMajorVersionNumber
+1003052e8	accessibilityAvailable
+1003057dc	screenRecordingAvailable
+100305bac	trainingDataCollectionEnabled
+1003060a4	includePreviousUserInputsInPrompt
+1003065b0	statusItemVisible
+100306b00	personalizationStrength
+100306ee4	appLanguage
+1003072b4	osLanguage
+100307788	modelIdentifier
+100307c5c	modelQuantization
+1003081ac	modelFullyQualifiedName
+1003086a0	usesNonRecommendedModel
+100308a8c	modelSizeMB
+100308f60	memSize
+100309324	isSetappInstalled
+10030980c	licensingTier
+100309bdc	licensingInTrial
+10030a0f0	licensingDaysSinceFirstLaunch
+10030a4dc	cpuGeneration
+10030a898	cpuVariant
+10030ad78	completionCount30dLog
+10030b2c8	wordCount30dLog
+10030b6a0	wordCountAboveThreshold30dLog
+10030bba4	characterCount30dLog
+10030bf90	avgWordsPerActiveDay30dLog
+10030c484	medianWordsPerActiveDay30dLog
+10030c864	completionCount30dRounded
+10030cd58	wordCount30dRounded
+10030d24c	wordCountAboveThreshold30dRounded
+10030d654	characterCount30dRounded
+10030db20	avgWordsPerActiveDay30dRounded
+10030e080	medianWordsPerActiveDay30dRounded
+10030e5f4	activeDayCount30d
+100311fbc	SentryAdapter_lastCrash
+100312834	https://f24595956f9320e6c1eb0e8a69f6c7b8@o4507169858387968.ingest.de.sentry.io/4507707899314256
+100312e60	Sentry_appHangTimeoutInterval
+1003135e8	build_rev
+10031ffc8	Deserialization failed: %@
+10032471c	Appearance_opacity_suggestionOverlay
+100324ccc	Appearance.fonts.sizeOffset
+10032691c	BatteryPowerManager_disableAutoActivation
+100327058	BatteryPowerManager_modelOverrideName
+1003275d8	BatteryPowerManager_shorterCompletions
+10033c228	cotypist-usi-gcm-v1
+10033e874	Maintenance_windowUntil
+10033edc0	app.cotypist.maintenance
+1003414bc	+%08.3f %@ %@
+100341a18	==== previous session ====
+100341f0c	==== %@ %@/%@ | %@ | %@ | %d MB | started %@ ====
+100342518	<hex-redacted>
+100342d14	app.cotypist.Cotypist
+1003430e4	~/Library/Application Support/app.cotypist.Cotypist
+10034371c	dump.bin
+100345b60	app.cotypist.diagnostics.submit
+100346ac0	Host
+100346e68	Content-Length
+10034739c	Connection
+1003478c4	close
+100347c84	HTTP/1.1
+100348038	Transfer-Encoding
+100348418	chunked
+1003487d4	Content-Length
+100348d0c	HTTP/
+10034eeb0	EventTapLeak_warnThreshold
+10034f2c4	EventTapLeak_supportThreshold
+1003612e8	Logging_logLevel
+10036179c	Logging_debugFilterRegex
+1003621cc	Logging_fileTeeDirectory
+10036a9c4	Memory_mallocPressureReliefMode
+10036ade0	COTYPIST_MALLOC_PRESSURE_RELIEF
+1003709b0	SelectedInputSource_wordComposingInputMethods
+10037104c	com.nyttastudio.inputmethod.Araso
+100376634	CompletionManager_userPrompt
+100376b90	dump.bin
+1003770a4	runtime.bin
+100377478	Edition
+10037783c	Arm A Triggered
+100377d64	Arm B Triggered
+1003782d4	Trial Start Date
+100378688	Trial End Date
+100378bbc	Subscription
+100378f90	Seat UUID
+100379360	Device GUID
+100379724	Sparkle Feed URL
+100379acc	Sparkle Feed URL (Shipped)
+100379ec8	Completion Stats (Last 30 Days, Above Threshold): Words Total
+10037a4f0	Completion Stats (Last 30 Days, Above Threshold): Words Short
+10037aad0	Completion Stats (Last 30 Days, Above Threshold): Words Long
+10037b0a4	Completion Stats (Last 30 Days, Total): Words
+10037b740	Completion Stats (Last 30 Days, Total): Characters
+10037bd24	Completion Stats (Last 30 Days): Active Days
+10037c3c4	Completion Stats (Last 30 Days): Avg Words Per Active Day
+10037c888	Completion Stats (Today, Total): Words
+10037cd94	Free Tier Daily Word Cap Reached Today
+10037d190	Free Tier Daily Words Used Today
+10037d6d8	Free Tier Daily Word Cap
+10037dba4	Selected Model
+10037e078	Selected Adapter
+10037e438	Model Changes
+10037e96c	Last Model Load
+10037eea4	Last Model Load
+10037f378	never
+10037fba8	Model Files in Directory
+100380084	Diagnostics
+100380454	App Overrides
+100380828	Event Tap Counts
+100380bec	Secure Input Incidents
+100380fd8	Secure Input Totals by Holder
+100381524	Secure Input Active Now
+100381a08	Shortcuts
+10038a3c8	osVersionNumber
+10038a7a0	osMajorVersionNumber
+10038acdc	osBuildNumber
+10038b1ac	deviceModel
+10038b578	timezoneOffset
+10038ba58	darkModeEnabled
+10038be14	locale
+10038c1dc	localeFirstPart
+10038c5ac	localeSecondPart
+10038c964	appLanguage
+10038cd28	osLanguage
+10038d0f4	osLanguageFirstPart
+10038d4d8	osLanguageSecondPart
+10038d8c4	physicalMemory
+10038dc88	physicalMemoryMB
+10038e030	memSize
+10038e3f4	cpuBrandString
+10038e7c8	cpuType
+10038eb78	cpuArchitecture
+10038ef40	shortVersion
+10038f310	bundleVersion
+10038f7e4	modelIdentifier
+10038fcb4	modelQuantization
+100390084	modelFullyQualifiedName
+100390470	modelSizeMB
+100390840	cpuGeneration
+100390c18	cpuVariant
+100390fe8	cpuFullName
+1003913b8	accessibilityAvailable
+100391788	screenRecordingAvailable
+100391b58	availableDiskSpaceGB
+100391f3c	screenScale
+100392314	screenDimensions
+1003927e0	screenWidth
+100392cb0	screenHeight
+100393078	binarySigningAgeDays
+1003935c8	codeSignatureTeamID
+100393aac	signingCertName
+100393e7c	userPromptLength
+100394348	trainingDataCollectionEnabled
+10039484c	includePreviousUserInputsInPrompt
+100394c40	storeInputsWithoutAcceptedCompletions
+100395048	ngramBoosterAlpha
+10039552c	personalizationStrength
+10039590c	ngramBoosterEnabled
+100395cf8	maxCompletionLength
+1003961e0	includeTrailingSpaceInWordCompletions
+1003965e8	includeTrailingPunctuationInWordCompletions
+100396ddc	trailingPunctuationMode
+1003972c0	completionsEnabledByDefault
+1003976ac	midLineCompletionsEnabledByDefault
+100397c18	wordAlternativesMode
+100398168	wordAlternativesPauseDelay
+1003986c4	thesaurusMode
+100398a98	thesaurusAutoRevealDelay
+100398f74	suppressCompletionsOnSuspectedTypo
+10039937c	displayAutocorrectFixes
+100399760	escapeBehavior
+100399c34	usesNonRecommendedModel
+10039a184	selectedModelFullyQualifiedName
+10039a6d0	recommendedModelFullyQualifiedName
+10039abdc	selectedModelAdapter
+10039afc0	launchAtLoginEnabled
+10039b510	macOSInlinePredictionEnabled
+10039b8f8	screenshotContextEnabled
+10039be1c	verticalAlignmentEnabled
+10039c2ec	pasteboardContextEnabled
+10039c6b8	emojiCompletionEnabled
+10039ca9c	emojiPreferredSkinTone
+10039cf80	emojiIncludeVanillaVariants
+10039d4d8	emojiPreferredGender
+10039da14	emojiShortcutsEnabled
+10039df64	cloudSyncEnabled
+10039e430	icloudEntitlementAvailable
+10039e824	batteryDisableAutoActivation
+10039ed1c	batteryShorterCompletions
+10039f118	batteryModelOverrideName
+10039f4ec	updateChannel
+10039f8bc	statusItemVisible
+10039fda0	accessoryButtonsEnabled
+1003a018c	shouldShowCompletedWordCountInMenuBar
+1003a06ec	shortTemporaryDisableDurationSeconds
+1003a0bf8	longTemporaryDisableDurationSeconds
+1003a1000	trainingDataRecordCount
+1003a14f4	fullCompletionShortcut
+1003a19e8	partialCompletionShortcut
+1003a1edc	fullCompletionAlternateShortcut
+1003a2434	partialCompletionAlternateShortcut
+1003a29a8	forceEnableShortcut
+1003a2e9c	temporaryToggleShortcut
+1003a33ec	toggleGloballyShortcut
+1003a3934	revealWordAlternativesShortcut
+1003a3e28	keyboardIdentifier
+1003a420c	keyboardLayoutType
+1003a45f0	keyboardType
+1003a4ac0	keyAboveTabKeyCode
+1003a4e98	keyAboveTabCharacter
+1003a5284	KeyCode
+1003a57ac	ModifierFlags
+1003a5b84	String
+1003a6054	appLifetimeShortcutWasRepaired
+1003b1160	Updates_channel
+1003dcc60	PromptCoordinator_uiHintMode
+1003f3068	DailyCap_capReportedDayBucket
+1003f357c	DailyCap_capReportPendingDayBucket
+1004314e8	PromptCoordinator_legacyCacheUpdated
+100431a04	PromptCoordinator_cacheActivation
+100437720	purchase_context
+10043b654	Invalid signature.
+100449db8	Paywall.Requested
+10044a320	Paywall.Shown
+10044a714	Paywall.Dismissed
+10044ab1c	Paywall.SubscribeClicked
+10044b018	Paywall.BillingPeriodChanged
+10044b530	Paywall.FooterLink
+10044b934	Notice.Shown
+10044be88	Notice.Action
+10044c388	Notice.Dismissed
+10044c864	tier
+10044cd40	inTrial
+10044d11c	daysSinceFirstLaunch
+10044d684	source
+10044dbcc	suggestedTier
+10044dfa8	preselectedTier
+10044e504	scheduled
+10044ea60	firing
+10044efac	trialExtensionOffered
+10044f3b8	hasPaidSubscription
+10044f7b8	reason
+10044fd00	timeSpentSeconds
+1004500e0	recurrence
+1004504c8	routedToManage
+1004508b4	to
+100450d9c	link
+100451278	notice
+100451644	variant
+100451b2c	action
+100451f04	planOrder
+10049056c	com.apple.screenIsUnlocked
+100490b90	kCGSSessionOnConsoleKey
+1004910d8	CGSSessionScreenIsLocked
+1004a4104	GenerationManager_kvSplicingEnabled
+1004a4504	GenerationManager_parkedSequencesEnabled
+1004a48ec	PromptCoordinator_maxScreenshotTokens
+1004a4e04	PromptCoordinator_tokenBudgetRedistributionStepSize
+1004a52d8	PromptCoordinator_sectionOrder
+1004a5838	PromptCoordinator_midLineSplitLayout
+1004a5c48	Llama_fastTokenize
+1004a7f00	ServerFlags_cachedPayload
+1004a846c	ServerFlags_debugPayload
+1004a8afc	oversized
+1004a9030	malformed
+1004a956c	unknownVersion
+1004a9940	v
+1004a9e5c	rev
+1004aa318	revInvalid
+1004aa6e0	revTooLong
+1004aaab8	flagsInvalid
+1004aaf8c	flags
+1004ab348	defaults
+1004ab6fc	duplicateKey
+1004abad4	badName
+1004abe98	notAnObject
+1004ac268	badAssigned
+1004ac79c	assigned
+1004accb0	cohort
+1004ad1d8	master
+1004ad598	missingDefaults
+1004ad96c	defaults
+1004add04	tooManyKeys
+1004ae0cc	badCohort
+1004ae4a0	missingMaster
+1004ae970	masterNotInDefaults
+1004aee64	keyNotAllowed
+1004af234	badValue
+1004af744	UpgradeEligibility.ServerFlags.PayloadRejected
+1004afde8	reason
+1004b019c	flag
+1004b0668	reason
+1004b0b38	key
+1004b0efc	UpgradeEligibility.ServerFlags.FlagRejected
+1004b75c4	PromptCoordinator_uiHintRefreshTrigger
+1004dfeb4	key
+1004e0370	clientGuid
+1004e0748	value
+1004e0c18	key
+1004e10d8	registrationState
+1004e14a8	value
+1004e19c0	key
+1004e1ee8	tier
+1004e23b4	value
+1004e28e0	key
+1004e2d9c	subscriptionSeatUUID
+1004e3178	value
+1005309d8	PromptCoordinator_oneShotFlag
+100530ef0	PromptCoordinator_deferredFlag
+100541f60	PromptCoordinator_eligibilityFlag
+1005423c4	tier
+1005428d8	source
+1005450c4	PromptCoordinator_featureFlagSet
+100556660	certificates
+1005718c0	soft
+100571c84	hard
+100572140	both
+100572aac	https://models.cotypist.ai/deny.json
+100572eb4	GET
+100574280	devIdIf
+1005747a8	devIdSrc
+100574c54	devIdLAA
+100575000	devIdLegacyEq
+1005753bc	DeviceIdentity.Changed
+100575a34	prevId
+100575de0	prevIf
+1005762b0	prevSrc
+10057667c	prevLAA
+100576a40	devIdIf
+100576f04	devIdSrc
+1005773c0	devIdLAA
+10057787c	prevIdIsNewLegacy
+100577dcc	legacyIdChanged
+1005781bc	AnalyticsManager_lastDeviceIdentitySnapshot
+10063b290	ModuleInventory_contentDigestCache
+10063b7c8	https://web.cotypist.app/api/licensing/uploadSymbols
+10063bdb8	ModuleInventory_uploadEndpoint
+10063f62c	POST
+10063fb4c	Content-Type
+10063ff08	application/octet-stream
+1006407b0	b
+100640c6c	ack
+10064112c	tier
+1006414e0	latch
+100641a28	RenderCache_generation
+100641e04	Telemetry_lastFlushStamp
+1006421d4	Session_warmupEpoch
+1006425a4	RenderCache_generation
+100642af4	Telemetry_lastFlushStamp
+100642eb4	Session_warmupEpoch
+1006433a8	FeatureFlags_syncGeneration
+100643794	Diagnostics_rolloutBucket
+100643b88	frida
+100643f50	gadget
+100644308	.config
+1006446cc	interaction
+100644a90	path
+100644e50	path
+1006637fc	
+100663cb4	1
+100664060	Client-Context
+100664448	https://models.cotypist.app/compat
+100664acc	CompatReport_endpoint
+100665870	HEAD
+100665d3c	POST
+100666260	Content-Type
+100666628	text/plain
+10067c080	https://web.cotypist.app/
+10067c684	HEAD
+10067ca38	HEAD
+10067ddfc	LayoutCache_revision
+10067e1e0	RenderCache_generation
+10067e7a0	.gguf
+100716f5c	system
+100717314	app
+1007176bc	other
+100731208	unknown
+100746230	bin
+100748384	Llama_fastTokenize
+100748978	Fast tokenizer refused this vocabulary: %@
+100749000	tokenizer model is not gemma4
+100749560	vocabulary sets add_eos
+10074994c	Fast tokenizer discarded its cached tables and rebuilt
+100749f44	empty USER_DEFINED token %ld
+10074a448	cannot read the merges array
+10074a9a4	merge entry %ld has no separator
+10074ad84	merge %ld operand or result is not a vocabulary piece
+10074b250	a boundary guard contains whitespace
+10074b768	a boundary guard has an empty post
+10074bcc8	the serialized tables did not parse back
+10074c668	self-probe diverged on %ld-byte input (addBos %@: expected %ld tokens, got %ld)
+100764594	fte
+100774a58	Llama_ubatchOverride
+100774e48	GenerationManager_transitionExpansionLimit
+1007754fc	GenerationManager_kvSplicingEnabled
+100775914	GenerationManager_kvSplicingMinExtraTokens
+100775fd0	GenerationManager_diffTilingEnabled
+1007765f4	GenerationManager_userTextRelocation
+100776b80	CompletionTrace_parkedContentEnabled
+100776fa4	CompletionTrace_parkedDumpEnabled
+100777564	emptyPrompt
+100777a44	maxBatchSizeExceeded
+100777e14	llamaDecodeFailed
+100778350	completionWidthExceedsMaximum
+10077889c	prefixWidthExceedsMaximum
+100778dc4	GenerationManager_debugEnabled
+10077ab78	GenerationManager_maxPrefixLength
+10077af7c	GenerationManager_threadCount
+10077b3e8	Inference engine ready (ctx %u, batch %u)
+100793a78	Llama_GGML_METAL_NO_RESIDENCY
+100793fec	Llama_GGML_METAL_TENSOR_DISABLE
+100794580	Llama_GGML_METAL_RESIDENCY_KEEP_ALIVE_S
+100794b3c	Llama_environmentOverrides
+100795088	Refusing disallowed llama env override: %@
+100795d08	Logging_llamaFilterVerbose
+10079cb9c	KoZIhvcNAQkE
+10079d0f8	MDEwDQYJYIZIAWUDBAIBBQAEIA==
+10079f2f0	MainApp_lastCheckpointAt
+1007a6d84	Model %@ not allowed for tier %@; refusing to load
+1007a7258	Failed to load model from %@
+1007a77b8	Model loaded: %@ (%llu params, %llu MB resident)
+1007a7e5c	Model integrity validation rejected %@: %@
+1007a85f8	Failed to load adapter from %@
+1007d0b50	InputBuffer_personalizationStrengthV2
+1007d105c	InputBuffer_smoothingFactorOverride
+1007d147c	InputBuffer_minSamples
+1007d1868	InputBuffer_selectivityOverride
+1007d1ddc	InputBuffer_selectivitySteepnessOverride
+1007d2288	InputBuffer_lengthBoostFactorOverride
+1007d28b0	InputBuffer_sourceIdentifier
+1007d2dbc	InputBuffer_debugLevel
+1007d3f80	profile.bin
+1007df80c	GenerationManager_parkedSequencesEnabled
+1007dfd7c	GenerationManager_parkedSequenceCount
+1007e0304	GenerationManager_parkedMaxDivergence
+1007e0834	GenerationManager_parkedMaxGenerationAge
+1007e0d40	LogitCache_maxPinnedEntries
+1007e12b0	LogitCache_maxStaleEntries
+1007e7d58	LogitCache_debugEnabled
+1007ed9a8	TokenizationCache_maxCacheSize
+1007edf40	TokenizationCache_evictionCount
+1007f35e4	Tokenizer_minimumTextLengthForCaching
+1007f3ffc	Failed to tokenize input (length %ld); tokenCount: %ld, nMaxTokens: %ld
+1007f44d8	Failed to detokenize tokens; check: %ld, expectedSize: %ld
+10080cba0	TokenSampler_shouldDemoteInvalidUTF8Tokens
+10080d258	TokenSampler_shouldDemoteProblematicInvisibleCharacterTokens
+10080d850	TokenSampler_shouldDemoteScaffoldingMarkerTokens
+10080df0c	Llama_fastSampler
+10080e7d8	TokenSampler_includeSpaceOnlyTokenInPrefixSearch
+100814a38	TokenSequence_lengthPenaltyScalingFactor
+100814f9c	TokenSequence_lengthPenaltyExponent
+100818ba0	Cache.SegmentShare
+100818f84	sequences
+10081935c	sharedLength
+100819894	tokensSaved
+100819dc8	tokensDecoded
+10081a298	sequencesUpdated
+10081dbac	vtc
+100821a88	qwen3
+100821e48	gemma3
+1008221f4	gemma4
+1008226b4	ministral3
+100822a84	smolLM3
+100822f58	phi4
+10082347c	llama3
+100823994	other
+1008301c8	ModelRepository_selectedModel
+1008305e4	ModelRepository_selectedAdapter
+100830a00	ModelRepository_selectedModelLastChangedAt
+1008310b0	ModelRepository_selectedModelChangeHistory
+100831edc	ModelRepository_modelDirectoryOverride
+1008323bc	ModelRepository_debugEnabled
+100832964	~/Library/Application Support/app.cotypist.Cotypist/Models
+100832fa0	extras
+1008335cc	extras
+100833994	~/Library/Caches/app.cotypist.Cotypist/extras
+10083424c	tokenizer
+10083d9e4	CompletionManager init failed (model %@, available: %@, binaryAgeDays: %ld)
+100840aec	~/Library/Caches/app.cotypist.Cotypist/Models
+10084125c	adapters
+100841608	extras
+100841b20	ngram-booster.bin
+100841f10	InputBuffer_profileCachesMigrationDone
+100842304	extras
+1008426bc	profile.bin
+100848400	ModelRepository_shouldShowCompletedWordCountInMenuBar
+1008489ec	ModelRepository_statusItemVisible
+100848f1c	ModelRepository_shortTemporaryDisableDurationSeconds
+100849400	ModelRepository_longTemporaryDisableDurationSeconds
+1008499fc	ModelRepository_statusItemUseAltIcon
+10084eb8c	ModelRepository_disableCompletionsDurationOptions
+10084fb2c	AppDelegate.doNotCheckForUpdatesWhenContactingSupport
+100856ef0	ModelRepository_shouldUseSystemPromptForQwen
+1008579ac	ModelRepository_shouldDisableThinkingForQwen30
+10085c704	ModelRepository_listObsoleteModels
+10085cb0c	ModelRepository_listExtraModels
+10086bdb4	AccessibilityOnboardingController
+10086d568	AutocompleteOnboardingController
+100871604	CompletionManager_userPrompt
+100871c38	CustomPromptOnboardingController
+1008729b0	Please use British English (with -ise spellings) spelling and punctuation.
+100874ae0	userPromptLength
+100875f84	InlinePredictionDisableController
+10087ba74	ModelSetupOnboardingController
+10087beb0	needsDownload
+10087c3d8	downloading
+10087c914	downloaded
+10087efcc	selectedModelFullyQualifiedName
+10087fc68	NewsletterOnboardingController
+1008838ac	OnboardingProgress
+100883cb0	completedOnboardingControllers
+10088e114	RecommendedModelUpdateController
+10088e7dc	needsAction
+10088ed14	downloading
+10088f1e4	actionCompleted
+1008915dc	ScreenRecordingOnboardingController
+100896bc4	popoverAnimationsEnabled
+100899abc	lastLaunchedVersion
+10089a1ec	lastLaunchedShortVersion
+10089a5c4	updateInstallDates
+10089a9cc	whatsNewScreenPresentations
+10089c0b4	AccessoryButtonsViewController_enabled
+10089c4c0	AccessoryButtonsViewController_useAltIcon
+1008a0b10	CompletionOverlay_backdropStyle
+1008a101c	CompletionOverlay_backdropBlurRadius
+1008a143c	CompletionOverlay_backdropTintOpacity
+1008ac400	CompletionOverlayManager_horizontalOffsetForCursorPosition
+1008ac8dc	CompletionOverlayManager_horizontalOffsetForPreviousCharacter
+1008acdbc	CompletionOverlayManager_secondarySuggestionsHorizontalOffsetForCursorPosition
+1008ad29c	CompletionOverlayManager_secondarySuggestionsHorizontalOffsetForPreviousCharacter
+1008ad8e4	CompletionOverlayManager_inlineSuggestionsHorizontalOffsetForCursorPosition
+1008addd8	CompletionOverlayManager_inlineSuggestionsHorizontalOffsetForPreviousCharacter
+1008ae4c8	CompletionOverlayManager_overlayWindowLevel
+1008aeda0	CompletionOverlayManager_maxHeadIndent
+1008af22c	CompletionOverlayManager_maxTailIndent
+1008af838	CompletionOverlayManager_maxParagraphIndentShareOfWidth
+1008afd94	CompletionOverlayManager_textMirrorPositionBelow
+1008b1fec	GoogleDocsEnableAccessibilityViewController_dontShowAgain
+1008b24b0	In order for Cotypist to show suggestions in Google Docs, please enable its Accessibility support.
+1008b2a98	\n\nWe also recommend disabling the Smart Compose suggestions built into Google Docs.
+1008b30d8	Enable Accessibility in Google Docs
+1008b3f9c	Automatic activation failed
+1008b44f4	Please try enabling screen reader and braille support manually in Google Docs' "Tools > Accessibility" menu.
+1008b62f8	InlineSuggestionsList_useMonospacedFont
+1008b6714	InlineSuggestionsList_useForMixedBiDi
+1008b6c98	InlineSuggestionsList_useWhenGhostHasNoRoom
+1008b7344	InlineSuggestionsList_useForAllRTL
+1008b7b24	InlineSuggestionsList_pillForRTLBundleIdentifiers
+1008b8168	InlineSuggestionsList_maxFontSize
+1008b86ec	InlineSuggestionsList_forceLegacyAppearance
+1008b8f04	InlineSuggestionsList_useGlassOnMacOS27
+1008b9310	InlineSuggestionsList_surfaceTintAlpha
+1008be974	SingleCompletionOverlayViewController_tokenColoringMode
+1008beee0	SingleCompletionOverlayViewController_suggestionDefaultColorWhiteOverride
+1008c1e8c	SmartInsertWarning_dontShowAgain
+1008c2268	If completions contain unwanted spaces, try disabling "Smart Copy/Paste" or "Smart Insert/Delete" in the current app's "Edit ▸ Substitutions" menu.
+1008c32a0	Smart Insert/Delete
+1008c37ec	Smart Copy/Paste
+1008c3ce4	smartInsertDelete:
+1008c40d0	smartCopyPaste:
+1008c45f8	smart_copy/paste
+1008c49bc	smart_insert/delete
+1008c5288	Could not find menu item
+1008c564c	the corresponding app
+1008c5b98	Automatic disable failed
+1008c60c8	the corresponding app
+1008c6750	Please go back to %@, then try disabling "Smart Copy/Paste" or "Smart Insert/Delete" (or similar) manually in the app's "Edit ▸ Substitutions" menu.
+1008c6d94	\n\nIf you are using Obsidian's "Linter" plugin, try also disabling its "remove-leading-or-trailing-whitespace-on-paste" rule.
+1008c72fc	SmartInsertWarningViewController_disableSmartInsert
+1008c7a5c	SuggestionColor_polarityOverrideEnabled
+1008c7e88	SuggestionColor_darkModeAlphaBoost
+1008c83ac	SuggestionColor_minimumContrastLuminance
+1008cd770	TextMirrorOverlay_maxDisplayLines
+1008cdb7c	TextMirrorOverlay_enabled
+1008ce098	TextMirrorOverlay_hideInfoMessage
+1008d03ec	TextMirrorView_cursorBlinkInterval
+1008d088c	TextMirrorView_cursorWidth
+1008d2e5c	WordAlternativesList_maxFontSize
+1008d3260	WordAlternativesList_panelTintAlpha
+1008d37fc	WordAlternativesList_dimmedInkAlpha
+1008d3d2c	EmojiCompletion_listPickerEmojiFontSize
+1008d414c	EmojiCompletion_listPickerNameFontSize
+1008d4558	EmojiCompletion_listPickerBadgeSize
+1008d4a18	EmojiCompletion_listPickerMaxNameLength
+1008eef48	Maintenance_suppressRelaunch
+1008ef5fc	startDiagnostics
+1008efb24	StartDiagnosticsURLCommand.handle
+1008f0128	Help us investigate this issue?
+1008f0524	Cotypist will restart and record diagnostics for the next 10 minutes. After it restarts, please reproduce the problem — for example, type where completions don’t appear — then send us a support request from the Cotypist menu.
+1008f0b78	Restart Now
+1008f104c	Cancel
+1008f150c	Relaunch suppressed by preference; capture resumes on next manual launch
+1008f19e4	P=$1; i=0; while /bin/kill -0 $P 2>/dev/null && [ $i -lt 40 ]; do /bin/sleep 0.2; i=$((i+1)); done; /bin/kill -0 $P 2>/dev/null && /bin/kill $P; i=0; while /bin/kill -0 $P 2>/dev/null && [ $i -lt 20 ]; do /bin/sleep 0.2; i=$((i+1)); done; /bin/kill -0 $P 2>/dev/null && /bin/kill -9 $P; /bin/sleep 0.5; /usr/bin/open "$2"
+1008f1fe8	/bin/sh
+1008f2398	-c
+1008f28a8	cotypist
+1008f3d28	BritishEnglishSubstitutionMode
+1008f422c	CompletionManager_acceptFullCompletionShortcutAlternate
+1008f46f4	CompletionManager_acceptNextWordOnly_includeTrailingSpaceIfAvailable
+1008f4bb0	CompletionManager_acceptPartialCompletionShortcutAlternate
+1008f5084	CompletionManager_maxCompletionLength
+1008f548c	CompletionManager_suppressCompletionsOnRTLText
+1008f5b28	CompletionManager_vsCodeForksActivateAnywhere
+1008f62c4	CompletionManager_wordAlternativesPauseDelay
+1008f6958	CompletionOverlayManager_overlayWindowLevel
+1008f7160	EmojiCompletion_listPickerBadgeSize
+1008f7568	EmojiCompletion_listPickerEmojiFontSize
+1008f7a70	EmojiCompletion_listPickerNameFontSize
+1008f7f78	EmojiCompletion_triggerCharacter
+1008f8344	ModelRepository_disableCompletionsDurationOptions
+1008f8820	Speculative_useEnabled
+1008f8bfc	TypingEvents_sendEventsGloballyForApps
+1008f9114	Llama_GGML_METAL_NO_RESIDENCY
+1008f9500	Llama_GGML_METAL_RESIDENCY_KEEP_ALIVE_S
+1008f9a08	Llama_GGML_METAL_TENSOR_DISABLE
+1008f9f64	Memory_mallocPressureReliefMode
+1008fa67c	CotypistAnalyticsAdapter_analyticsURL
+1008fabf0	ModuleInventory_uploadEndpoint
+1008fafec	CompatReport_endpoint
+1008fb4d0	SUFeedURL
+1008fb8a0	ServerFlags_debugPayload
+1008fbc6c	DatabaseManager_databaseFolderOverride
+1008fc184	Logging_fileTeeDirectory
+1008fc650	ModelRepository_modelDirectoryOverride
+100913e68	TextFieldContextCapture_screenshotContextEnabled
+1009145b0	TextFieldContextCapture_screenshotCaptureMode
+100914cf4	TextFieldContextCapture_screenshotOCRScope
+1009154ac	TextFieldContextCapture_screenshotOCRTimeout
+100915bf8	TextFieldContextCapture_screenshotOCRMaxConcurrent
+1009161e8	TextFieldContextCapture_ocrDropsLowValueObservations
+100916840	TextFieldContextCapture_ocrJoinsAdjacentObservations
+100916e3c	TextFieldContextCapture_ocrRejoinsWrappedLines
+1009177a8	TextFieldContextCapture_screenshotExcludedBundleIdentifiers
+100917d80	TextFieldContextCapture_pasteboardContextEnabled
+100918494	TextFieldContextCapture_pasteboardMaxAgeSeconds
+100918cac	TextFieldContextCapture_debugEnabled
+1009190c4	TextFieldContextCapture_dumpCroppedImage
+1009194c4	TextFieldContextCapture_usesLanguageCorrection
+100919b74	TextFieldContextCapture_maskTextFieldInScreenshots
+10091a16c	TextFieldContextCapture_grayscaleOCR
+10091a708	TextFieldContextCapture_ocrMaxLongEdge
+10091ab38	kCGWindowOwnerPID
+10091b094	kCGWindowIsOnscreen
+10091b498	kCGWindowNumber
+10091b88c	kCGWindowBounds
+10091bc80	kCGWindowName
+10091c3d8	aboveTextField
+10091c90c	fullWindow
+10091d088	No focused UI element (manual %ld); system-wide = role %@/%@ id %@/%@
+10091ff7c	screenshot_full_window_legacy
+100920364	screenshot_full_window_screencapturekit
+100920764	screenshot_space_above
+100920bbc	Screen capture: window not found in shareable content (screen-recording permission?)
+1009211a4	Screen capture failed: %@
+100921674	ScreenshotOCR.ConcurrencyLimitReached
+100922d1c	OCR failed: %@
+100939ad8	cotypist-internal://troubleshooting-feedback
+10093ac0c	AppOverrides.EnhancedUIFeedbackOpened
+1009416fc	App-only settings (Tab Key, Smart Quotes, Text Mirroring, Size Thresholds, Display) are not available for domain overrides.
+100941be8	App-only settings are not available for the global default. Configure them on individual apps instead.
+1009420d8	Applies to all apps and domains unless specifically overridden
+1009425c0	Has built-in overrides
+100942b2c	Remove Custom Overrides…
+100942f40	Remove Custom Overrides?
+100943484	Cancel
+100943850	Remove
+100943c10	This will remove your custom overrides for %@. Built-in overrides will still apply.
+1009441e8	This will remove %@ and all its overrides from the list.
+100944834	Completions
+100944c18	Enable completions
+100945188	Complete inside existing text
+1009456f4	Enable autocorrect
+100945af8	Offer a correction when the word you're typing might contain a typo. Covers only the current word (not a substitute for a full spell-checker!) and may occasionally miss or misjudge a typo.
+100946108	Complete in code editors
+100946604	Disable rich-text editor support
+100946b5c	Activate eagerly in these field types
+100946f78	Suggest from the first word in fields that match the list above, without waiting for the field to look like one for writing. Mail clients use it for the message body.
+10094746c	Disable Tab key
+100947864	Disable using the Tab key to accept completions. Enable this for apps where Tab has important native functionality, such as indenting text or switching between form fields.
+100947ecc	Disable smart quotes
+1009482bc	Prevent automatic smart quote substitution.
+100948978	Enable text mirroring
+100948e8c	Use a text mirror overlay for cursor positioning.
+100949490	Ignore size thresholds
+1009499fc	Activate completions even in small text fields.
+10094a098	When disabled, completions are turned off in this %@. Useful for apps with their own autocomplete (e.g. IDEs), password managers, or apps where completions aren't needed.
+10094a67c	Show completions even when there is text after the cursor on the same line, not only at the end of an unfinished line. Disable if completions interfere with existing text in this %@.
+10094ab48	Also show completions in %@'s code editors, for example when writing LaTeX or Markdown, not only in its AI chat inputs. The editors need the app's screen reader mode, which Cotypist turns on and the app shows in its status bar.
+10094b02c	Turn off the handling for editors that focus a hidden input (e.g. CodeMirror). Enable if suggestions in this %@ appear in the wrong place or read the wrong text since that handling was added.
+10094b52c	Only complete in these field types
+10094bac0	Completes only in fields with these accessibility roles, such as AXTextArea, AXWebArea. Mail clients use it to keep completions out of To and Subject; "none" lifts a built-in restriction.
+10094bfb4	Enter roles that can get completions, such as AXTextArea
+10094c49c	Any field type
+10094c99c	Emoji
+10094ce7c	Disable emoji completions
+10094d394	Fully disable emoji picker and search.
+10094d7bc	Disable emoji search
+10094dbac	Disable emoji search but allow the emoji picker.
+10094e3e8	Appearance
+10094e7d4	Use grey suggestion color
+10094ed4c	Show suggestions in a neutral grey instead of a translucent shade of the app's own text color. Enable for apps or sites that report an unreliable text color, which can make suggestions hard to read.
+10094f360	Insertion Workarounds
+10094f8c8	Non-breaking space workaround
+10094fe44	Use non-breaking space for leading spaces when pasting.
+100950490	Space key event workaround
+1009509a4	Send a space key event instead of pasting leading spaces.
+100950ff8	Paste and Match Style
+10095150c	Use "Paste and Match Style" instead of regular paste.
+100951a04	Backspace after paste
+100951e04	Send a Backspace key event immediately after pasting.
+1009522f4	String injection chunk size
+100952874	Override the chunk size for string injection (0=paste, 1=char-by-char, >1=chunk size, -1=first word only).
+100952ed8	Display
+1009533cc	Font size adjustment
+1009537bc	Scaling factor for font size in overlay positioning.
+100953e14	Vertical alignment offset
+100954230	Vertical pixel offset for overlay positioning.
+1009548e4	Troubleshooting
+100954cd4	Improve compatibility with this app
+1009550dc	If completions don't appear in this app — or only appear sometimes — try turning this on. Most apps don't need it; a few do. Either way, please [let us know](%@) whether this helped, so we can improve Cotypist for everyone.
+1009555c8	App: %@\nBundle ID: %@\n\nDid turning on "Improve Compatibility With This App" make completions work? Please describe what you saw, either way — your feedback helps us decide which apps to support by default.\n\n
+100955aac	Compatibility feedback for %@
+100955eb4	Custom Instructions
+100956400	Additional instructions for the AI when completing text in this %@. For example, you can specify a preferred language, writing style, or domain-specific terminology. These supplement the custom instructions from the Personalization settings.
+100956a70	Typing History
+100956f64	Record your writing for personalization
+1009574d0	Record what you type in this %@ so future suggestions can adapt to your writing style. All recorded text is encrypted and stored locally on your Mac — nothing is sent to external servers unless you switch on the end-to-end encrypted iCloud sync (in Cotypist Labs settings).
+1009579e0	Default (on)
+100957f34	Default (off)
+100958310	On
+1009586e4	Off
+100958ab4	Override
+100962970	Applies to all apps and domains
+100962e64	Completions off
+1009633a0	Only at the end of a line
+1009638fc	Autocorrect off
+100963ccc	Tab key off
+100964088	Completes in code editors
+10096457c	Writing not recorded
+100964ab8	Custom instructions
+100964fa0	Custom settings
+100965474	Built-in settings
+10096595c	Same as default
+10096847c	Apps
+100968858	Add App…
+100968d58	Add an app to give it its own settings.
+1009692d8	Domains
+1009696b4	Add Domain…
+100969aa4	Add a website to give it its own settings in any browser.
+10096a0e0	No Results for “%@”
+10096a4d0	Add Domain
+10096a8ac	example.com or *.example.com
+10096adc0	Use a plain host (example.com) or a wildcard (*.example.com, example.*).
+10096b2b0	Use *.example.com to apply to all subdomains.
+100974d18	AppOverrides.EnhancedUIEnabled
+100975e1c	AppOverrides_showAllSettings
+10097622c	AppOverrides_showDefaultEntry
+100978694	Typing History
+10097d420	Nothing recorded
+10097d8ec	%@ from 1 app
+10097dcc0	%@ from %ld apps
+10097e1e8	%@ recorded text
+10097e710	%@ recorded texts
+10097eb00	Cotypist records what you type in the fields where it suggests text, so its completions match your own words and phrases.
+10097f160	Recording is off in [Personalization settings](cotypist://showPreferencePane/personalization). Cotypist keeps the texts it recorded before until you delete them.
+10097f654	All recorded texts
+10097fbb0	Apps
+1009800f0	Domains
+1009804d4	Texts typed on a website also count toward the browser they were typed in.
+100980acc	Delete All Recorded Texts
+100980ed4	Delete Recorded Texts?
+1009812e0	Error Deleting Recorded Texts
+1009816d4	This will permanently delete all %@ recorded texts. This action cannot be undone.
+100981bb0	This will permanently delete all %@ recorded texts, including from iCloud and your other synced Macs. This action cannot be undone.
+100982074	This will permanently delete all %@ texts recorded for %@. This action cannot be undone.
+100982544	This will permanently delete all %@ texts recorded for %@, including from iCloud and your other synced Macs. This action cannot be undone.
+100982b30	Failed to delete recorded texts: %@
+1009d3fb4	SettingsWindow_selectedPane
+1009dfa98	NSAutomaticInlinePredictionEnabled
+100a03e2c	SecureInput_incidentRecordingEnabled
+100a04254	SecureInput_incidents
+100a04768	SecureInput_holderTotals
+100a07c44	startedAt
+100a08144	lastSeenAt
+100a08644	affectedDisplayUpdates
+100a08a50	reportedHolderName
+100a08f64	attributionIsTrustworthy
+100a09350	victimApps
+100a09840	additionalVictimAppCount
+100a09c20	keyGlyphs
+100a0a018	holder
+100a0a3e4	affectedDisplayUpdates
+100a0a7f0	incidentCount
+100a0abdc	firstSeenAt
+100a0afcc	lastSeenAt
+100a0f004	ShortcutListener_escapeBehavior
+100a0f614	ShortcutListener_escapeSnoozeDurationSeconds
+100a0fe34	ShortcutListener_captureEscapeOnlyWhileSuggestionShown
+100a1048c	ShortcutListener_appLifetimeShortcutRepairDone
+100a10c50	ShortcutListener_appLifetimeShortcutWasRepaired
+100a11410	CompletionManager_acceptFullCompletionShortcut
+100a11ad0	CompletionManager_acceptPartialCompletionShortcut
+100a11fc4	CompletionManager_acceptFullCompletionShortcutAlternate
+100a124ac	CompletionManager_acceptPartialCompletionShortcutAlternate
+100a12990	ShortcutListener_forceEnableShortcut
+100a12ec8	ShortcutListener_temporaryToggleCompletionsShortcut
+100a133c0	ShortcutListener_toggleCompletionsGloballyShortcut
+100a138bc	ShortcutListener_revealWordAlternativesShortcut
+100a13f78	ShortcutListener_thesaurusShortcut
+100a191d4	ModelRepository_cancelShortcutModifierFlags
+100a1f390	CompletionStatsRepository_lastUploadDateString
+100a23a40	completionCountLog
+100a23e18	wordCountTotalLog
+100a241fc	wordCountAboveLengthThresholdLog
+100a245c8	characterCountLog
+100a24abc	completionCountRounded
+100a2500c	wordCountTotalRounded
+100a254f0	wordCountAboveLengthThresholdRounded
+100a25a50	characterCountRounded
+100a25e3c	activeDayCount
+100a2631c	averageWordsPerActiveDayRounded
+100a26810	medianWordsPerActiveDayRounded
+100a26bfc	shortCompletionCountRounded
+100a26ff0	shortWordCountTotalRounded
+100a27548	shortWordCountAboveLengthThresholdRounded
+100a27d50	shortCharacterCountRounded
+100a28254	longCompletionCountRounded
+100a2874c	longWordCountTotalRounded
+100a28b40	longWordCountAboveLengthThresholdRounded
+100a28f3c	longCharacterCountRounded
+100a29440	modelFullyQualifiedName
+100a29924	modelAdapter
+100a29cf4	date
+100a2a0b0	completionCountLog
+100a2a498	wordCountTotalLog
+100a2a878	wordCountAboveLengthThresholdLog
+100a2ad68	characterCountLog
+100a2b140	completionCountRounded
+100a2b624	wordCountTotalRounded
+100a2ba08	wordCountAboveLengthThresholdRounded
+100a2be18	characterCountRounded
+100a2c368	modelFullyQualifiedName
+100a2c74c	modelAdapter
+100a2cb20	maxMilestone
+100a341d0	fresh
+100a34690	freshMed
+100a34a30	freshLoad
+100a34f00	reuse
+100a353c0	prewarmReady
+100a35788	prewarmAdopted
+100a35b5c	keepAlive
+100a35f2c	hidden
+100a362f4	fresh
+100a3680c	freshMed
+100a36d10	freshLoad
+100a370e4	reuse
+100a375b4	prewarmReady
+100a37af0	prewarmAdopted
+100a37ec0	keepAlive
+100a383fc	hidden
+100a38a84	cached
+100a38e48	lcp
+100a3920c	splice
+100a39734	cold
+100a39c00	cached
+100a3a0c4	lcp
+100a3a474	splice
+100a3a99c	cold
+100a3e134	chip
+100a3e620	ramTier
+100a3e9f8	model
+100a3eddc	modelFamily
+100a3f2cc	adapter
+100a3f81c	booster
+100a3fbf4	boosterAlpha
+100a400f4	tier
+100a404d8	prewarm
+100a409c0	flags
+100a40ef8	arms
+100a412c0	armsPartial
+100a417c0	flagsRev
+100a41b90	serverFlags
+100a420ec	settings
+100a425c8	screenshotCtx
+100a42ab8	maxCompletionLen
+100a42e9c	personalization
+100a4339c	prevInputsBudget
+100a43780	kvSplicingMinExtra
+100a43b84	tokenBudgetStep
+100a43f74	userTextRelocation
+100a444e0	lowPowerMode
+100a49cc0	LatencyTelemetry_enabled
+100a4a524	completionCache.dat
+100a4a92c	Completion.AcceptanceDaily
+100a4d224	keyToAxMs
+100a4d77c	keyToDisplayMs
+100a4db6c	axToDisplayMs
+100a4df58	cycles
+100a4e324	unpairedCycles
+100a4e700	discardedSamples
+100a4ebdc	supersededCycles
+100a4f0b8	deferredCycles
+100a4f5a8	midLineCycles
+100a4f990	laneWaitMs
+100a4fd74	promptLoadMs
+100a502c8	beamDecodeMs
+100a50824	promptTokensTotal
+100a50c14	promptTokensDecoded
+100a51184	generatedTokens
+100a516e0	sumPromptTokensTotal
+100a51adc	sumTokensDecoded
+100a52024	sumTokensLcpWouldDecode
+100a52590	sumTokensKVReused
+100a52994	sumTokensParkedSeedSaved
+100a52d80	sumPromptLoadMs
+100a532dc	sumPromptDecodeCalls
+100a53848	sumBeamDecodeMs
+100a53c24	sumPromptLoadMsSq
+100a54128	sumBeamDecodeMsSq
+100a5452c	sumGeneratedTokens
+100a54a34	sumDecodeSteps
+100a54e24	jobs
+100a55310	sampledJobs
+100a55708	jobsCancelledBySteering
+100a55b0c	jobsCancelledPreLoad
+100a55f10	jobsCancelledPostPrefill
+100a563fc	jobsStitch
+100a568ec	sumStitchMs
+100a56de0	jobsPrewarm
+100a572e0	firstGenAfterModelLoadExcluded
+100a576f0	jobsFirstOfSession
+100a57aec	sumTokensDecodedFirstOfSession
+100a57eec	sumPromptLoadMsFirstOfSession
+100a58410	jobsWithKVReuse
+100a58904	jobsSeededFromParked
+100a58e18	sumGaps
+100a591f0	sumRelocatedTokens
+100a595fc	_first
+100a599dc	_prefill
+100a59d9c	prewarmDecodeMs
+100a5a290	readyLeadMs
+100a5a790	adoptWaitMs
+100a5ac80	realizedHeadStartMs
+100a5b1f0	sumRealizedHeadStartMs
+100a5b758	hitsAdopted
+100a5bcac	eagerHides
+100a5c1a0	hit_
+100a5c584	miss_
+100a5c968	concluded_
+100a5ceb0	activationTotalMs
+100a5d40c	activationPrologueMs
+100a5d974	screenshotCaptureMs
+100a5de7c	ocrMs
+100a5e25c	kvPrefillMs
+100a5e644	fetchUserInputsMs
+100a5ea40	timeToFirstDisplayMs
+100a5ee44	firstDisplayColdExcluded
+100a5f228	activationToFirstKeystrokeMs
+100a5f7a4	activationsWithoutKeystroke
+100a5fd24	activations
+100a6027c	modelColdLoads
+100a60674	ocrTimeouts
+100a60b74	ocrSkippedConcurrency
+100a60f64	completionTriggeredMs
+100a61354	accepts
+100a61890	acceptsNextWordOnly
+100a61da4	acceptsRapidBypass
+100a62300	acceptsMidLine
+100a62800	insertionUnconfirmedTTLPolls
+100a62c0c	displaySuppressedGate
+100a63110	displaySuppressedCap
+100a6351c	episodes
+100a63a54	acceptedEpisodes
+100a63f88	acceptsFull
+100a644d0	acceptsNextWord
+100a648c0	acceptsWordAlternative
+100a64dd4	offered
+100a651b8	loads
+100a65704	loadsWithoutFirstGen
+100a65c18	loadMs
+100a66160	modelLoadMs
+100a66660	contextLoadMs
+100a66a50	firstGenTotalMs
+100a66fac	firstGenPromptTokens
+100a673a4	offeredLogprobDeltaCentinats
+100a677ac	acceptedLogprobDeltaCentinats
+100a67d24	sumAcceptedWords
+100a6826c	sumAcceptedChars
+100a6874c	episodesTui
+100a68ca8	acceptedEpisodesTui
+100a690a0	acceptsTui
+100a695fc	sumAcceptedWordsTui
+100a69b04	sumAcceptedCharsTui
+100a6a00c	sumTypedChars
+100a6a3e8	sumTypedCharsTui
+100a6a8d4	cursorAttributesMs
+100a6ade8	tuiCursorConfirmMs
+100a6b354	tuiBackgroundConfirms
+100a6b85c	tuiAmbiguityRetries
+100a6bd64	extractions
+100a6c154	extractionFailures
+100a71198	Zx4qe1JQH+YS
+100a71678	Wauruzp9hA==
+100a7361c	k
+100a739d4	h
+100a73e9c	s
+100a74364	c
+100a74710	schemaVersion
+100a74acc	binsVersion
+100a74e94	day
+100a75254	tzOffsetMin
+100a75620	configHash
+100a75b00	envelope
+100a76d80	family
+100a77138	buckets
+100a77668	bucketOverflowCount
+100a7b6ac	kvSplicing
+100a7ba80	diffTiling
+100a7be3c	parkedSequences
+100a7c204	extendedPrefill
+100a7c5d0	midLineSplitLayout
+100a7cac4	fastTokenize
+100a7ce90	tensorAPI
+100a7d3cc	personalization
+100a7d79c	prevInputs
+100a7dc7c	customInstructions
+100a7e04c	typoSuppression
+100a7e51c	autocorrectFixes
+100a7e9e8	emoji
+100a7ed94	wordAlternatives
+100a7f13c	thesaurus
+100a7f504	pasteboardCtx
+100a7f8dc	completionsDefault
+100a7fdd0	midLineDefault
+100a802a4	autoActivation
+100a8ec60	CloudSync_enabled
+100a8f054	CloudSync_includeOCRText
+100a8f540	CloudSync_pollInterval
+100a8f944	CloudSync_uploadDebounce
+100a8fdc0	CloudSync_lastRetryVersion
+100a90324	CloudSync_notifyWhenStuck
+100a90848	CloudSync_menuWarningDelay
+100ace8a8	IOPlatformUUID
+100ae0230	UserInput
+100ae0758	SyncKey
+100ae0c80	UserInput
+100ae1154	SyncKey
+100ae9494	CursorLineAlignment_enabled
+100ae98a8	CursorLineAlignment_fontSizeSearchEnabled
+100aea0c0	CursorLineAlignment_minSizeFactor
+100aea644	CursorLineAlignment_maxSizeFactor
+100aeabdc	CursorLineAlignment_minConfidence
+100aeb170	CursorLineAlignment_minRSquared
+100aeb6f4	CursorLineAlignment_minPolarityMargin
+100aebb20	CursorLineAlignment_minPolarityContrast
+100aec098	CursorLineAlignment_useCGWindowList
+100aec61c	CursorLineAlignment_useDirectRectCapture
+100aeca20	CursorLineAlignment_debugEnabled
+100aecea0	CursorLineAlignment_debugDirectory
+100aed42c	CursorLineAlignment_screenshotPadding
+100af2ed0	CursorLineAlignment_cacheEnabled
+100af3430	CursorLineAlignment_cacheMaxAge
+100af3840	CursorLineAlignment_minTextLength
+100af3db8	CursorLineAlignment_minScreenshotWidth
+100af41c4	CursorLineAlignment_minScreenshotHeight
+100af45dc	CursorLineAlignment_minTextLengthForCaching
+100af4df4	CursorLineAlignment_minScreenshotWidthForCaching
+100af55c8	CursorLineAlignment_minConfidenceForCaching
+100af5de8	CursorLineAlignment_minRSquaredForCaching
+100af649c	CursorLineAlignment_cacheMaxEntries
+100af68a8	CursorLineAlignment_cacheTextLengthDeltaThreshold
+100af6d9c	CursorLineAlignment_maxLineLengthForCaching
+100af743c	CursorLineAlignment_polarityRefreshAge
+100b064d0	_01_screenshot.png
+100b068b4	Failed to render reference text
+100b06e10	Failed to extract screenshot column
+100b07204	Failed to extract rendered column
+100b0771c	_03_screenshot_column.png
+100b07b10	_04_rendered_column.png
+100b0805c	_05_screenshot_normalized.png
+100b08444	_06_rendered_normalized.png
+100b0883c	Failed to find alignment
+100b08c10	_07_alignment.png
+100b08fec	_08_side_by_side.png
+100b0c50c	=== Font Size Search Debug Info ===
+100b0dadc	=== Vertical Alignment Debug Info ===
+100b0e048	Column heights: screenshot=
+100b0e438	, rendered=
+100b0e970	Screenshot column: 
+100b0ee58	Normalized screenshot: 
+100b0f23c	Alignment visualization: 
+100b1378c	AppDelegate_ignoreSiriAppOpenEvents
+100b13cb4	AppDelegate_timeSinceLaunchBeforeShowingPreferencesWindow
+100b166c4	Pipeline warmup gate: not ready
+100b16ab4	Pipeline.WarmupDeferred
+100b16e98	Resources.CatalogReloaded
+100b1739c	Metrics.HostProfileSampled
+100b187c4	Session.ConfigTimeout
+100b18d0c	A newer version of Cotypist is required.
+100b19100	Please download and install the latest version to continue.
+100b1973c	Download
+100b19af0	Quit
+100b19fbc	https://cotypist.app/download/Cotypist.dmg
+100b1b02c	teamid
+100b1b3ec	MRLF43FW3G
+100b1b7a8	certificates
+100b1bb64	2.16.840.1.113741.2.1.1.1.8
+100b1c068	value
+100b1c414	label
+100b1c7cc	2.5.4.10
+100b1cb7c	value
+100b1cf34	Thought
+100b1d644	anchor apple generic and certificate leaf[subject.OU] = "MRLF43FW3G"
+100b1db18	anchor apple generic and certificate leaf[subject.OU] = "MRLF34FW3G"
+100b1e0fc	Preferences.SyncMismatch
+100b1e4c8	Cache.IndexRebuild
+100b1ea10	Profile.RevalidationScheduled
+100b1ee04	Cache.CoherencyCheck
+100b1f9c4	Pipeline not started: accessibility permission unavailable
+100b1ffec	Ignored rapp from %@
+100b204d0	Ignored oapp from %@
+100b208a8	rapp from %@
+100b20c70	oapp from %@
+100b22070	AppDelegate_skipVacuumOnQuit
+100b22568	AppDelegate_maxVacuumDelayOnQuit
+100b233a0	Database maintenance failed: %@
+100b23dd4	accessibilityAvailable
+100b242c8	screenRecordingAvailable
+100b24988	key
+100b24d3c	userInitiated
+100b25210	value
+100427524	�i��9�ee
