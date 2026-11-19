@@ -1,0 +1,11 @@
+[package]
+name = "nextype-ax"
+edition.workspace = true
+version.workspace = true
+
+[dependencies]
+nextype-core = { version = "0.1.0", path = "../core" }
+objc2-app-kit = { version = "=0.3.2", default-features = false, features = ["std", "libc", "NSRunningApplication", "NSWorkspace"] }
+objc2-application-services = "=0.3.2"
+objc2-core-foundation = "=0.3.2"
+objc2-foundation = { version = "=0.3.2", default-features = false, features = ["std", "NSString"] }
