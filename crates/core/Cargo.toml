@@ -1,0 +1,7 @@
+[package]
+name = "nextype-core"
+edition.workspace = true
+version.workspace = true
+
+[dependencies]
+regex = "1"
