@@ -69,9 +69,28 @@ impl<'m> Completer<'m> {
         self.model.vocab().tokenize(prompt.as_bytes(), true, true)
     }
 
+    /// Prompt tokens and whether to heal with `heal_start`. When the tokenizer makes the whole
+    /// partial word `heal` one token (" face"), that token is backed up and the model picks a
+    /// word starting with it. When it splits the word (" watche" → " wat" + "che"), that split is
+    /// already unnatural, so the whole word is cut and spelled piece by piece (`heal_argmax`).
+    fn heal_tokens(&self, prompt: &str, heal: &str) -> (Vec<LlamaToken>, bool) {
+        if !heal.trim().is_empty() {
+            let mut tokens = self.tokenize(&format!("{prompt}{heal}"));
+            if tokens.len() > 1 && tokens.last().is_some_and(|&t| self.pieces[t.0 as usize] == heal.as_bytes()) {
+                tokens.pop();
+                return (tokens, true);
+            }
+        }
+        (self.tokenize(prompt), false)
+    }
+
     /// Continue `prompt` greedily for up to `max_tokens`, stopping at end-of-generation or a newline.
-    /// `heal` is typed text cut from the end of the prompt: the first tokens are forced to spell it
-    /// out again (spec §9.4), so the returned text starts with `heal` unless generation stopped early.
+    /// `heal` is typed text cut from the end of the prompt (spec §9.4); the returned text starts
+    /// with it unless generation stopped early. Token healing (`heal_tokens`): when the partial
+    /// word is one token, the first generated token must start with it, so the model picks the
+    /// word itself (" face" → " face", " faces", " facebook") instead of spelling the typed
+    /// letters in pieces it would never use (" f" + "acer" + "ies"); otherwise the typed letters
+    /// are spelled piece by piece.
     /// `on_text` gets the text so far after every token; returning `false` cancels.
     pub fn complete(
         &mut self,
@@ -81,7 +100,7 @@ impl<'m> Completer<'m> {
         mut on_text: impl FnMut(&str) -> bool,
     ) -> Result<(String, Stats), Error> {
         let start = Instant::now();
-        let tokens = self.tokenize(prompt);
+        let (tokens, natural) = self.heal_tokens(prompt, heal);
         if tokens.is_empty() || tokens.len() + max_tokens > self.ctx.n_ctx() as usize {
             return Err("prompt empty or longer than the context".into());
         }
@@ -115,8 +134,9 @@ impl<'m> Completer<'m> {
         let mut pos = tokens.len();
         while stats.generated < max_tokens {
             let logits = self.ctx.get_logits_ith(logits_idx);
-            let next = match heal.as_bytes().get(out.len()..).filter(|rest| !rest.is_empty()) {
-                Some(rest) => match heal_argmax(logits, &self.pieces, rest) {
+            let heal_rest = heal.as_bytes().get(out.len()..).filter(|rest| !rest.is_empty());
+            let next = match heal_rest {
+                Some(rest) => match if natural { heal_start(logits, &self.pieces, rest) } else { heal_argmax(logits, &self.pieces, rest) } {
                     Some(t) => t,
                     None => break,
                 },
@@ -127,6 +147,9 @@ impl<'m> Completer<'m> {
             }
             if vocab.is_eog(next) {
                 break;
+            }
+            if std::env::var_os("NEXTYPE_TRACE").is_some() {
+                trace_step(logits, &self.pieces, next);
             }
             let piece = &self.pieces[next.0 as usize];
             if piece.contains(&b'\n') {
@@ -162,6 +185,31 @@ fn argmax(logits: &[f32]) -> LlamaToken {
         .enumerate()
         .fold((0, f32::NEG_INFINITY), |best, (i, &l)| if l > best.1 { (i, l) } else { best });
     LlamaToken(i as i32)
+}
+
+/// Debug (`NEXTYPE_TRACE=1`): the chosen piece and the model's top 5, with probabilities.
+fn trace_step(logits: &[f32], pieces: &[Vec<u8>], next: LlamaToken) {
+    let max = logits.iter().copied().fold(f32::NEG_INFINITY, f32::max);
+    let sum: f32 = logits.iter().map(|&l| (l - max).exp()).sum();
+    let prob = |i: usize| (logits[i] - max).exp() / sum;
+    let mut top: Vec<usize> = (0..logits.len()).collect();
+    top.select_nth_unstable_by(5, |&a, &b| logits[b].total_cmp(&logits[a]));
+    top.truncate(5);
+    top.sort_by(|&a, &b| logits[b].total_cmp(&logits[a]));
+    let show = |i: usize| format!("{:?} {:.3}", String::from_utf8_lossy(&pieces[i]), prob(i));
+    let alts: Vec<String> = top.into_iter().map(show).collect();
+    eprintln!("  chose {}  | top: {}", show(next.0 as usize), alts.join(", "));
+}
+
+/// Token healing: the most likely token whose piece starts with the backed-up piece `rest`.
+fn heal_start(logits: &[f32], pieces: &[Vec<u8>], rest: &[u8]) -> Option<LlamaToken> {
+    pieces
+        .iter()
+        .zip(logits)
+        .enumerate()
+        .filter(|(_, (p, _))| p.starts_with(rest))
+        .max_by(|a, b| a.1.1.total_cmp(b.1.1))
+        .map(|(i, _)| LlamaToken(i as i32))
 }
 
 /// Best token whose piece agrees with the typed bytes still to spell (`rest`): the piece is a
@@ -210,5 +258,14 @@ mod tests {
         assert_eq!(heal_argmax(&logits, &pieces, b" sch"), Some(LlamaToken(4)));
         assert_eq!(heal_argmax(&logits, &pieces, b"xyz"), None);
         assert_eq!(utf8_prefix("aé".as_bytes().split_last().unwrap().1), "a");
+    }
+
+    #[test]
+    fn heal_start_needs_the_whole_piece() {
+        let pieces: Vec<Vec<u8>> = [" f", " face", " faces", " facebook", "acer", " fa"].map(|p| p.as_bytes().to_vec()).into();
+        let logits = [9.0, 1.0, 2.0, 3.0, 8.0, 7.0];
+        // " f" and " fa" are shorter than the piece; "acer" doesn't start with it.
+        assert_eq!(heal_start(&logits, &pieces, b" face"), Some(LlamaToken(3)));
+        assert_eq!(heal_start(&logits, &pieces, b" xyz"), None);
     }
 }
