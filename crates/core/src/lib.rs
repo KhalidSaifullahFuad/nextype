@@ -68,10 +68,12 @@ impl FieldSnapshot {
         }
         let left = self.text_left.unwrap_or(f.x).clamp(f.x, caret.x);
         let right = f.x + f.w - (left - f.x);
-        // Too little room (or a field that hugs its text, like VS Code's line-sized editor area):
-        // wrapping would push all but a letter or two to the next line. shortcut: one unwrapped
-        // line instead; the pill list is M8.
-        (right - caret.x >= MIN_WRAP_ROOM).then_some((left, right))
+        // Little room after the caret: a field several lines tall wraps its own text the same way,
+        // so the ghost starts on the next line. A field that hugs its text (VS Code's line-sized
+        // editor area) or a caret past the edge gets one unwrapped line; the pill list is M8.
+        let room = right - caret.x;
+        let tall = f.h > 2.5 * caret.h;
+        (room >= MIN_WRAP_ROOM || tall && room >= 0.0).then_some((left, right))
     }
 }
 
@@ -114,6 +116,19 @@ pub const EXCLUDED_APPS: &[&str] = &[
     "com.outercorner.Secrets",
     "com.outercorner.osx.Secrets",
     "com.outercorner.Secrets-safari",
+    // Windows: lowercase executable names.
+    "nextype.exe",
+    "1password.exe",
+    "bitwarden.exe",
+    "keepass.exe",
+    "keepassxc.exe",
+    "dashlane.exe",
+    "lastpass.exe",
+    "nordpass.exe",
+    "enpass.exe",
+    "proton pass.exe",
+    "roboform.exe",
+    "keeperpasswordmanager.exe",
 ];
 
 /// Apps where completions start off; unlike `EXCLUDED_APPS` the user can turn them on (spec §17.2,
@@ -144,6 +159,18 @@ pub const OFF_BY_DEFAULT: &[&str] = &[
     "com.figma.Desktop",
     "com.microsoft.Excel",
     "pl.maketheweb.cleanshotx",
+    // Windows: lowercase executable names.
+    "searchhost.exe",
+    "searchapp.exe",
+    "startmenuexperiencehost.exe",
+    "powertoys.powerlauncher.exe",
+    "explorer.exe",
+    "windowsterminal.exe",
+    "cmd.exe",
+    "conhost.exe",
+    "powershell.exe",
+    "pwsh.exe",
+    "excel.exe",
 ];
 
 /// Chromium browsers: they build their full AX tree (with text positions) only after
@@ -276,18 +303,31 @@ pub fn domain_matches(key: &str, host: &str) -> bool {
 
 /// Where `ghost` starts copying `source` (a context line such as the window title): the start of
 /// the first run of `min`+ characters that also appears in `source`. Small models sometimes
-/// continue the text with a context line instead of the user's sentence.
+/// continue the text with a context line instead of the user's sentence. Ignores case: the
+/// model often lowercases the copy to match the user's text ("- Notepad" → "- notepad").
 pub fn copy_cut(ghost: &str, source: &str, min: usize) -> Option<usize> {
     if source.chars().count() < min {
         return None;
     }
+    let source = source.to_lowercase();
     let starts: Vec<usize> = ghost.char_indices().map(|(i, _)| i).chain([ghost.len()]).collect();
     (0..starts.len().saturating_sub(min)).map(|k| (starts[k], starts[k + min])).find_map(|(a, b)| {
         let chunk = &ghost[a..b];
-        (!chunk.trim().is_empty() && source.contains(chunk)).then_some(a)
+        (!chunk.trim().is_empty() && source.contains(&chunk.to_lowercase())).then_some(a)
     })
     // Also drop the separators the copy came with (" • Untitled…" → nothing left).
     .map(|a| ghost[..a].trim_end_matches(|c: char| !c.is_alphanumeric()).len())
+}
+
+/// The window title to give the model. Apps that name an unsaved document after its first line
+/// (Windows 11 Notepad: "today i wake up in the - Notepad") repeat the user's own text there:
+/// the model then copies it, and the title changes on every key, so the prompt cache can't reuse
+/// anything after it. Such a title is cut to the app part after the last " - ".
+pub fn prompt_title<'a>(title: &'a str, text: &str) -> &'a str {
+    let Some((doc, app)) = title.rsplit_once(" - ") else { return title };
+    let doc = doc.trim().trim_end_matches(['…', '.']).trim_end().to_lowercase();
+    let text = text.trim_start().to_lowercase();
+    if !doc.is_empty() && text.starts_with(&doc) { app.trim() } else { title }
 }
 
 /// Start of the first run of 4+ identical non-alphanumeric characters (`....`, `----`, blank
@@ -392,6 +432,9 @@ mod tests {
         f.caret_rect = Some(Rect { x: 334.0, y: 187.0, w: 0.0, h: 14.0 });
         f.text_left = Some(187.0);
         assert_eq!(f.wrap_edges(), Some((187.0, 763.0)));
+        // Tall field, caret near the right edge: still wraps (the ghost starts on the next line).
+        f.caret_rect = Some(Rect { x: 740.0, ..f.caret_rect.unwrap() });
+        assert_eq!(f.wrap_edges(), Some((187.0, 763.0)));
         f.caret_rect = Some(Rect { x: 770.0, ..f.caret_rect.unwrap() });
         assert_eq!(f.wrap_edges(), None);
         // VS Code: the field is exactly as wide as its line, caret at its right edge.
@@ -443,6 +486,17 @@ mod tests {
         assert_eq!(copy_cut(" ok. Untitled-1 — GTM", title, 8), Some(3));
         assert_eq!(copy_cut(" and then we left", title, 8), None);
         assert_eq!(copy_cut(" React is nice", title, 8), None); // short overlaps are fine
+        assert_eq!(copy_cut(" - notepad", "today i wake up in the - Notepad", 8), Some(0));
+    }
+
+    #[test]
+    fn prompt_title_drops_echoed_text() {
+        let text = "today i wake up in the";
+        assert_eq!(prompt_title("today i wake up in the - Notepad", text), "Notepad");
+        assert_eq!(prompt_title("Today I wake up... - Notepad", "today i wake up in the morning"), "Notepad");
+        assert_eq!(prompt_title("Notes.txt - Notepad", text), "Notes.txt - Notepad");
+        assert_eq!(prompt_title("Inbox - Gmail", text), "Inbox - Gmail");
+        assert_eq!(prompt_title("Notepad", text), "Notepad");
         assert_eq!(copy_cut(" anything", "short", 8), None);
     }
 }

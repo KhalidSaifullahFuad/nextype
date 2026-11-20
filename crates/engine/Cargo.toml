@@ -7,3 +7,7 @@ edition.workspace = true
 nextype-core = { version = "0.1.0", path = "../core" }
 # Metal is on by default on Apple targets; defaults (openmp, common) are not needed.
 llama-cpp-2 = { version = "=0.1.161", default-features = false }
+
+[features]
+vulkan = ["llama-cpp-2/vulkan"]
+cuda = ["llama-cpp-2/cuda"]

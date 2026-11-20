@@ -22,7 +22,7 @@ use engine::{LATEST, Request};
 use keys::{GHOST_VISIBLE, Key};
 use nextype_ax::AppObserver;
 use nextype_core::prompt::Context;
-use nextype_core::{FieldSnapshot, OFF_BY_DEFAULT, Rect, gate, next_word};
+use nextype_core::{FieldSnapshot, OFF_BY_DEFAULT, Rect, gate, next_word, prompt_title};
 use objc2_foundation::{NSFullUserName, NSLocale};
 use objc2::MainThreadMarker;
 use objc2_core_foundation::{
@@ -242,8 +242,9 @@ fn gather_context(s: &FieldSnapshot) -> Context {
         languages: NSLocale::preferredLanguages().iter().map(|l| l.to_string()).collect(),
         name: NSFullUserName().to_string(),
         app: s.app_name.clone(),
-        // Editors prefix unsaved documents with a dot; it isn't part of the name.
-        window_title: s.window_title.trim_start_matches(['●', '•', '*', ' ']).to_owned(),
+        // Editors prefix unsaved documents with a dot; it isn't part of the name. Titles that
+        // repeat the user's text (an unsaved document named after its first line) are cut to the app.
+        window_title: prompt_title(s.window_title.trim_start_matches(['●', '•', '*', ' ']), &s.text).to_owned(),
         website: s.domain.clone(),
         past: if settings::HISTORY.load(Ordering::Relaxed) { history::examples(s) } else { Vec::new() },
         screen: if settings::SCREEN.load(Ordering::Relaxed) { screen::text_for(s) } else { String::new() },

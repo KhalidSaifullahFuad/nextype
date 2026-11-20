@@ -1,0 +1,40 @@
+[package]
+name = "nextype-win"
+edition.workspace = true
+version.workspace = true
+
+[[bin]]
+name = "nextype"
+path = "src/main.rs"
+
+[features]
+# GPU backends for llama.cpp; the default build runs on the CPU.
+vulkan = ["nextype-engine/vulkan"]
+cuda = ["nextype-engine/cuda"]
+
+[build-dependencies]
+embed-resource = "3"
+
+[dependencies]
+nextype-core = { version = "0.1.0", path = "../core" }
+nextype-engine = { version = "0.1.0", path = "../engine" }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Globalization",
+    "Win32_Graphics_Gdi",
+    "Win32_System_Com",
+    "Win32_System_DataExchange",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Memory",
+    "Win32_System_Ole",
+    "Win32_System_Threading",
+    "Win32_System_Time",
+    "Win32_System_Variant",
+    "Win32_UI_Accessibility",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_Shell",
+    "Win32_UI_WindowsAndMessaging",
+] }

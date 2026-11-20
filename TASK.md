@@ -96,6 +96,18 @@ Known gaps:
 
 - [ ] **Windows port.** Every feature already built for the Mac, and what Windows needs for it.
 
+  **Started (2026-11-20), `crates/win`, see its README:** UIA field read (TextPattern, selection as
+  caret, password/search skip), caret rect from the text range with `GetGUIThreadInfo` fallback,
+  per-pixel-alpha click-through overlay, `WH_KEYBOARD_LL` accept keys, `SendInput` insert with
+  1 s confirm (log only), tray menu (on/off, quit), Windows exe names in the core app lists.
+  Tested in Notepad on CPU: ~55 ms per keystroke warm, Tab inserts. Since then: insert by paste
+  (waits for the clipboard history service, retries a lost paste once), Tab = next word like the
+  Mac, quick repeated Tabs advance the ghost at once, wrapping near the right edge, single lines cut
+  at a whole word (accept takes only what is visible), window titles that echo the text (Notepad)
+  kept out of the prompt. Next: GPU build (Vulkan for the RX 580; CUDA for NVIDIA),
+  UIA event handlers instead of polling, field font + wrapping, paste fallback, settings and
+  overrides, website detection, Chrome/Edge/Teams/VS Code test matrix, installer.
+
   **Reused as-is (platform-free Rust):**
   - `core`: the gate rules, prompt builder, budgets, redaction, ghost trims, healing, next-word split, website matching
   - `engine`: llama.cpp, using CUDA or Vulkan on a graphics card, or the CPU
