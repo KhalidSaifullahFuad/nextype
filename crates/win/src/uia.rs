@@ -89,11 +89,17 @@ impl Uia {
             before_r.MoveEndpointByRange(TextPatternRangeEndpoint_End, &caret, TextPatternRangeEndpoint_Start)?;
             let after_r = doc.Clone()?;
             after_r.MoveEndpointByRange(TextPatternRangeEndpoint_Start, &caret, TextPatternRangeEndpoint_End)?;
-            let before = normalize(&before_r.GetText(-1)?.to_string());
-            let selected = normalize(&caret.GetText(-1)?.to_string());
-            let after = normalize(&after_r.GetText(-1)?.to_string());
+            let mut before = normalize(&before_r.GetText(-1)?.to_string());
+            let mut selected = normalize(&caret.GetText(-1)?.to_string());
+            let mut after = normalize(&after_r.GetText(-1)?.to_string());
 
             let caret_rect = caret_rect(&caret, &before).or_else(gui_caret);
+            // An empty field shows its placeholder ("Title", "Describe the view…") and Chromium
+            // reports it as the field's text. Read as typed text, the model continues a word the
+            // user never wrote, drawn over the placeholder. Treat such a field as empty.
+            if is_placeholder(&el, &doc, &before, &format!("{before}{selected}{after}"), caret_rect) {
+                (before, selected, after) = (String::new(), String::new(), String::new());
+            }
             let font = field_font(&caret, &before);
             let text_left = line_left(&caret);
             // A multi-line edit is a text area for wrapping purposes.
@@ -145,6 +151,41 @@ unsafe fn caret_rect(caret: &IUIAutomationTextRange, before: &str) -> Option<Rec
         probe.MoveEndpointByUnit(TextPatternRangeEndpoint_End, TextUnit_Character, 1).ok()?;
         let r = *rects(&probe).first()?;
         Some(Rect { x: r.x, y: r.y, w: 1.0, h: r.h })
+    }
+}
+
+/// Whether the field's text is only its placeholder: it equals the placeholder the element
+/// reports (UIA HelpText, or `aria-placeholder`), or, for placeholders drawn with CSS (ProseMirror,
+/// Tiptap), there is text before the caret on the first line and yet the caret sits at that
+/// line's very start. A soft-wrapped caret at a later line's start is below the first line.
+unsafe fn is_placeholder(
+    el: &IUIAutomationElement,
+    doc: &IUIAutomationTextRange,
+    before: &str,
+    text: &str,
+    caret: Option<Rect>,
+) -> bool {
+    let text = text.trim();
+    if text.is_empty() {
+        return false;
+    }
+    unsafe {
+        let help = el.CurrentHelpText().map(|h| h.to_string()).unwrap_or_default();
+        let aria = el.CurrentAriaProperties().map(|a| a.to_string()).unwrap_or_default();
+        let aria_hint = aria.split(';').find_map(|p| p.strip_prefix("placeholder=")).unwrap_or("");
+        if [help.trim(), aria_hint.trim()].contains(&text) {
+            return true;
+        }
+        let (Some(caret), false) = (caret, before.is_empty() || before.contains('\n')) else { return false };
+        let Ok(first) = doc.Clone() else { return false };
+        if first.MoveEndpointByRange(TextPatternRangeEndpoint_End, doc, TextPatternRangeEndpoint_Start).is_err()
+            || first.MoveEndpointByUnit(TextPatternRangeEndpoint_End, TextUnit_Character, 1).is_err()
+        {
+            return false;
+        }
+        let Some(r) = rects(&first).first().copied() else { return false };
+        let same_line = (caret.y - r.y).abs() < r.h.max(caret.h) / 2.0;
+        same_line && caret.x <= r.x + 1.0
     }
 }
 
