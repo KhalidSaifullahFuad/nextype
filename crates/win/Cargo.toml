@@ -20,6 +20,8 @@ nextype-core = { version = "0.1.0", path = "../core" }
 nextype-engine = { version = "0.1.0", path = "../engine" }
 
 [target.'cfg(windows)'.dependencies]
+# `#[implement]` (UI Automation event handlers) expands to paths in `windows_core`.
+windows-core = "0.61"
 windows = { version = "0.61", features = [
     "Win32_Foundation",
     "Win32_Globalization",

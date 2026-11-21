@@ -612,6 +612,7 @@ dependencies = [
  "nextype-core",
  "nextype-engine",
  "windows",
+ "windows-core",
 ]
 
 [[package]]

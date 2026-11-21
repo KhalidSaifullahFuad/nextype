@@ -13,6 +13,8 @@ fn main() {
 #[cfg(windows)]
 mod clip;
 #[cfg(windows)]
+mod events;
+#[cfg(windows)]
 mod keys;
 #[cfg(windows)]
 mod overlay;
@@ -22,7 +24,7 @@ mod uia;
 mod worker;
 
 #[cfg(windows)]
-pub use app::{WM_ENGINE_TEXT, WM_KEY};
+pub use app::{WM_ENGINE_TEXT, WM_FIELD, WM_KEY};
 
 #[cfg(windows)]
 fn main() {
@@ -57,14 +59,19 @@ mod app {
     pub const WM_KEY: u32 = WM_APP + 1;
     pub const WM_ENGINE_TEXT: u32 = WM_APP + 2;
     const WM_TRAY: u32 = WM_APP + 3;
+    /// UI Automation event (see `events`); wParam is `events::FOCUS` or `events::EDIT`.
+    pub const WM_FIELD: u32 = WM_APP + 4;
 
     const TIMER_READ: usize = 1;
     const TIMER_POLL: usize = 2;
     const TIMER_CONFIRM: usize = 3;
     /// Wait after a key before reading the field: the app must handle the key first.
     const DEBOUNCE_MS: u32 = 40;
-    /// Re-read the field this often (caret moves by mouse, focus changes, app switches).
-    const POLL_MS: u32 = 250;
+    /// Safety-net re-read, for apps that send no UI Automation events and for window moves.
+    /// Focus, text and caret changes arrive as events (`WM_FIELD`), keys from the hook.
+    const POLL_MS: u32 = 2000;
+    /// Re-read interval when UI Automation events couldn't be set up: polling does it all.
+    const POLL_NO_EVENTS_MS: u32 = 250;
     /// Spec §12.2 `insertionConfirmationTTL`.
     const CONFIRM_MS: u32 = 1000;
     /// How long after an accept a read may still show the field without it (paste in flight).
@@ -138,6 +145,8 @@ mod app {
         static HWND_MAIN: OnceCell<HWND> = const { OnceCell::new() };
         static GHOST: RefCell<Option<Ghost>> = const { RefCell::new(None) };
         static FRONT_PID: RefCell<Option<i32>> = const { RefCell::new(None) };
+        /// A focus event arrived since the last read.
+        static FOCUS_MOVED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
         static LAST_LOG: RefCell<String> = const { RefCell::new(String::new()) };
         /// (pid, text the field should start with, text we typed) awaiting confirmation.
         static CONFIRM: RefCell<Option<(i32, String, String)>> = const { RefCell::new(None) };
@@ -169,7 +178,8 @@ mod app {
         if !keys::install_hook(tid) {
             eprintln!("NexType: could not install the keyboard hook; accept keys will not work.");
         }
-        unsafe { SetTimer(Some(hwnd), TIMER_POLL, POLL_MS, None) };
+        let poll = if crate::events::spawn(tid) { POLL_MS } else { POLL_NO_EVENTS_MS };
+        unsafe { SetTimer(Some(hwnd), TIMER_POLL, poll, None) };
         eprintln!("NexType: watching focused text fields. Tray icon → Quit to exit.");
 
         let mut msg = MSG::default();
@@ -177,6 +187,12 @@ mod app {
             if msg.hwnd.is_invalid() {
                 match msg.message {
                     WM_KEY => on_key(Key::from_wparam(msg.wParam.0)),
+                    WM_FIELD => {
+                        if msg.wParam.0 == crate::events::FOCUS {
+                            FOCUS_MOVED.with(|f| f.set(true));
+                        }
+                        schedule_read();
+                    }
                     WM_ENGINE_TEXT => drain_engine(),
                     _ => {}
                 }
@@ -276,7 +292,8 @@ mod app {
                         unsafe {
                             let _ = KillTimer(Some(hwnd), TIMER_READ);
                         }
-                        on_read();
+                        // After a focus event, check the front app too (as the poll does).
+                        if FOCUS_MOVED.with(|f| f.replace(false)) { on_poll() } else { on_read() }
                     }
                     TIMER_POLL => on_poll(),
                     TIMER_CONFIRM => {
