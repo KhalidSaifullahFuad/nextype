@@ -72,6 +72,31 @@ mod app {
 
     const MENU_ENABLED: usize = 1;
     const MENU_QUIT: usize = 2;
+    const MENU_SPACES: usize = 3;
+
+    /// `%LOCALAPPDATA%\NexType\settings.txt`, one `key=value` per line.
+    fn settings_path() -> std::path::PathBuf {
+        let base = std::env::var("LOCALAPPDATA").unwrap_or_else(|_| ".".into());
+        std::path::Path::new(&base).join("NexType").join("settings.txt")
+    }
+
+    fn load_settings() {
+        let Ok(s) = std::fs::read_to_string(settings_path()) else { return };
+        for (k, v) in s.lines().filter_map(|l| l.split_once('=')) {
+            if k.trim() == "type_spaces_separately" {
+                keys::SPLIT_SPACES.store(v.trim() == "true", Ordering::Relaxed);
+            }
+        }
+    }
+
+    fn save_settings() {
+        let path = settings_path();
+        let body = format!("type_spaces_separately={}\n", keys::SPLIT_SPACES.load(Ordering::Relaxed));
+        let ok = path.parent().is_some_and(|d| std::fs::create_dir_all(d).is_ok()) && std::fs::write(&path, body).is_ok();
+        if !ok {
+            eprintln!("could not save settings to {}", path.display());
+        }
+    }
 
     static ENABLED: AtomicBool = AtomicBool::new(true);
 
@@ -133,6 +158,7 @@ mod app {
             let _ = SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
             CoInitializeEx(None, COINIT_APARTMENTTHREADED).ok().expect("COM");
         }
+        load_settings();
         let tid = unsafe { GetCurrentThreadId() };
         UIA.with(|u| u.set(Uia::new().expect("UI Automation")).ok());
         OVERLAY.with(|o| o.set(Overlay::new().expect("overlay window")).ok());
@@ -224,6 +250,14 @@ mod app {
             let Ok(menu) = CreatePopupMenu() else { return };
             let on = ENABLED.load(Ordering::Relaxed);
             let _ = AppendMenuW(menu, if on { MF_CHECKED } else { MF_UNCHECKED }, MENU_ENABLED, w!("Completions on"));
+            let split = keys::SPLIT_SPACES.load(Ordering::Relaxed);
+            let _ = AppendMenuW(
+                menu,
+                if split { MF_CHECKED } else { MF_UNCHECKED },
+                MENU_SPACES,
+                w!("Type spaces separately (for apps that drop pasted spaces)"),
+            );
+            let _ = AppendMenuW(menu, MF_SEPARATOR, 0, None);
             let _ = AppendMenuW(menu, MF_STRING, MENU_QUIT, w!("Quit NexType"));
             let mut p = POINT::default();
             let _ = GetCursorPos(&mut p);
@@ -272,6 +306,12 @@ mod app {
                         }
                         update_tray(hwnd);
                         eprintln!("completions {}", if on { "on" } else { "off" });
+                    }
+                    MENU_SPACES => {
+                        let on = !keys::SPLIT_SPACES.load(Ordering::Relaxed);
+                        keys::SPLIT_SPACES.store(on, Ordering::Relaxed);
+                        save_settings();
+                        eprintln!("type spaces separately {}", if on { "on" } else { "off" });
                     }
                     MENU_QUIT => unsafe { PostQuitMessage(0) },
                     _ => {}

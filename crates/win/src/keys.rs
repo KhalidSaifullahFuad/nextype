@@ -99,15 +99,48 @@ pub fn insert(text: &str) {
     let text = text.to_owned();
     std::thread::spawn(move || {
         let _one = TYPING.lock();
-        if crate::clip::paste(&text) {
+        if !SPLIT_SPACES.load(Ordering::Relaxed) {
+            if !crate::clip::paste(&text) {
+                eprintln!("clipboard busy: typing instead");
+                type_text(&text);
+            }
+            return;
+        }
+        // Rich editors (Day One, many web editors) trim spaces at the edges of pasted plain
+        // text, so " like" lands as "like". Type edge spaces as real Space keys, paste the rest.
+        let core = text.trim_matches(' ');
+        let lead = text.len() - text.trim_start_matches(' ').len();
+        let trail = text.len() - text.trim_end_matches(' ').len();
+        let spaces = |n: usize| {
+            for _ in 0..n {
+                send_char(' ');
+                std::thread::sleep(CHAR_GAP);
+            }
+        };
+        if core.is_empty() {
+            spaces(text.len());
+            return;
+        }
+        spaces(lead);
+        if crate::clip::paste(core) {
+            spaces(trail);
             return;
         }
         eprintln!("clipboard busy: typing instead");
-        for c in text.chars() {
-            send_char(c);
-            std::thread::sleep(CHAR_GAP);
-        }
+        type_text(&text[lead..]);
     });
+}
+
+/// Type spaces at the edges of an accepted word as Space keys instead of pasting them (tray
+/// menu). On: works in editors that trim pasted spaces (Day One), but the space shows a moment
+/// before the word. Off: one paste, word and space appear together.
+pub static SPLIT_SPACES: AtomicBool = AtomicBool::new(true);
+
+fn type_text(text: &str) {
+    for c in text.chars() {
+        send_char(c);
+        std::thread::sleep(CHAR_GAP);
+    }
 }
 
 /// One character as Unicode key events; a newline becomes Enter.
@@ -117,9 +150,11 @@ fn send_char(c: char) {
         r#type: INPUT_KEYBOARD,
         Anonymous: INPUT_0 { ki: KEYBDINPUT { wVk: vk, wScan: scan, dwFlags: flags, time: 0, dwExtraInfo: 0 } },
     };
-    if c == '\n' {
-        inputs.push(key(VK_RETURN, 0, KEYBD_EVENT_FLAGS(0)));
-        inputs.push(key(VK_RETURN, 0, KEYEVENTF_KEYUP));
+    if c == '\n' || c == ' ' {
+        // Real keys: editors that handle key-down themselves see an ordinary Space / Enter.
+        let vk = if c == '\n' { VK_RETURN } else { VK_SPACE };
+        inputs.push(key(vk, 0, KEYBD_EVENT_FLAGS(0)));
+        inputs.push(key(vk, 0, KEYEVENTF_KEYUP));
     } else {
         // A character outside the BMP is a surrogate pair: both halves down, then both up.
         let mut buf = [0u16; 2];
