@@ -36,7 +36,8 @@ struct AppSetting: Codable, Identifiable, Equatable {
 func appName(_ bundleID: String) -> String {
     if bundleID.hasPrefix("domain:") { return String(bundleID.dropFirst(7)) }
     guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return bundleID }
-    return FileManager.default.displayName(atPath: url.path)
+    // displayName keeps ".app" when Finder shows extensions.
+    return url.deletingPathExtension().lastPathComponent
 }
 
 enum Status {
@@ -188,6 +189,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// Opening the app again (Spotlight, Finder) shows Settings, since the menu bar icon can be hidden.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        MainActor.assumeIsolated { SettingsWindowController.shared.show() }
+        return false
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         stop()
     }
@@ -241,11 +248,10 @@ struct NexTypeApp: App {
                 Button("Relaunch NexType") { core.relaunch() }
             }
             Divider()
-            SettingsLink { Text("Settings…") }
+            Button("Settings…") { SettingsWindowController.shared.show() }
                 .keyboardShortcut(",")
             Button("Quit NexType") { NSApp.terminate(nil) }
                 .keyboardShortcut("q")
         }
-        Settings { SettingsView() }
     }
 }

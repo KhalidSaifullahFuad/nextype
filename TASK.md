@@ -31,7 +31,7 @@ Updated: 2026-11-19.
 ### M4. App shell ✅
 - [x] SwiftUI menu bar app over the Rust core (uniffi)
 - [x] Onboarding: Accessibility, then the model download (resume, sha256 check, retries, cancel, disk check)
-- [x] Settings: General (open at login, length, instructions, context toggles) and Apps (per-app and per-website overrides)
+- [x] Settings window: searchable sidebar with General, Suggestions, Keyboard, Context sources, Learn my style, Apps & websites, Permissions, Model and About; same look as the Launchpad project's settings. Reopening the app shows it
 - [x] Menu: today's stats, on/off, pause 1 h, turn off in this app, this app's Tab shortcut, or this website
 - [x] Stats file; paste fallback when typed insertion fails
 

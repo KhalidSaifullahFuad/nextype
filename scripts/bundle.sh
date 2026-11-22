@@ -16,6 +16,10 @@ cp "$GEN/nextype_ffiFFI.h" shell/Sources/nextype_ffiFFI/include/
 APP=target/NexType.app
 mkdir -p "$APP/Contents/MacOS"
 cp shell/.build/release/NexType "$APP/Contents/MacOS/NexType"
+# SwiftPM records the deployment target as the SDK version, and AppKit then draws the old
+# (pre-macOS 26) window chrome. Record the real SDK so the current look is used; still runs on 14.
+vtool -set-build-version macos 14.0 "$(xcrun --show-sdk-version)" -replace \
+  -output "$APP/Contents/MacOS/NexType" "$APP/Contents/MacOS/NexType"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
