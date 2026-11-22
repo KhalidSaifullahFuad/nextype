@@ -3,7 +3,9 @@
 
 use std::ffi::c_void;
 
-use nextype_core::{FieldSnapshot, Rect};
+use nextype_core::{FieldSnapshot, Rect, WidthSample};
+
+use crate::font::Reported;
 use windows::Win32::Foundation::{CloseHandle, HWND, MAX_PATH, POINT};
 use windows::Win32::Graphics::Gdi::ClientToScreen;
 use windows::Win32::System::Com::{CLSCTX_INPROC_SERVER, CoCreateInstance, SAFEARRAY};
@@ -41,14 +43,14 @@ impl Uia {
     }
 
     /// The focused field, or `None` if focus isn't in a text control we can read.
-    pub fn snapshot(&self) -> Option<FieldSnapshot> {
+    pub fn snapshot(&self) -> Option<(FieldSnapshot, Reported)> {
         match unsafe { self.read() } {
             Ok(s) => s,
             Err(_) => None,
         }
     }
 
-    unsafe fn read(&self) -> Result<Option<FieldSnapshot>> {
+    unsafe fn read(&self) -> Result<Option<(FieldSnapshot, Reported)>> {
         unsafe {
             let el = self.auto.GetFocusedElement()?;
             let pid = el.CurrentProcessId()?;
@@ -100,7 +102,7 @@ impl Uia {
             if is_placeholder(&el, &doc, &before, &format!("{before}{selected}{after}"), caret_rect) {
                 (before, selected, after) = (String::new(), String::new(), String::new());
             }
-            let font = field_font(&caret, &before);
+            let reported = field_font(&caret, &before);
             let text_left = line_left(&caret);
             // A multi-line edit is a text area for wrapping purposes.
             if role == "AXTextField" && caret_rect.is_some_and(|c| frame.h > 2.5 * c.h) {
@@ -108,7 +110,8 @@ impl Uia {
             }
             let text = format!("{before}{selected}{after}");
             let (app_name, bundle_id) = exe_of(pid as u32);
-            Ok(Some(FieldSnapshot {
+            let font = reported.px.filter(|_| !reported.families.is_empty()).map(|px| (reported.families.clone(), px));
+            Ok(Some((FieldSnapshot {
                 pid,
                 bundle_id,
                 role: role.into(),
@@ -122,9 +125,9 @@ impl Uia {
                 frame,
                 caret_rect,
                 font,
-                width_sample: None,
+                width_sample: reported.sample.clone(),
                 text_left,
-            }))
+            }, reported)))
         }
     }
 }
@@ -202,19 +205,70 @@ unsafe fn char_near(caret: &IUIAutomationTextRange, before: &str) -> Option<IUIA
     }
 }
 
-/// Font of the text at the caret: (face name, size in physical pixels).
-unsafe fn field_font(caret: &IUIAutomationTextRange, before: &str) -> Option<(String, f64)> {
+/// Font of the text at the caret as the app reports it (name or CSS family list, size in
+/// physical pixels, weight, italic), plus the on-screen width of the text before the caret.
+/// `font::resolve` turns this into the font the ghost is drawn in.
+unsafe fn field_font(caret: &IUIAutomationTextRange, before: &str) -> Reported {
     unsafe {
-        let probe = char_near(caret, before)?;
-        let mut buf = [0u16; 64];
-        VariantToString(&probe.GetAttributeValue(UIA_FontNameAttributeId).ok()?, &mut buf).ok()?;
-        let name = String::from_utf16_lossy(&buf[..buf.iter().position(|&c| c == 0).unwrap_or(0)]);
-        let pt = f64::try_from(&probe.GetAttributeValue(UIA_FontSizeAttributeId).ok()?).ok()?;
-        if name.is_empty() || !(pt > 0.0) {
+        let sample = width_sample(caret, before);
+        let Some(probe) = char_near(caret, before) else { return Reported { sample, ..Default::default() } };
+        let attr = |id| probe.GetAttributeValue(id).ok();
+        // Large enough for a CSS family list.
+        let mut buf = [0u16; 512];
+        let families = attr(UIA_FontNameAttributeId)
+            .filter(|v| VariantToString(v, &mut buf).is_ok())
+            .map(|_| String::from_utf16_lossy(&buf[..buf.iter().position(|&c| c == 0).unwrap_or(0)]))
+            .unwrap_or_default();
+        let dpi = GetDpiForWindow(GetForegroundWindow()).max(96) as f64;
+        let px = attr(UIA_FontSizeAttributeId).and_then(|v| f64::try_from(&v).ok()).filter(|pt| *pt > 0.0).map(|pt| pt * dpi / 72.0);
+        let weight = attr(UIA_FontWeightAttributeId).and_then(|v| i32::try_from(&v).ok());
+        let italic = attr(UIA_IsItalicAttributeId).and_then(|v| bool::try_from(&v).ok()).unwrap_or(false);
+        Reported { families, px, weight, italic, sample }
+    }
+}
+
+/// Characters measured for `width_sample`; fewer than `SAMPLE_MIN` say little about the size.
+const SAMPLE_MAX: i32 = 32;
+const SAMPLE_MIN: usize = 6;
+
+/// The text on the caret's line just before the caret, and how wide it is on screen (and its
+/// first half), measured from the text range's bounding rectangles.
+unsafe fn width_sample(caret: &IUIAutomationTextRange, before: &str) -> Option<WidthSample> {
+    unsafe {
+        let line_text = before.rsplit('\n').next().unwrap_or("");
+        // Trailing spaces: some apps give them no width at a line end; leave them out.
+        let trailing = line_text.chars().rev().take_while(|c| *c == ' ').count() as i32;
+        let r = caret.Clone().ok()?;
+        // Collapse to the caret, then move the start back first: an end moved before the start
+        // would drag the start along.
+        r.MoveEndpointByRange(TextPatternRangeEndpoint_End, caret, TextPatternRangeEndpoint_Start).ok()?;
+        r.MoveEndpointByUnit(TextPatternRangeEndpoint_Start, TextUnit_Character, -(trailing + SAMPLE_MAX)).ok()?;
+        r.MoveEndpointByUnit(TextPatternRangeEndpoint_End, TextUnit_Character, -trailing).ok()?;
+        // Not past the start of the caret's (visual) line.
+        let line = caret.Clone().ok()?;
+        line.ExpandToEnclosingUnit(TextUnit_Line).ok()?;
+        if r.CompareEndpoints(TextPatternRangeEndpoint_Start, &line, TextPatternRangeEndpoint_Start).ok()? < 0 {
+            r.MoveEndpointByRange(TextPatternRangeEndpoint_Start, &line, TextPatternRangeEndpoint_Start).ok()?;
+        }
+        let text = normalize(&r.GetText(-1).ok()?.to_string());
+        let n = text.chars().count();
+        if n < SAMPLE_MIN || text.contains('\n') {
             return None;
         }
-        let dpi = GetDpiForWindow(GetForegroundWindow()).max(96) as f64;
-        Some((name, pt * dpi / 72.0))
+        let all = rects(&r);
+        let last = *all.last()?;
+        // All on one line, or the sample crosses a wrap and its width means nothing.
+        if all.iter().any(|q| (q.y - last.y).abs() > last.h / 2.0) {
+            return None;
+        }
+        let left = all.iter().map(|q| q.x).fold(f64::INFINITY, f64::min);
+        let width = all.iter().map(|q| q.x + q.w).fold(0.0, f64::max) - left;
+        let head_chars = n / 2;
+        let head = r.Clone().ok()?;
+        head.MoveEndpointByRange(TextPatternRangeEndpoint_End, &r, TextPatternRangeEndpoint_Start).ok()?;
+        head.MoveEndpointByUnit(TextPatternRangeEndpoint_End, TextUnit_Character, head_chars as i32).ok()?;
+        let head_width = rects(&head).iter().map(|q| q.x + q.w).fold(0.0, f64::max) - left;
+        (width > 0.0 && head_width > 0.0 && head_width < width).then_some(WidthSample { text, width, head_chars, head_width })
     }
 }
 

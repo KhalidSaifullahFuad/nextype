@@ -15,6 +15,8 @@ mod clip;
 #[cfg(windows)]
 mod events;
 #[cfg(windows)]
+mod font;
+#[cfg(windows)]
 mod keys;
 #[cfg(windows)]
 mod overlay;
@@ -51,6 +53,7 @@ mod app {
     use windows::Win32::UI::WindowsAndMessaging::*;
     use windows::core::w;
 
+    use crate::font::{self, GhostFont};
     use crate::keys::{self, GHOST_VISIBLE, Key, TAB_ENABLED};
     use crate::overlay::Overlay;
     use crate::uia::Uia;
@@ -114,7 +117,7 @@ mod app {
         full: String,
         typed: usize,
         caret: Rect,
-        font: Option<(String, f64)>,
+        font: GhostFont,
         /// Text edges to wrap between (`FieldSnapshot::wrap_edges`).
         edges: Option<(f64, f64)>,
         /// Field's right edge: single-line ghosts are cut here.
@@ -148,6 +151,7 @@ mod app {
         /// A focus event arrived since the last read.
         static FOCUS_MOVED: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
         static LAST_LOG: RefCell<String> = const { RefCell::new(String::new()) };
+        static LAST_FONT_LOG: RefCell<String> = const { RefCell::new(String::new()) };
         /// (pid, text the field should start with, text we typed) awaiting confirmation.
         static CONFIRM: RefCell<Option<(i32, String, String)>> = const { RefCell::new(None) };
     }
@@ -369,14 +373,42 @@ mod app {
     }
 
     fn snapshot() -> Option<FieldSnapshot> {
-        UIA.with(|u| u.get().and_then(Uia::snapshot))
+        snapshot_with_font().map(|(s, _)| s)
+    }
+
+    /// The field and the font the ghost should be drawn in there.
+    fn snapshot_with_font() -> Option<(FieldSnapshot, GhostFont)> {
+        let (s, reported) = UIA.with(|u| u.get().and_then(Uia::snapshot))?;
+        let caret_h = s.caret_rect.map_or(20.0, |c| c.h);
+        let f = font::resolve(&reported, caret_h);
+        let line = format!(
+            "ghost font: {} {:.1}px w{}{} (app says {:?} {:?}px, measured {:?}px wide over {:?})",
+            f.face,
+            f.px,
+            f.weight,
+            if f.italic { " italic" } else { "" },
+            reported.families,
+            reported.px.map(|p| (p * 10.0).round() / 10.0),
+            reported.sample.as_ref().map(|w| w.width.round()),
+            reported.sample.as_ref().map(|w| w.text.as_str()),
+        );
+        LAST_FONT_LOG.with(|l| {
+            let mut l = l.borrow_mut();
+            // Only when the font changes, not on every read.
+            let key = format!("{} {:.0} {} {}", f.face, f.px, f.weight, f.italic);
+            if *l != key {
+                eprintln!("{line}");
+                *l = key;
+            }
+        });
+        Some((s, f))
     }
 
     fn on_read() {
         if !ENABLED.load(Ordering::Relaxed) {
             return;
         }
-        let snap = snapshot();
+        let (snap, ghost_font) = snapshot_with_font().unzip();
         log_snapshot(snap.as_ref());
         let Some(s) = snap.filter(|s| allowed(s).is_ok()) else {
             clear_ghost();
@@ -398,16 +430,16 @@ mod app {
                 return true;
             }
             gh.typed = t.len();
-            (gh.caret, gh.font, gh.edges, gh.right) = (caret, s.font.clone(), s.wrap_edges(), s.frame.x + s.frame.w);
+            (gh.caret, gh.font, gh.edges, gh.right) = (caret, ghost_font.clone().unwrap_or_else(|| font::resolve(&Default::default(), caret.h)), s.wrap_edges(), s.frame.x + s.frame.w);
             show(gh);
             true
         });
         if !kept {
-            request(&s, caret);
+            request(&s, caret, ghost_font.unwrap_or_else(|| font::resolve(&Default::default(), caret.h)));
         }
     }
 
-    fn request(s: &FieldSnapshot, caret: Rect) {
+    fn request(s: &FieldSnapshot, caret: Rect, font: GhostFont) {
         let id = LATEST.fetch_add(1, Ordering::Relaxed) + 1;
         let before = s.before().to_owned();
         GHOST.with(|g| {
@@ -418,7 +450,7 @@ mod app {
                 full: String::new(),
                 typed: 0,
                 caret,
-                font: s.font.clone(),
+                font,
                 edges: s.wrap_edges(),
                 right: s.frame.x + s.frame.w,
                 visible: 0,
@@ -474,7 +506,7 @@ mod app {
                 o.hide();
                 0
             } else {
-                o.show(text, gh.caret, gh.font.as_ref(), gh.edges, gh.right)
+                o.show(text, gh.caret, &gh.font, gh.edges, gh.right)
             }
         });
         GHOST_VISIBLE.store(gh.visible > 0, Ordering::Relaxed);

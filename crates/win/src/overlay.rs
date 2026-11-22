@@ -5,6 +5,8 @@
 use std::ffi::c_void;
 
 use nextype_core::Rect;
+
+use crate::font::GhostFont;
 use windows::Win32::Foundation::{COLORREF, HWND, LPARAM, LRESULT, POINT, RECT, SIZE, WPARAM};
 use windows::Win32::Graphics::Gdi::*;
 use windows::Win32::System::LibraryLoader::GetModuleHandleW;
@@ -51,23 +53,17 @@ impl Overlay {
         }
     }
 
-    /// Draw `text` from the caret on. `font` is (face, size in px); without it Segoe UI is sized
-    /// from the caret height. With `edges` (left, right) the ghost wraps between them like the
-    /// field's own text; otherwise it stays on one line, cut after the last whole word that fits
-    /// before `clip_right`. Returns how many bytes of `text` are visible (0 = nothing drawn, the
-    /// window is hidden), so accepting takes only what the user can see.
-    pub fn show(&self, text: &str, caret: Rect, font: Option<&(String, f64)>, edges: Option<(f64, f64)>, clip_right: f64) -> usize {
+    /// Draw `text` from the caret on, in `font` (see `font::resolve`). With `edges` (left, right)
+    /// the ghost wraps between them like the field's own text; otherwise it stays on one line,
+    /// cut after the last whole word that fits before `clip_right`. Returns how many bytes of
+    /// `text` are visible (0 = nothing drawn, the window is hidden), so accepting takes only
+    /// what the user can see.
+    pub fn show(&self, text: &str, caret: Rect, font: &GhostFont, edges: Option<(f64, f64)>, clip_right: f64) -> usize {
         let caret_x = caret.x + caret.w;
-        let px = font.map_or(caret.h / 1.3, |f| f.1).round().max(8.0) as i32;
-        let face: Vec<u16> = font.map_or("Segoe UI", |f| f.0.as_str()).encode_utf16().chain([0]).collect();
         unsafe {
             let screen = GetDC(None);
             let mem = CreateCompatibleDC(Some(screen));
-            let font = CreateFontW(
-                -px, 0, 0, 0, FW_NORMAL.0 as i32, 0, 0, 0,
-                DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY,
-                (DEFAULT_PITCH.0 | FF_DONTCARE.0) as u32, windows::core::PCWSTR(face.as_ptr()),
-            );
+            let font = crate::font::create(font);
             let old_font = SelectObject(mem, font.into());
             let measure = |s: &str| {
                 let wide: Vec<u16> = s.encode_utf16().collect();
@@ -78,6 +74,11 @@ impl Overlay {
             let mut tm = TEXTMETRICW::default();
             let _ = GetTextMetricsW(mem, &mut tm);
             let line_h = caret.h.max(tm.tmHeight as f64).round() as i32;
+            let (ascent, descent) = (tm.tmAscent as f64, tm.tmDescent as f64);
+            // Baseline below the caret box top, and room above it for tall glyphs.
+            let base = baseline_in_box(caret.h, ascent, descent);
+            let pad = (ascent - base).max(0.0).ceil();
+            let first_top = (pad + base - ascent).round() as i32;
 
             let (x0, right) = match edges {
                 Some((left, right)) => (left, right),
@@ -93,7 +94,7 @@ impl Overlay {
                 return 0;
             }
             let w = (right - x0).round().max(1.0) as i32;
-            let h = line_h * lines.len().max(1) as i32;
+            let h = first_top + tm.tmHeight + line_h * (lines.len().max(1) as i32 - 1);
             let bmi = BITMAPINFO {
                 bmiHeader: BITMAPINFOHEADER {
                     biSize: size_of::<BITMAPINFOHEADER>() as u32,
@@ -122,13 +123,11 @@ impl Overlay {
             SetTextColor(mem, COLORREF(0x00FF_FFFF));
             for (i, line) in lines.iter().enumerate() {
                 let left = if i == 0 { (caret_x - x0).round() as i32 } else { 0 };
-                let top = line_h * i as i32;
-                let mut rc = RECT { left, top, right: w, bottom: top + line_h };
+                let top = first_top + line_h * i as i32;
+                let mut rc = RECT { left, top, right: w, bottom: top + tm.tmHeight };
                 // Layout measured lines without their trailing space; draw them the same way.
                 let mut wide: Vec<u16> = line.trim_end().encode_utf16().collect();
-                // Bottom-aligned: apps with extra line spacing (Notepad's RichEdit) put it above
-                // the text, so this keeps the ghost on the field's baseline; tight boxes are unchanged.
-                DrawTextW(mem, &mut wide, &mut rc, DT_SINGLELINE | DT_BOTTOM | DT_NOPREFIX | DT_LEFT);
+                DrawTextW(mem, &mut wide, &mut rc, DT_SINGLELINE | DT_TOP | DT_NOPREFIX | DT_LEFT);
             }
             for p in pixels.iter_mut() {
                 let a = (*p & 0xFF) * OPACITY / 255;
@@ -136,7 +135,7 @@ impl Overlay {
                 *p = (a << 24) | (c << 16) | (c << 8) | c;
             }
 
-            let dst = POINT { x: x0.round() as i32, y: caret.y.round() as i32 };
+            let dst = POINT { x: x0.round() as i32, y: (caret.y - pad).round() as i32 };
             let src = POINT::default();
             let sz = SIZE { cx: w, cy: h };
             let blend = BLENDFUNCTION { BlendOp: AC_SRC_OVER as u8, BlendFlags: 0, SourceConstantAlpha: 255, AlphaFormat: AC_SRC_ALPHA as u8 };
@@ -152,6 +151,19 @@ impl Overlay {
             visible
         }
     }
+}
+
+/// Where the field's baseline is, measured down from the top of a caret box `box_h` tall, for a
+/// ghost font with these ascent and descent. A box about one font tall (Chromium, WebView2) is the
+/// text's own box: the baseline sits at the same fraction of it as in the font, whichever font the
+/// field uses. A box clearly taller holds extra line spacing, which apps like Notepad's RichEdit
+/// put above the text: the baseline is one descent above the bottom.
+fn baseline_in_box(box_h: f64, ascent: f64, descent: f64) -> f64 {
+    let glyph = ascent + descent;
+    if glyph <= 0.0 {
+        return box_h;
+    }
+    if box_h >= glyph * 1.15 { box_h - descent } else { box_h * ascent / glyph }
 }
 
 /// Most lines a wrapped ghost may take.
@@ -205,7 +217,16 @@ fn layout(text: &str, first: f64, rest: f64, wrap: bool, measure: &dyn Fn(&str) 
 
 #[cfg(test)]
 mod tests {
-    use super::layout;
+    use super::{baseline_in_box, layout};
+
+    #[test]
+    fn baseline_follows_the_box_the_field_reports() {
+        // Day One: 27 px box (Inter's own height); Segoe UI ghost 25 px ascent + 7 px descent.
+        let b = baseline_in_box(27.0, 25.0, 7.0);
+        assert!((b - 21.1).abs() < 0.1, "{b}");
+        // Notepad: 30 px box around a 19 px font, spacing above the text.
+        assert_eq!(baseline_in_box(30.0, 15.0, 4.0), 26.0);
+    }
 
     /// 10 px per char.
     fn m(s: &str) -> f64 {
