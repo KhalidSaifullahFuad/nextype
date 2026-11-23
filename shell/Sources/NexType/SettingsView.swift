@@ -204,6 +204,13 @@ struct SettingsSidebar: View {
                         }
                     }
                 }
+                if !SettingsPane.allCases.contains(where: { $0.matches(query) }) {
+                    Text("No results")
+                        .font(.system(size: 13))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 14)
+                }
             }
             .padding(.horizontal, 10)
             .padding(.bottom, 12)
