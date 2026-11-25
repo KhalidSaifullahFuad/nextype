@@ -6,7 +6,7 @@ AI autocomplete in any text field on your Mac, run on your Mac. Nothing you type
 
 ## Install
 
-1. Download `NexType-<version>.zip`, open it, and drag **NexType** into **Applications**.
+1. Download `NexType-<version>.dmg` (or the `.zip`), open it, and drag **NexType** into **Applications**.
 2. Open NexType. macOS says it can't check the app, because this beta isn't notarized by Apple. Click **Done**.
 3. Open **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to NexType. Confirm with your password or Touch ID.
 
