@@ -14,7 +14,7 @@ final class SettingsWindowController {
         if window == nil {
             let host = NSHostingController(rootView: SettingsView())
             host.sceneBridgingOptions = [.toolbars, .title]
-            let w = NSWindow(contentViewController: host)
+            let w = SettingsWindow(contentViewController: host)
             w.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
             w.toolbarStyle = .unified
             w.title = "NexType Settings"
@@ -23,22 +23,17 @@ final class SettingsWindowController {
             w.center()
             window = w
         }
-        // Otherwise the sidebar search field takes focus and shows its ring on every open. The window
-        // can become key after this returns (app activation is async), so clear focus when it does.
-        if let window, !window.isKeyWindow {
-            var token: NSObjectProtocol?
-            token = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification, object: window, queue: .main) { _ in
-                NotificationCenter.default.removeObserver(token!)
-                MainActor.assumeIsolated { self.clearFocus() }
-            }
-        }
         NSApp.activate(ignoringOtherApps: true)
         window?.makeKeyAndOrderFront(nil)
-        clearFocus()
     }
+}
 
-    private func clearFocus() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.window?.makeFirstResponder(nil) }
+/// Keeps the sidebar search field from taking focus by itself (on open, on switching back to the
+/// window); a click or key press in this window still focuses it.
+private final class SettingsWindow: NSWindow {
+    override func makeFirstResponder(_ responder: NSResponder?) -> Bool {
+        if responder is NSSearchField, NSApp.currentEvent?.window !== self { return false }
+        return super.makeFirstResponder(responder)
     }
 }
 
