@@ -14,7 +14,8 @@ cp "$GEN/nextype_ffi.swift" shell/Sources/NexType/Generated/
 cp "$GEN/nextype_ffiFFI.h" shell/Sources/nextype_ffiFFI/include/
 (cd shell && swift build -c release)
 APP=target/NexType.app
-mkdir -p "$APP/Contents/MacOS"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+cp assets/AppIcon.icns "$APP/Contents/Resources/"
 cp shell/.build/release/NexType "$APP/Contents/MacOS/NexType"
 # SwiftPM records the deployment target as the SDK version, and AppKit then draws the old
 # (pre-macOS 26) window chrome. Record the real SDK so the current look is used; still runs on 14.
@@ -27,6 +28,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleIdentifier</key><string>dev.nextype.NexType</string>
   <key>CFBundleName</key><string>NexType</string>
   <key>CFBundleExecutable</key><string>NexType</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>${VERSION:-0.1.0}</string>
   <key>CFBundleVersion</key><string>${BUILD:-1}</string>
