@@ -644,15 +644,34 @@ struct StatisticsPane: View {
         var previous: String { switch self { case .day: "yesterday"; case .week: "last week"; case .month: "last month" } }
     }
 
+    enum Metric: String, CaseIterable, Identifiable {
+        case completions = "Completions", words = "Words", characters = "Characters"
+        var id: Self { self }
+        func unit(_ n: Int) -> String {
+            switch self {
+            case .completions: n == 1 ? "completion" : "completions"
+            case .words: n == 1 ? "word" : "words"
+            case .characters: n == 1 ? "character" : "characters"
+            }
+        }
+    }
+
     struct Bucket: Identifiable {
         let start: Date
         var completions = 0
         var words = 0
+        var characters = 0
         var id: Date { start }
+        func value(_ m: Metric) -> Int {
+            switch m { case .completions: completions; case .words: words; case .characters: characters }
+        }
+        /// shortcut: assumes typing at 40 wpm (200 characters a minute); make it a setting if users ask.
+        var saved: Duration { .seconds(Double(characters) * 60 / 200) }
     }
 
     @ObservedObject private var core = Core.shared
     @AppStorage("statsPeriod") private var period = Period.day
+    @AppStorage("statsMetric") private var metric = Metric.completions
     @State private var days: [DayStats] = []
     @State private var hovered: Date?
 
@@ -662,13 +681,21 @@ struct StatisticsPane: View {
         let before = buckets.dropLast().last ?? Bucket(start: .now)
         let shown = hovered.flatMap { h in buckets.last { $0.start <= h } } ?? now
         SettingsPage(title: "Statistics") {
-            Picker("Period", selection: $period) {
-                ForEach(Period.allCases) { Text($0.rawValue).tag($0) }
+            HStack {
+                Picker("Period", selection: $period) {
+                    ForEach(Period.allCases) { Text($0.rawValue).tag($0) }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
+                Spacer()
+                Picker("Show", selection: $metric) {
+                    ForEach(Metric.allCases) { Text($0.rawValue).tag($0) }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+                .fixedSize()
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .frame(width: 240)
-            .frame(maxWidth: .infinity)
 
             SettingsCard {
                 // Screen Time style: period, one hero number, then the detail line.
@@ -676,8 +703,8 @@ struct StatisticsPane: View {
                     Text(shown.start == now.start ? period.current : label(shown.start))
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(.secondary)
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text(shown.completions.formatted()).font(.system(size: 30, weight: .semibold)).monospacedDigit()
-                        Text(shown.completions == 1 ? "completion" : "completions")
+                        Text(shown.value(metric).formatted()).font(.system(size: 30, weight: .semibold)).monospacedDigit()
+                        Text(metric.unit(shown.value(metric)))
                             .font(.system(size: 15, weight: .medium)).foregroundStyle(.secondary)
                     }
                     detail(shown, now: now, before: before)
@@ -688,7 +715,7 @@ struct StatisticsPane: View {
 
                 Chart(buckets) { b in
                     BarMark(x: .value("Period", b.start, unit: period.unit),
-                            y: .value("Completions", b.completions),
+                            y: .value(metric.rawValue, b.value(metric)),
                             width: .ratio(0.6))
                         .clipShape(UnevenRoundedRectangle(topLeadingRadius: 4, topTrailingRadius: 4))
                         .foregroundStyle(Color.orange.opacity(hovered == nil || b.start == shown.start ? 1 : 0.35))
@@ -707,16 +734,27 @@ struct StatisticsPane: View {
                 }
                 .frame(height: 180)
                 .padding(.vertical, 14)
-                .accessibilityLabel("Completions accepted per \(period.rawValue.lowercased())")
+                .accessibilityLabel("\(metric.rawValue) per \(period.rawValue.lowercased())")
             }
 
             SettingsCard("All time") {
+                let all = days.reduce(into: Bucket(start: .now)) {
+                    $0.completions += Int($1.completions); $0.words += Int($1.words); $0.characters += Int($1.characters)
+                }
+                SettingsRow(symbol: "clock", title: "Time saved", subtitle: "Estimated at 40 words a minute") {
+                    Text(savedText(all.saved)).font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                }
+                RowDivider()
                 SettingsRow(symbol: "checkmark.circle", title: "Completions accepted") {
-                    Text("\(days.reduce(0) { $0 + Int($1.completions) })").font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                    Text(all.completions.formatted()).font(.system(size: 13, weight: .semibold)).monospacedDigit()
                 }
                 RowDivider()
                 SettingsRow(symbol: "text.word.spacing", title: "Words written for you") {
-                    Text("\(days.reduce(0) { $0 + Int($1.words) })").font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                    Text(all.words.formatted()).font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                }
+                RowDivider()
+                SettingsRow(symbol: "character.cursor.ibeam", title: "Characters written for you") {
+                    Text(all.characters.formatted()).font(.system(size: 13, weight: .semibold)).monospacedDigit()
                 }
                 RowDivider()
                 SettingsRow(symbol: "calendar", title: "Days used") {
@@ -729,15 +767,20 @@ struct StatisticsPane: View {
         .onChange(of: core.today.completions) { _, _ in days = statsPerDay() }
     }
 
-    /// "↑ 47 from yesterday · 141 words"; the trend only for the current period.
+    /// "↑ 47 from yesterday · about 4 min saved"; the trend only for the current period.
     private func detail(_ shown: Bucket, now: Bucket, before: Bucket) -> some View {
-        let words = Text("\(shown.words.formatted()) \(shown.words == 1 ? "word" : "words")")
-        guard shown.start == now.start else { return AnyView(words) }
-        let diff = now.completions - before.completions
+        let saved = Text("about \(savedText(shown.saved)) saved")
+        guard shown.start == now.start else { return AnyView(saved) }
+        let diff = now.value(metric) - before.value(metric)
         let trend = diff == 0
             ? Text("Same as \(period.previous)")
             : Text("\(Image(systemName: diff > 0 ? "arrow.up" : "arrow.down")) \(abs(diff).formatted()) from \(period.previous)")
-        return AnyView(HStack(spacing: 0) { trend; Text(" · "); words })
+        return AnyView(HStack(spacing: 0) { trend; Text(" · "); saved })
+    }
+
+    private func savedText(_ d: Duration) -> String {
+        d < .seconds(60) ? "\(Int(d.components.seconds)) sec"
+            : d.formatted(.units(allowed: [.hours, .minutes], width: .abbreviated, maximumUnitCount: 2))
     }
 
     private func label(_ start: Date) -> String {
@@ -768,6 +811,7 @@ struct StatisticsPane: View {
                   let i = out.firstIndex(where: { $0.start == start }) else { continue }
             out[i].completions += Int(d.completions)
             out[i].words += Int(d.words)
+            out[i].characters += Int(d.characters)
         }
         return out
     }

@@ -62,24 +62,28 @@ pub fn today() -> (u64, u64) {
     sum(&load(), &today_key())
 }
 
-/// (YYYY-MM-DD, completions, words) for every day with accepts, oldest first.
-pub fn per_day() -> Vec<(String, u64, u64)> {
+/// (YYYY-MM-DD, completions, words, characters) for every day with accepts, oldest first.
+pub fn per_day() -> Vec<(String, u64, u64, u64)> {
     days(&load())
 }
 
-fn days(v: &Value) -> Vec<(String, u64, u64)> {
+fn days(v: &Value) -> Vec<(String, u64, u64, u64)> {
     let mut out: Vec<_> = v["perDay"]
         .as_object()
-        .map(|m| m.keys().map(|d| { let (c, w) = sum(v, d); (d.clone(), c, w) }).collect())
+        .map(|m| m.keys().map(|d| { let (c, w) = sum(v, d); (d.clone(), c, w, total(v, d, "characterCount")) }).collect())
         .unwrap_or_default();
     out.sort();
     out
 }
 
 fn sum(v: &Value, day: &str) -> (u64, u64) {
+    (total(v, day, "completionCount"), total(v, day, "wordCountTotal"))
+}
+
+/// One counter for a day, short and long accepts together.
+fn total(v: &Value, day: &str, k: &str) -> u64 {
     let d = &v["perDay"][day];
-    let get = |k: &str| ["short", "long"].iter().map(|t| d[t][k].as_u64().unwrap_or(0)).sum();
-    (get("completionCount"), get("wordCountTotal"))
+    ["short", "long"].iter().map(|t| d[t][k].as_u64().unwrap_or(0)).sum()
 }
 
 #[cfg(test)]
@@ -95,6 +99,6 @@ mod tests {
         assert_eq!(sum(&v, "2026-11-19"), (2, 4));
         assert_eq!(v["perDay"]["2026-11-19"]["short"]["characterCount"], 6);
         assert_eq!(sum(&v, "2026-11-20"), (0, 0));
-        assert_eq!(days(&v), vec![("2026-11-18".into(), 1, 1), ("2026-11-19".into(), 2, 4)]);
+        assert_eq!(days(&v), vec![("2026-11-18".into(), 1, 1, 3), ("2026-11-19".into(), 2, 4, 20)]);
     }
 }
