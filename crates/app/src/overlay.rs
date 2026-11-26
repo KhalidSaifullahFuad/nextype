@@ -50,8 +50,9 @@ impl Overlay {
     }
 
     /// Show `text` with its first glyph at the caret, wrapping between `edges` (left, right) when
-    /// given. All coordinates are AX (top-left origin).
-    pub fn show(&self, text: &str, caret: Rect, font: Option<&(String, f64)>, edges: Option<(f64, f64)>) {
+    /// given. `below` (mid-line) draws it in a box under the caret line instead, so it never hides
+    /// the field's text after the caret. All coordinates are AX (top-left origin).
+    pub fn show(&self, text: &str, caret: Rect, font: Option<&(String, f64)>, edges: Option<(f64, f64)>, below: bool) {
         let font = font
             .and_then(|(name, size)| NSFont::fontWithName_size(&NSString::from_str(name), *size))
             .unwrap_or_else(|| NSFont::systemFontOfSize(caret.h * 0.8));
@@ -66,12 +67,17 @@ impl Overlay {
             NSAttributedString::initWithString_attributes(NSAttributedString::alloc(), &NSString::from_str(text), Some(&attrs))
         };
         self.label.setAttributedStringValue(&s);
+        // A popup colour, not a guess at the field's: the system's dark text background on a white
+        // web page painted a black bar over the text.
+        self.label.setDrawsBackground(below);
+        self.label.setBackgroundColor(Some(&NSColor::windowBackgroundColor()));
         let size = self.label.sizeThatFits(NSSize::new(width + 2.0 * LABEL_PAD_X, NO_WRAP));
         let w = if edges.is_some() { width + 2.0 * LABEL_PAD_X } else { size.width };
         // AppKit's origin is the primary screen's bottom-left; AX's is its top-left.
         let primary_h = NSScreen::screens(self.mtm).firstObject().map_or(0.0, |s| s.frame().size.height);
         // Top-aligned to the caret line: with the field's font, the baselines then match.
-        let origin = NSPoint::new(left - LABEL_PAD_X, primary_h - caret.y - size.height);
+        let top = if below { caret.y + caret.h } else { caret.y };
+        let origin = NSPoint::new(left - LABEL_PAD_X, primary_h - top - size.height);
         self.panel.setFrame_display(NSRect::new(origin, NSSize::new(w, size.height)), true);
         self.panel.orderFrontRegardless();
     }

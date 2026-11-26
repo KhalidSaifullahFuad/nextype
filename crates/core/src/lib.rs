@@ -58,6 +58,12 @@ impl FieldSnapshot {
         &self.text[utf16_to_byte(&self.text, self.caret_utf16 + self.selection_len)..]
     }
 
+    /// Whether text follows the caret on its line (a mid-line completion, spec §8.6).
+    pub fn mid_line(&self) -> bool {
+        // Web editors often leave a trailing space or nbsp after the caret: that's still line end.
+        !self.after().lines().next().unwrap_or("").trim().is_empty()
+    }
+
     /// Left and right edges the ghost wraps between in a multi-line field (spec §11.2),
     /// taking the right inset equal to the left one. `None`: single-line field, unknown
     /// geometry, or no room after the caret.
@@ -207,9 +213,9 @@ pub fn gate(s: &FieldSnapshot) -> Result<(), &'static str> {
     if s.before().chars().count() < MIN_CHARS {
         return Err("too little text");
     }
-    // shortcut: end-of-line only; mid-line completions are P1 (spec §8.6).
-    if !s.after().is_empty() && !s.after().starts_with('\n') {
-        return Err("caret mid-line");
+    // Mid-line is fine between words (spec §8.6), but not inside one.
+    if s.after().starts_with(char::is_alphanumeric) {
+        return Err("caret mid-word");
     }
     Ok(())
 }
@@ -290,6 +296,48 @@ pub fn copy_cut(ghost: &str, source: &str, min: usize) -> Option<usize> {
     .map(|a| ghost[..a].trim_end_matches(|c: char| !c.is_alphanumeric()).len())
 }
 
+/// Mid-line (spec §8.6): `ghost` with the model's gap markup (`**word**`, `[word]`) removed, cut where it runs into
+/// `after` (the rest of the caret's line), and with any tail that could be the start of `after`
+/// held back, so a rejoin never flashes on screen. `done` once the rejoin is certain.
+pub fn mid_line_ghost(ghost: &str, after: &str) -> (String, bool) {
+    let g = ghost.replace(['*', '[', ']'], "");
+    if let Some(end) = copy_cut(&g, after, 6) {
+        return (g[..end].trim_end().to_owned(), true);
+    }
+    let hold = (1..=g.len().min(after.len()))
+        .rev()
+        .find(|&k| g.is_char_boundary(g.len() - k) && after.is_char_boundary(k) && g.ends_with(&after[..k]))
+        .unwrap_or(0);
+    let mut kept = g[..g.len() - hold].to_owned();
+    // The field already has the space before the next word.
+    if after.starts_with(char::is_whitespace) {
+        kept.truncate(kept.trim_end().len());
+    }
+    (kept, false)
+}
+
+/// Most words a mid-line ghost may have (spec §8.6 leaves the length open): it fills a gap, and
+/// small models drift into chatter after a few words.
+pub const MID_LINE_WORDS: usize = 5;
+
+/// Byte length of the first `n` words of `s` (with their leading spaces), `None` if it has fewer.
+pub fn word_cut(s: &str, n: usize) -> Option<usize> {
+    let mut words = 0;
+    let mut in_word = false;
+    for (i, c) in s.char_indices() {
+        if c.is_whitespace() {
+            in_word = false;
+        } else if !in_word {
+            in_word = true;
+            words += 1;
+            if words > n {
+                return Some(s[..i].trim_end().len());
+            }
+        }
+    }
+    None
+}
+
 /// Start of the first run of 4+ identical non-alphanumeric characters (`....`, `----`, blank
 /// lines): small models sometimes loop on one, and the ghost must end before it.
 pub fn repeat_cut(s: &str) -> Option<usize> {
@@ -337,10 +385,32 @@ mod tests {
     }
 
     #[test]
+    fn mid_line_ghost_stops_at_the_rejoin() {
+        let after = " by Friday.";
+        assert_eq!(mid_line_ghost(" **rep", after), (" rep".into(), false));
+        assert_eq!(mid_line_ghost(" **report** by", after), (" report".into(), false));
+        assert_eq!(mid_line_ghost(" **report** by Friday.", after), (" report".into(), true));
+        assert_eq!(mid_line_ghost(" to discuss it.", " to discuss it."), ("".into(), true));
+        assert_eq!(mid_line_ghost(" great", " and more"), (" great".into(), false));
+        assert_eq!(mid_line_ghost(" [option]", " is too"), (" option".into(), false));
+    }
+
+    #[test]
+    fn word_cut_keeps_n_words() {
+        assert_eq!(word_cut(" sales report for this week", 2), Some(" sales report".len()));
+        assert_eq!(word_cut(" sales report", 2), None);
+        assert_eq!(word_cut("", 1), None);
+    }
+
+    #[test]
     fn gate_rules() {
         assert_eq!(gate(&field("Hello there", 11)), Ok(()));
         assert_eq!(gate(&field("Hello there\nnext", 11)), Ok(()));
-        assert_eq!(gate(&field("Hello there", 5)), Err("caret mid-line"));
+        assert_eq!(gate(&field("Hello there", 5)), Ok(()));
+        assert_eq!(gate(&field("Hello there", 3)), Err("caret mid-word"));
+        assert!(field("Hello there", 5).mid_line());
+        assert!(!field("Hello there\nnext", 11).mid_line());
+        assert!(!field("Hello there \u{a0}", 11).mid_line());
         assert_eq!(gate(&field("Hi", 2)), Err("too little text"));
 
         let mut f = field("Hello there", 11);

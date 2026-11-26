@@ -7,7 +7,7 @@ use std::sync::mpsc::{self, Sender};
 use crate::settings;
 use dispatch2::DispatchQueue;
 use nextype_core::prompt::{Context, build};
-use nextype_core::{copy_cut, repeat_cut, sentence_end, tail};
+use nextype_core::{MID_LINE_WORDS, copy_cut, mid_line_ghost, repeat_cut, sentence_end, tail, word_cut};
 use nextype_engine::{Completer, LlamaBackend, load_model};
 
 /// Id of the newest request (0 = none). The main thread bumps it to cancel.
@@ -34,7 +34,7 @@ pub struct Request {
 
 
 /// Start the worker. `on_text(id, suggestion)` runs on the main thread each time the
-/// suggestion (the text after what is already typed) grows.
+/// suggestion (the text after what is already typed) changes.
 pub fn spawn(model_path: String, on_text: fn(u64, String)) -> Sender<Request> {
     let (tx, rx) = mpsc::channel::<Request>();
     std::thread::spawn(move || {
@@ -57,17 +57,29 @@ pub fn spawn(model_path: String, on_text: fn(u64, String)) -> Sender<Request> {
                 }
                 let prompt = build(tail(&req.before, WINDOW_CHARS), &req.context, &req.instructions, &|s| completer.count_tokens(s));
                 let heal = prompt.heal.as_str();
-                let (mut shown, mut sentence_done) = (0, false);
+                let after_line = req.context.after.lines().next().unwrap_or("");
+                let (mut sent, mut sentence_done) = (String::new(), false);
                 let result = completer.complete(&prompt.text, heal, settings::MAX_TOKENS.load(Ordering::Relaxed), |text| {
-                    let Some(mut s) = text.strip_prefix(heal) else { return LATEST.load(Ordering::Relaxed) == id };
+                    let Some(raw) = text.strip_prefix(heal) else { return LATEST.load(Ordering::Relaxed) == id };
+                    let mid;
+                    let mut s = raw;
+                    if !after_line.is_empty() {
+                        let rejoined;
+                        (mid, rejoined) = mid_line_ghost(raw, after_line);
+                        s = &mid;
+                        sentence_done |= rejoined;
+                    }
                     // Stop at a sentence end, or before a run like "....." the model got stuck on.
                     // …or before it starts copying the window title from the prompt's context.
                     let copied = copy_cut(s, &req.context.window_title, 8);
-                    if let Some(end) = [sentence_end(s), repeat_cut(s), copied].into_iter().flatten().min() {
+                    let short = if after_line.is_empty() { None } else { word_cut(s, MID_LINE_WORDS) };
+                    if let Some(end) = [sentence_end(s), repeat_cut(s), copied, short].into_iter().flatten().min() {
                         (s, sentence_done) = (&s[..end], true);
                     }
-                    if s.len() > shown {
-                        shown = s.len();
+                    // Any change, not just growth: a mid-line ghost shrinks when it turns out to
+                    // repeat the text after the caret.
+                    if s != sent {
+                        sent = s.to_owned();
                         let s = s.to_owned();
                         DispatchQueue::main().exec_async(move || on_text(id, s));
                     }

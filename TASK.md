@@ -53,7 +53,7 @@ Updated: 2026-11-19.
 
 ## Next: M7. Suggestion quality
 
-- [ ] Mid-line suggestions: complete when the caret is inside text, using the text after it (spec §8.6)
+- [x] Mid-line suggestions: between words, right after typing; the prompt shows the line with a [GAP] marker, the ghost (≤ 5 words) covers the text after the caret and stops where it rejoins it (spec §8.6)
 - [ ] Beams and ranking instead of one greedy path; stronger typed-prefix healing (§9.4)
 - [ ] Typo hold-back: no suggestion while the last word looks misspelled; offer the correction (§10)
 - [ ] Sentence trim that doesn't stop at abbreviations like "e.g."

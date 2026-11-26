@@ -50,6 +50,8 @@ struct Ghost {
     font: Option<(String, f64)>,
     /// Text edges to wrap between (`FieldSnapshot::wrap_edges`).
     edges: Option<(f64, f64)>,
+    /// Text follows the caret on its line: draw one line in a box under it instead of wrapping.
+    mid: bool,
 }
 
 impl Ghost {
@@ -63,6 +65,8 @@ thread_local! {
     static DEBOUNCE: RefCell<Option<CFRetained<CFRunLoopTimer>>> = const { RefCell::new(None) };
     static LAST_LOG: RefCell<String> = const { RefCell::new(String::new()) };
     static GHOST: RefCell<Option<Ghost>> = const { RefCell::new(None) };
+    /// The field text at the previous read, to tell typing from caret moves.
+    static LAST_TEXT: RefCell<Option<(i32, String)>> = const { RefCell::new(None) };
     static OVERLAY: OnceCell<Overlay> = const { OnceCell::new() };
     static ENGINE: OnceCell<Sender<Request>> = const { OnceCell::new() };
 }
@@ -165,6 +169,8 @@ unsafe extern "C-unwind" fn on_debounce(_: *mut CFRunLoopTimer, _: *mut std::ffi
     }
     let snap = nextype_ax::snapshot();
     log_snapshot(snap.as_ref());
+    let now = snap.as_ref().map(|s| (s.pid, s.text.clone()));
+    let typed = LAST_TEXT.with(|l| l.replace(now.clone()) != now);
     if let Ok(mut d) = settings::CURRENT_DOMAIN.lock() {
         *d = snap.as_ref().map(|s| s.domain.clone()).unwrap_or_default();
     }
@@ -192,13 +198,19 @@ unsafe extern "C-unwind" fn on_debounce(_: *mut CFRunLoopTimer, _: *mut std::ffi
             return false;
         }
         gh.typed = t.len();
-        (gh.caret, gh.font, gh.edges) = (caret, field_font(&s), s.wrap_edges());
+        (gh.caret, gh.font, gh.edges, gh.mid) = (caret, field_font(&s), s.wrap_edges(), s.mid_line());
         show(gh);
         true
     });
-    if !kept {
-        request(&s, caret);
+    if kept {
+        return;
     }
+    // Mid-line only right after typing (spec §5.2 `midLineRequireRecentTyping`): clicking or
+    // arrowing into a sentence shouldn't pop up a suggestion.
+    if s.mid_line() && !typed {
+        return clear_ghost();
+    }
+    request(&s, caret);
 }
 
 fn request(s: &FieldSnapshot, caret: Rect) {
@@ -214,6 +226,7 @@ fn request(s: &FieldSnapshot, caret: Rect) {
             caret,
             font: field_font(s),
             edges: s.wrap_edges(),
+            mid: s.mid_line(),
         };
         show(&gh);
         *g.borrow_mut() = Some(gh);
@@ -248,13 +261,14 @@ fn gather_context(s: &FieldSnapshot) -> Context {
         past: if settings::HISTORY.load(Ordering::Relaxed) { history::examples(s) } else { Vec::new() },
         screen: if settings::SCREEN.load(Ordering::Relaxed) { screen::text_for(s) } else { String::new() },
         clipboard: if settings::CLIPBOARD.load(Ordering::Relaxed) { clipboard::recent_text().unwrap_or_default() } else { String::new() },
+        after: if s.mid_line() { s.after().to_owned() } else { String::new() },
     }
 }
 
 /// Engine output for request `id`, on the main thread.
 fn on_engine_text(id: u64, text: String) {
     GHOST.with(|g| {
-        if let Some(gh) = g.borrow_mut().as_mut().filter(|gh| gh.id == id && text.len() > gh.typed) {
+        if let Some(gh) = g.borrow_mut().as_mut().filter(|gh| gh.id == id && text.len() >= gh.typed && text.starts_with(&gh.full[..gh.typed])) {
             gh.full = text;
             show(gh);
             let c = gh.caret;
@@ -267,7 +281,13 @@ fn show(gh: &Ghost) {
     let text = gh.shown();
     OVERLAY.with(|o| {
         let Some(o) = o.get() else { return };
-        if text.is_empty() { o.hide() } else { o.show(text, gh.caret, gh.font.as_ref(), gh.edges) }
+        if text.is_empty() {
+            o.hide()
+        } else if gh.mid {
+            o.show(text, gh.caret, gh.font.as_ref(), None, true)
+        } else {
+            o.show(text, gh.caret, gh.font.as_ref(), gh.edges, false)
+        }
     });
     GHOST_VISIBLE.store(!text.is_empty(), Ordering::Relaxed);
 }
@@ -296,7 +316,12 @@ fn on_key(key: Key) {
         Key::AcceptAll | Key::AcceptWord => {
             let Some((pid, text, expect)) = GHOST.with(|g| {
                 g.borrow().as_ref().map(|gh| {
-                    let text = if matches!(key, Key::AcceptAll) { gh.shown() } else { next_word(gh.shown()) };
+                    let text = match key {
+                        Key::AcceptAll => gh.shown(),
+                        // Mid-line, the field already has the space after the word.
+                        _ if gh.mid => next_word(gh.shown()).trim_end(),
+                        _ => next_word(gh.shown()),
+                    };
                     (gh.pid, text.to_owned(), format!("{}{}{text}", gh.anchor, &gh.full[..gh.typed]))
                 })
             }) else {

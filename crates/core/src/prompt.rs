@@ -11,11 +11,18 @@ pub const INSTRUCTIONS_BUDGET: usize = 1000;
 pub const CLIPBOARD_BUDGET: usize = 200;
 pub const SCREEN_BUDGET: usize = 600;
 pub const PAST_BUDGET: usize = 400;
+pub const AFTER_BUDGET: usize = 200;
 const WINDOW_TITLE_CHARS: usize = 100;
 
 // Our own wording (spec §0: reference prompts are not copied).
 const INTRO: &str = "I am writing a text at the end of this message, on my Mac. Some of the details below may not matter for it.";
 const TASK: &str = "Continue the text I am writing from exactly where it stops. Keep its language, tone and style, write complete grammatical sentences, and reply with the continuation only: no preamble, no quotes, no placeholders.";
+/// Mid-line (spec §8.6): the model sees the line with a gap marker and fills the gap. Gemma E2B
+/// ignored the text after the caret when it was given as a separate section.
+const GAP: &str = "[GAP]";
+const MID_TASK: &str = "Continue my text from the cursor with only the words that fill [GAP], so the sentence reads naturally with what follows. Reply with those words only.";
+/// The current line before the caret, repeated around the gap marker.
+const GAP_LINE_BUDGET: usize = 100;
 
 /// What the app knows about the moment of typing (spec §7.1). Empty values are left out.
 #[derive(Debug, Default, Clone)]
@@ -34,6 +41,8 @@ pub struct Context {
     pub screen: String,
     /// Text the user copied recently (spec §7.3), if that setting is on.
     pub clipboard: String,
+    /// Text after the caret when it is mid-line (spec §8.6), else empty.
+    pub after: String,
 }
 
 #[derive(Debug, PartialEq)]
@@ -76,8 +85,18 @@ pub fn build(before: &str, ctx: &Context, instructions: &str, count: &dyn Fn(&st
         user.push_str("\n\nText I copied recently:\n");
         user.push_str(&redact(clipboard));
     }
+    // Mid-line: right before the task, nearest what it explains. shortcut: this section changes
+    // with each mid-line keystroke, so the model turn after it is prefilled again (~250 ms);
+    // move the gap line after the before-text if that gets noticeable.
+    let after = fit_head(ctx.after.trim_end(), AFTER_BUDGET, count);
+    if !after.is_empty() {
+        let line = before.rsplit('\n').next().unwrap_or("");
+        let line = fit_tail(line, GAP_LINE_BUDGET, count);
+        user.push_str("\n\nMy text, with [GAP] where my cursor is:\n");
+        user.push_str(&redact(&format!("{line}{GAP}{after}")));
+    }
     user.push_str("\n\n");
-    user.push_str(TASK);
+    user.push_str(if after.is_empty() { TASK } else { MID_TASK });
     Prompt { text: format!("<|turn>user\n{user}<turn|>\n<|turn>model\n{kept}"), heal: heal.to_owned() }
 }
 
@@ -200,6 +219,7 @@ mod tests {
             past: Vec::new(),
             screen: String::new(),
             clipboard: String::new(),
+            after: String::new(),
         }
     }
 
@@ -252,6 +272,15 @@ mod tests {
         c.name = "n ".repeat(300); // over budget: the least important lines go first
         let p = build("Hi all", &c, "", &words);
         assert!(!p.text.contains("App I am typing in"));
+    }
+
+    #[test]
+    fn mid_line_adds_the_text_after_and_its_task() {
+        let c = Context { after: " tomorrow at noon.".into(), ..Default::default() };
+        let p = build("Let us meet", &c, "", &words);
+        assert!(p.text.contains("where my cursor is:\nLet us meet[GAP] tomorrow at noon.\n\nContinue my text from the cursor"));
+        assert!(p.text.ends_with("<|turn>model\nLet us"));
+        assert!(!build("Let us meet", &Context::default(), "", &words).text.contains("[GAP]"));
     }
 
     #[test]
