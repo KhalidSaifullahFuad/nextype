@@ -1,4 +1,6 @@
 import AppKit
+import Charts
+import Combine
 import ServiceManagement
 import Sparkle
 import SwiftUI
@@ -10,15 +12,20 @@ import UniformTypeIdentifiers
 final class SettingsWindowController {
     static let shared = SettingsWindowController()
     private var window: NSWindow?
+    private let nav = SettingsNavigator()
+    private var titleSync: AnyCancellable?
 
-    func show() {
+    func show(_ pane: SettingsPane? = nil) {
+        if let pane { nav.go(pane) }
         if window == nil {
-            let host = NSHostingController(rootView: SettingsView())
+            let host = NSHostingController(rootView: SettingsView(nav: nav))
             host.sceneBridgingOptions = [.toolbars, .title]
             let w = SettingsWindow(contentViewController: host)
             w.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
             w.toolbarStyle = .unified
-            w.title = "NexType Settings"
+            w.titleVisibility = .hidden
+            // The pane's name is the window title, like System Settings.
+            titleSync = nav.$current.sink { [weak w] in w?.title = $0.title }
             w.isReleasedWhenClosed = false
             w.setContentSize(NSSize(width: 820, height: 660))
             w.center()
@@ -41,21 +48,23 @@ private final class SettingsWindow: NSWindow {
 // MARK: Navigation
 
 enum SettingsPane: String, CaseIterable, Identifiable {
-    case general, suggestions, keyboard
+    case setup
+    case general, statistics, suggestions, keyboard
     case sources, learning
     case apps
-    case permissions, model, about
+    case model, about
     var id: String { rawValue }
 
     var title: String {
         switch self {
+        case .setup: "Setup"
         case .general: "General"
+        case .statistics: "Statistics"
         case .suggestions: "Suggestions"
         case .keyboard: "Keyboard"
         case .sources: "Context sources"
         case .learning: "Learn my style"
         case .apps: "Apps & websites"
-        case .permissions: "Permissions"
         case .model: "Model"
         case .about: "About"
         }
@@ -63,13 +72,14 @@ enum SettingsPane: String, CaseIterable, Identifiable {
 
     var symbol: String {
         switch self {
+        case .setup: "checklist"
         case .general: "gearshape"
+        case .statistics: "chart.bar"
         case .suggestions: "text.cursor"
         case .keyboard: "keyboard"
         case .sources: "doc.on.clipboard"
         case .learning: "brain"
         case .apps: "square.grid.2x2"
-        case .permissions: "lock.shield"
         case .model: "cpu"
         case .about: "info.circle"
         }
@@ -78,13 +88,14 @@ enum SettingsPane: String, CaseIterable, Identifiable {
     /// Extra words the sidebar search matches, so a query finds the setting and not only the page title.
     var keywords: String {
         switch self {
-        case .general: "login startup pause enable completions today stats status"
+        case .setup: "setup start accessibility permissions privacy download model screen recording relaunch ready status"
+        case .general: "login startup pause enable completions"
+        case .statistics: "stats today daily weekly monthly accepted words written history chart"
         case .suggestions: "length short medium long instructions tone prompt"
         case .keyboard: "tab accept dismiss esc shortcut key"
         case .sources: "clipboard copied screen window context"
         case .learning: "history writing style saved delete encrypted"
         case .apps: "override exclude disable website domain browser"
-        case .permissions: "accessibility screen recording privacy"
         case .model: "download gemma qwen recommended memory delete location"
         case .about: "version update check sparkle"
         }
@@ -96,17 +107,18 @@ enum SettingsPane: String, CaseIterable, Identifiable {
     }
 
     static let groups: [(title: String, panes: [SettingsPane])] = [
-        ("Essentials", [.general, .suggestions, .keyboard]),
+        ("", [.setup]),
+        ("Writing", [.general, .statistics, .suggestions, .keyboard, .apps]),
         ("Context", [.sources, .learning]),
-        ("Apps", [.apps]),
-        ("App", [.permissions, .model, .about]),
+        ("NexType", [.model, .about]),
     ]
 }
 
 /// Current pane plus browser-style back/forward history.
 @MainActor
 final class SettingsNavigator: ObservableObject {
-    @Published private(set) var current: SettingsPane = .general
+    /// `open NexType.app --args -settingsPane apps` opens Settings on that pane.
+    @Published private(set) var current = SettingsPane(rawValue: UserDefaults.standard.string(forKey: "settingsPane") ?? "") ?? .setup
     @Published private var backStack: [SettingsPane] = []
     @Published private var forwardStack: [SettingsPane] = []
 
@@ -134,45 +146,49 @@ final class SettingsNavigator: ObservableObject {
 }
 
 struct SettingsView: View {
-    @StateObject private var nav = SettingsNavigator()
+    @ObservedObject var nav: SettingsNavigator
     @State private var query = ""
-    @State private var columns = NavigationSplitViewVisibility.all
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $columns) {
+        NavigationSplitView(columnVisibility: .constant(.all)) {
             SettingsSidebar(nav: nav, query: query)
                 .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 300)
         } detail: {
             detail.id(nav.current)
         }
         .searchable(text: $query, placement: .sidebar, prompt: "Search settings")
-        .navigationTitle("NexType Settings")
         .toolbar {
-            ToolbarItemGroup(placement: .navigation) {
-                Button {
-                    withAnimation { columns = columns == .detailOnly ? .all : .detailOnly }
-                } label: { Image(systemName: "sidebar.left") }
-                    .help("Show or hide the sidebar")
-            }
             ToolbarItemGroup(placement: .navigation) {
                 Button { nav.back() } label: { Image(systemName: "chevron.left") }
                     .disabled(!nav.canGoBack).help("Back")
                 Button { nav.forward() } label: { Image(systemName: "chevron.right") }
                     .disabled(!nav.canGoForward).help("Forward")
             }
+            // Drawn here instead of the window title so it can be larger; the window title stays for the Dock.
+            if #available(macOS 26, *) {
+                ToolbarItem(placement: .navigation) { title }.sharedBackgroundVisibility(.hidden)
+            } else {
+                ToolbarItem(placement: .navigation) { title }
+            }
         }
+        .toolbar(removing: .sidebarToggle)  // the sidebar is the navigation; it always fits
         .frame(minWidth: 720, minHeight: 500)
+    }
+
+    private var title: some View {
+        Text(nav.current.title).font(.system(size: 17, weight: .bold)).padding(.horizontal, 6)
     }
 
     @ViewBuilder private var detail: some View {
         switch nav.current {
+        case .setup: SetupPane(nav: nav)
         case .general: GeneralPane()
+        case .statistics: StatisticsPane()
         case .suggestions: SuggestionsPane()
         case .keyboard: KeyboardPane()
         case .sources: SourcesPane()
         case .learning: LearningPane()
         case .apps: AppsPane()
-        case .permissions: PermissionsPane()
         case .model: ModelPane()
         case .about: AboutPane()
         }
@@ -184,7 +200,6 @@ struct SettingsView: View {
 struct SettingsSidebar: View {
     @ObservedObject var nav: SettingsNavigator
     let query: String
-    @State private var collapsed: Set<String> = []
 
     var body: some View {
         ScrollView {
@@ -192,11 +207,9 @@ struct SettingsSidebar: View {
                 ForEach(SettingsPane.groups, id: \.title) { group in
                     let panes = group.panes.filter { $0.matches(query) }
                     if !panes.isEmpty {
-                        groupHeader(group.title)
-                        if !collapsed.contains(group.title) || !query.isEmpty {
-                            ForEach(panes) { pane in
-                                SidebarRow(pane: pane, selected: nav.current == pane) { nav.go(pane) }
-                            }
+                        if !group.title.isEmpty { groupHeader(group.title) }
+                        ForEach(panes) { pane in
+                            SidebarRow(pane: pane, selected: nav.current == pane) { nav.go(pane) }
                         }
                     }
                 }
@@ -214,26 +227,13 @@ struct SettingsSidebar: View {
     }
 
     private func groupHeader(_ title: String) -> some View {
-        let isCollapsed = collapsed.contains(title) && query.isEmpty
-        return Button {
-            withAnimation(.easeInOut(duration: 0.15)) {
-                if collapsed.contains(title) { collapsed.remove(title) } else { collapsed.insert(title) }
-            }
-        } label: {
-            HStack(spacing: 6) {
-                Image(systemName: "chevron.down")
-                    .font(.system(size: 9, weight: .bold))
-                    .rotationEffect(.degrees(isCollapsed ? -90 : 0))
-                Text(title).font(.system(size: 11, weight: .semibold))
-                Spacer(minLength: 0)
-            }
+        Text(title)
+            .font(.system(size: 11, weight: .semibold))
             .foregroundStyle(.secondary)
             .padding(.horizontal, 8)
             .padding(.top, 14)
             .padding(.bottom, 4)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
+            .accessibilityAddTraits(.isHeader)
     }
 }
 
@@ -266,7 +266,7 @@ struct SidebarRow: View {
 
 // MARK: Building blocks
 
-/// Scrolling page with a large title above a stack of cards.
+/// Scrolling stack of cards. The pane's title shows in the toolbar, like System Settings.
 struct SettingsPage<Content: View>: View {
     let title: String
     @ViewBuilder var content: Content
@@ -274,7 +274,6 @@ struct SettingsPage<Content: View>: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(title).font(.system(size: 22, weight: .bold))
                 content
             }
             .padding(.horizontal, 24)
@@ -284,7 +283,7 @@ struct SettingsPage<Content: View>: View {
     }
 }
 
-/// Rounded group of rows, optionally headed by a title.
+/// Rounded group of rows, optionally headed by a title above it.
 struct SettingsCard<Content: View>: View {
     var title: String?
     @ViewBuilder var content: Content
@@ -295,16 +294,16 @@ struct SettingsCard<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 8) {
             if let title {
-                Text(title).font(.system(size: 14, weight: .semibold)).padding(.top, 12).padding(.bottom, 8)
+                Text(title).font(.system(size: 15, weight: .semibold)).padding(.leading, 4).padding(.top, 4)
             }
-            content
+            VStack(alignment: .leading, spacing: 0) { content }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 6)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.primary.opacity(0.045)))
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 6)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.primary.opacity(0.045)))
     }
 }
 
@@ -362,7 +361,7 @@ struct ToggleRow: View {
 
     var body: some View {
         SettingsRow(symbol: symbol, title: title, subtitle: subtitle, indented: indented) {
-            Toggle(title, isOn: $isOn).toggleStyle(.switch).labelsHidden().tint(.orange)
+            Toggle(title, isOn: $isOn).toggleStyle(.switch).controlSize(.small).labelsHidden().tint(.orange)
         }
     }
 }
@@ -508,6 +507,89 @@ private struct LengthThumbnail: View {
     }
 }
 
+// MARK: Setup
+
+/// Everything NexType needs before it can suggest, in order, each with its fix.
+struct SetupPane: View {
+    @ObservedObject var nav: SettingsNavigator
+    @ObservedObject private var core = Core.shared
+    @ObservedObject private var download: Download
+    /// Permissions are granted in System Settings; re-read them when the user comes back.
+    @State private var axOK = accessibilityTrusted(prompt: false)
+    @State private var screenOK = CGPreflightScreenCaptureAccess()
+
+    init(nav: SettingsNavigator) {
+        self.nav = nav
+        download = Core.shared.download
+    }
+
+    var body: some View {
+        SettingsPage(title: "Setup") {
+            SettingsCard {
+                SettingsRow(symbol: core.status == .running ? "checkmark.seal" : "exclamationmark.triangle",
+                            title: core.status == .running ? "NexType is ready" : "NexType isn't running yet",
+                            subtitle: summary)
+            }
+            SettingsCard("Required") {
+                SettingsRow(symbol: "accessibility", title: "Accessibility",
+                            subtitle: "Lets NexType read the text before your cursor and show suggestions.") {
+                    if !axOK {
+                        Button("Grant Access…") { core.requestAccessibility() }
+                    } else if core.status == .needsAccessibility {
+                        Button("Relaunch") { core.relaunch() }
+                    } else {
+                        Granted()
+                    }
+                }
+                if axOK && core.status == .needsAccessibility {
+                    Warning("macOS applies the permission after NexType relaunches.")
+                }
+                RowDivider()
+                SettingsRow(symbol: "cpu", title: core.model.name,
+                            subtitle: downloadLine(download.state) ?? (core.model.installed
+                                ? "\(core.model.sizeText) · Downloaded · Runs on your Mac"
+                                : "\(core.model.sizeText) one-time download · Runs on your Mac")) {
+                    HStack {
+                        Button("Change…") { nav.go(.model) }
+                        if core.model.installed {
+                            Granted(text: "Ready")
+                        } else if case .running = download.state {
+                            Button("Cancel") { download.cancel() }
+                        } else if !download.isBusy {
+                            Button("Download") { core.select(core.model) }
+                        }
+                    }
+                }
+                if case .running(let fraction) = download.state {
+                    ProgressView(value: fraction).tint(.orange).padding(.leading, 42).padding(.bottom, 8)
+                }
+            }
+            SettingsCard("Optional") {
+                SettingsRow(symbol: "rectangle.dashed.badge.record", title: "Screen Recording",
+                            subtitle: "Lets suggestions use the text on screen. Turn it on in Context sources.") {
+                    if screenOK { Granted() } else {
+                        Button("Grant Access…") {
+                            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!)
+                        }
+                    }
+                }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            axOK = accessibilityTrusted(prompt: false)
+            screenOK = CGPreflightScreenCaptureAccess()
+        }
+    }
+
+    private var summary: String {
+        switch core.status {
+        case .running: "Start typing in any app. Press Tab to accept a suggestion."
+        case .needsAccessibility: "Allow Accessibility below."
+        case .modelMissing: "Download a model below."
+        }
+    }
+}
+
 // MARK: Essentials
 
 struct GeneralPane: View {
@@ -544,23 +626,150 @@ struct GeneralPane: View {
                     }
                 }
             }
-            SettingsCard("Today") {
+        }
+    }
+}
+
+// MARK: Statistics
+
+/// Accepted completions per day, week or month, like Screen Time's day/week switch.
+struct StatisticsPane: View {
+    enum Period: String, CaseIterable, Identifiable {
+        case day = "Day", week = "Week", month = "Month"
+        var id: Self { self }
+        var unit: Calendar.Component { switch self { case .day: .day; case .week: .weekOfYear; case .month: .month } }
+        /// Bars in the chart.
+        var count: Int { switch self { case .day: 14; case .week: 12; case .month: 12 } }
+        var current: String { switch self { case .day: "Today"; case .week: "This week"; case .month: "This month" } }
+        var previous: String { switch self { case .day: "yesterday"; case .week: "last week"; case .month: "last month" } }
+    }
+
+    struct Bucket: Identifiable {
+        let start: Date
+        var completions = 0
+        var words = 0
+        var id: Date { start }
+    }
+
+    @ObservedObject private var core = Core.shared
+    @AppStorage("statsPeriod") private var period = Period.day
+    @State private var days: [DayStats] = []
+    @State private var hovered: Date?
+
+    var body: some View {
+        let buckets = buckets(period)
+        let now = buckets.last ?? Bucket(start: .now)
+        let before = buckets.dropLast().last ?? Bucket(start: .now)
+        let shown = hovered.flatMap { h in buckets.last { $0.start <= h } } ?? now
+        SettingsPage(title: "Statistics") {
+            Picker("Period", selection: $period) {
+                ForEach(Period.allCases) { Text($0.rawValue).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .frame(width: 240)
+            .frame(maxWidth: .infinity)
+
+            SettingsCard {
+                // Screen Time style: period, one hero number, then the detail line.
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(shown.start == now.start ? period.current : label(shown.start))
+                        .font(.system(size: 13, weight: .medium)).foregroundStyle(.secondary)
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text(shown.completions.formatted()).font(.system(size: 30, weight: .semibold)).monospacedDigit()
+                        Text(shown.completions == 1 ? "completion" : "completions")
+                            .font(.system(size: 15, weight: .medium)).foregroundStyle(.secondary)
+                    }
+                    detail(shown, now: now, before: before)
+                        .font(.system(size: 12)).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 14)
+
+                Chart(buckets) { b in
+                    BarMark(x: .value("Period", b.start, unit: period.unit),
+                            y: .value("Completions", b.completions),
+                            width: .ratio(0.6))
+                        .clipShape(UnevenRoundedRectangle(topLeadingRadius: 4, topTrailingRadius: 4))
+                        .foregroundStyle(Color.orange.opacity(hovered == nil || b.start == shown.start ? 1 : 0.35))
+                }
+                .chartXSelection(value: $hovered)
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: period.unit, count: period == .day ? 2 : period == .week ? 2 : 1)) { _ in
+                        AxisValueLabel(format: axisFormat, centered: true)
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks(position: .trailing, values: .automatic(desiredCount: 3)) {
+                        AxisGridLine().foregroundStyle(Color.primary.opacity(0.08))
+                        AxisValueLabel()
+                    }
+                }
+                .frame(height: 180)
+                .padding(.vertical, 14)
+                .accessibilityLabel("Completions accepted per \(period.rawValue.lowercased())")
+            }
+
+            SettingsCard("All time") {
                 SettingsRow(symbol: "checkmark.circle", title: "Completions accepted") {
-                    Text("\(core.today.completions)").font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                    Text("\(days.reduce(0) { $0 + Int($1.completions) })").font(.system(size: 13, weight: .semibold)).monospacedDigit()
                 }
                 RowDivider()
                 SettingsRow(symbol: "text.word.spacing", title: "Words written for you") {
-                    Text("\(core.today.words)").font(.system(size: 13, weight: .semibold)).monospacedDigit()
+                    Text("\(days.reduce(0) { $0 + Int($1.words) })").font(.system(size: 13, weight: .semibold)).monospacedDigit()
                 }
-            }
-            SettingsCard {
-                SettingsRow(symbol: "circle.dotted", title: "Status") {
-                    if core.status == .running { Granted(text: core.status.text) } else {
-                        Label(core.status.text, systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
-                    }
+                RowDivider()
+                SettingsRow(symbol: "calendar", title: "Days used") {
+                    Text("\(days.count)").font(.system(size: 13, weight: .semibold)).monospacedDigit()
                 }
             }
         }
+        .onAppear { days = statsPerDay() }
+        // Core polls today's counts; re-read the history when they move.
+        .onChange(of: core.today.completions) { _, _ in days = statsPerDay() }
+    }
+
+    /// "↑ 47 from yesterday · 141 words"; the trend only for the current period.
+    private func detail(_ shown: Bucket, now: Bucket, before: Bucket) -> some View {
+        let words = Text("\(shown.words.formatted()) \(shown.words == 1 ? "word" : "words")")
+        guard shown.start == now.start else { return AnyView(words) }
+        let diff = now.completions - before.completions
+        let trend = diff == 0
+            ? Text("Same as \(period.previous)")
+            : Text("\(Image(systemName: diff > 0 ? "arrow.up" : "arrow.down")) \(abs(diff).formatted()) from \(period.previous)")
+        return AnyView(HStack(spacing: 0) { trend; Text(" · "); words })
+    }
+
+    private func label(_ start: Date) -> String {
+        switch period {
+        case .day: start.formatted(.dateTime.weekday(.wide).month(.abbreviated).day())
+        case .week: "Week of " + start.formatted(.dateTime.month(.abbreviated).day())
+        case .month: start.formatted(.dateTime.month(.wide).year())
+        }
+    }
+
+    private var axisFormat: Date.FormatStyle {
+        switch period {
+        case .day: .dateTime.day()
+        case .week: .dateTime.month(.abbreviated).day()
+        case .month: .dateTime.month(.abbreviated)
+        }
+    }
+
+    /// The last `count` periods, oldest first, ending with the current one; empty periods count as 0.
+    private func buckets(_ p: Period) -> [Bucket] {
+        let cal = Calendar.current
+        guard let thisStart = cal.dateInterval(of: p.unit, for: .now)?.start else { return [] }
+        var out = (0..<p.count).reversed().compactMap { cal.date(byAdding: p.unit, value: -$0, to: thisStart) }.map { Bucket(start: $0) }
+        let parse = Date.ISO8601FormatStyle(timeZone: .current).year().month().day()
+        for d in days {
+            guard let date = try? parse.parse(d.day),
+                  let start = cal.dateInterval(of: p.unit, for: date)?.start,
+                  let i = out.firstIndex(where: { $0.start == start }) else { continue }
+            out[i].completions += Int(d.completions)
+            out[i].words += Int(d.words)
+        }
+        return out
     }
 }
 
@@ -676,75 +885,74 @@ struct LearningPane: View {
 
 // MARK: Apps
 
-/// Per-app overrides (spec §14.2 subset).
+/// Per-app overrides (spec §14.2 subset), laid out like System Settings' Login Items list:
+/// apps and websites in separate lists, +/− under each, an info button per row for the details.
 struct AppsPane: View {
     @ObservedObject private var core = Core.shared
-    @State private var newSite = ""
+    @State private var selection: String?
+    @State private var editing: String?
+    @State private var addingSite = false
 
     var body: some View {
         SettingsPage(title: "Apps & websites") {
-            SettingsCard {
-                SettingsRow(symbol: "plus.app", title: "Add an app", subtitle: "Turn completions or Tab off in it, or give it its own instructions.") {
-                    Button("Add App…") { pickApp() }
-                }
-                RowDivider()
-                SettingsRow(symbol: "globe", title: "Add a website", subtitle: "Safari, Chrome, Arc and other browsers.") {
-                    HStack {
-                        TextField("Website", text: $newSite, prompt: Text("mail.google.com"))
-                            .labelsHidden()
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 170)
-                            .onSubmit(addSite)
-                        Button("Add", action: addSite).disabled(siteKey == nil)
-                    }
+            list(sites: false)
+            list(sites: true)
+        }
+        .sheet(item: Binding(get: { editing.map(SheetID.init) }, set: { editing = $0?.id })) { item in
+            if let i = core.apps.firstIndex(where: { $0.id == item.id }) {
+                OverrideDetail(app: $core.apps[i]) { editing = nil } remove: {
+                    editing = nil
+                    remove(item.id)
                 }
             }
-            ForEach($core.apps) { $app in
-                SettingsCard {
-                    HStack(spacing: 12) {
-                        appIcon(app.bundleID)
-                        Text(appName(app.bundleID)).font(.system(size: 13, weight: .semibold))
-                        Spacer()
-                        Button("Remove") { core.apps.removeAll { $0.bundleID == app.bundleID } }
-                    }
-                    .padding(.vertical, 10)
-                    RowDivider()
-                    ToggleRow(title: "Completions", indented: true,
-                              isOn: Binding(get: { !app.completionsOff }, set: { app.completionsOff = !$0 }))
-                    if !app.bundleID.hasPrefix("domain:") {
-                        ToggleRow(title: "Tab accepts the next word", indented: true,
-                                  isOn: Binding(get: { !app.tabOff }, set: { app.tabOff = !$0 }))
-                    }
-                    TextField("Instructions", text: $app.instructions, prompt: Text("Instructions for this app or site"), axis: .vertical)
-                        .labelsHidden()
-                        .textFieldStyle(.roundedBorder)
-                        .lineLimit(1...4)
-                        .padding(.leading, 42)
-                        .padding(.vertical, 8)
-                }
+        }
+        .sheet(isPresented: $addingSite) {
+            AddWebsiteSheet { key in
+                if !core.apps.contains(where: { $0.bundleID == key }) { core.apps.append(AppSetting(bundleID: key)) }
+                selection = key
             }
         }
     }
 
-    @ViewBuilder private func appIcon(_ id: String) -> some View {
-        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id) {
-            Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: 30, height: 30)
-        } else {
-            IconTile(symbol: id.hasPrefix("domain:") ? "globe" : "app.dashed")
+    /// Apps or websites (`domain:` keys): its own card with +/− under it.
+    private func list(sites: Bool) -> some View {
+        let items = core.apps.filter { $0.bundleID.hasPrefix("domain:") == sites }
+        let selectedHere = items.contains { $0.id == selection }
+        return SettingsCard(sites ? "Websites" : "Apps") {
+            if items.isEmpty {
+                Text(sites ? "No websites" : "No apps")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 52)
+            }
+            ForEach(items) { app in
+                if let i = core.apps.firstIndex(where: { $0.id == app.id }) {
+                    OverrideRow(app: $core.apps[i], selected: selection == app.id,
+                                select: { selection = app.id }, info: { editing = app.id })
+                    if app.id != items.last?.id { RowDivider() }
+                }
+            }
+            Divider().padding(.horizontal, -16)
+            HStack(spacing: 0) {
+                Button { if sites { addingSite = true } else { pickApp() } } label: {
+                    Image(systemName: "plus").frame(width: 24, height: 22)
+                }
+                .buttonStyle(.borderless)
+                .help(sites ? "Add a website" : "Add an app")
+                Divider().frame(height: 14).padding(.horizontal, 4)
+                Button { remove(selection) } label: { Image(systemName: "minus").frame(width: 24, height: 22) }
+                    .buttonStyle(.borderless)
+                    .disabled(!selectedHere)
+                    .help(sites ? "Remove the selected website" : "Remove the selected app")
+                Spacer()
+            }
+            .padding(.vertical, 4)
         }
     }
 
-    /// "https://Mail.Google.com/x" or "mail.google.com" → "domain:mail.google.com".
-    private var siteKey: String? {
-        var s = newSite.trimmingCharacters(in: .whitespaces).lowercased()
-        if let host = URL(string: s)?.host { s = host } else if let i = s.firstIndex(of: "/") { s = String(s[..<i]) }
-        return s.contains(".") && !s.contains(" ") ? "domain:" + s : nil
-    }
-
-    private func addSite() {
-        guard let key = siteKey else { return }
-        if !core.apps.contains(where: { $0.bundleID == key }) { core.apps.append(AppSetting(bundleID: key)) }
-        newSite = ""
+    private func remove(_ id: String?) {
+        core.apps.removeAll { $0.bundleID == id }
+        if selection == id { selection = nil }
     }
 
     private func pickApp() {
@@ -756,40 +964,179 @@ struct AppsPane: View {
         for url in panel.urls {
             if let id = Bundle(url: url)?.bundleIdentifier, !core.apps.contains(where: { $0.bundleID == id }) {
                 core.apps.append(core.setting(id))
+                selection = id
             }
         }
+    }
+}
+
+private struct SheetID: Identifiable { let id: String }
+
+/// App icon, or a globe for a website.
+private struct OverrideIcon: View {
+    let id: String
+    var size: CGFloat = 24
+
+    var body: some View {
+        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id) {
+            Image(nsImage: NSWorkspace.shared.icon(forFile: url.path)).resizable().frame(width: size, height: size)
+        } else {
+            Image(systemName: id.hasPrefix("domain:") ? "globe" : "app.dashed")
+                .font(.system(size: size * 0.55, weight: .medium))
+                .foregroundStyle(.white)
+                .frame(width: size * 0.84, height: size * 0.84)
+                .background(RoundedRectangle(cornerRadius: size * 0.22, style: .continuous).fill(Color.blue.gradient))
+                .frame(width: size, height: size)
+        }
+    }
+}
+
+/// One list row: click selects it (for −), the switch turns completions on or off, › opens details.
+private struct OverrideRow: View {
+    @Binding var app: AppSetting
+    let selected: Bool
+    let select: () -> Void
+    let info: () -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            OverrideIcon(id: app.bundleID)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(appName(app.bundleID)).font(.system(size: 13))
+                Text(summary).font(.system(size: 11)).foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 16)
+            Toggle("Completions", isOn: Binding(get: { !app.completionsOff }, set: { app.completionsOff = !$0 }))
+                .toggleStyle(.switch).controlSize(.small).labelsHidden().tint(.orange)
+                .help("Completions in \(appName(app.bundleID))")
+            Button(action: info) {
+                Image(systemName: "chevron.right").font(.system(size: 12, weight: .semibold)).frame(width: 20, height: 20)
+            }
+                .buttonStyle(.borderless)
+                .foregroundStyle(.tertiary)
+                .help("Details")
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 7)
+        .background(RoundedRectangle(cornerRadius: 6, style: .continuous)
+            .fill(selected ? Color.accentColor.opacity(0.18) : .clear))
+        .padding(.horizontal, -8)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: select)
+        .simultaneousGesture(TapGesture(count: 2).onEnded(info))
+        .accessibilityElement(children: .contain)
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    private var summary: String {
+        if app.completionsOff { return "Completions off" }
+        var parts: [String] = []
+        if app.tabOff { parts.append("Tab off") }
+        if !app.instructions.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { parts.append("Own instructions") }
+        return parts.isEmpty ? "Same as everywhere" : parts.joined(separator: " · ")
+    }
+}
+
+/// Details sheet, like the ones System Settings opens from a row's ›.
+private struct OverrideDetail: View {
+    @Binding var app: AppSetting
+    let done: () -> Void
+    let remove: () -> Void
+
+    var body: some View {
+        let isSite = app.bundleID.hasPrefix("domain:")
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                OverrideIcon(id: app.bundleID, size: 40)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(appName(app.bundleID)).font(.system(size: 15, weight: .semibold))
+                    Text(isSite ? "Website" : "App").font(.system(size: 11)).foregroundStyle(.secondary)
+                }
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+
+            Form {
+                Section {
+                    Toggle("Completions", isOn: Binding(get: { !app.completionsOff }, set: { app.completionsOff = !$0 }))
+                    if !isSite {
+                        Toggle("Tab accepts the next word", isOn: Binding(get: { !app.tabOff }, set: { app.tabOff = !$0 }))
+                            .disabled(app.completionsOff)
+                    }
+                }
+                .controlSize(.small)
+                Section {
+                    TextField("Instructions", text: $app.instructions,
+                              prompt: Text(isSite ? "For example: Reply in a friendly, short style." : "For example: Write in British English."),
+                              axis: .vertical)
+                        .labelsHidden()
+                        .lineLimit(3...6)
+                } header: {
+                    Text("Instructions")
+                } footer: {
+                    Text("Added to every suggestion here, on top of your general instructions.")
+                        .foregroundStyle(.secondary)
+                }
+                .disabled(app.completionsOff)
+            }
+            .formStyle(.grouped)
+            .scrollDisabled(true)
+            .tint(.orange)
+
+            HStack {
+                Button("Remove from List", role: .destructive, action: remove)
+                Spacer()
+                Button("Done", action: done).keyboardShortcut(.defaultAction)
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
+        }
+        .frame(width: 460)
+        .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+private struct AddWebsiteSheet: View {
+    let add: (String) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Add Website").font(.system(size: 13, weight: .semibold))
+            Text("NexType reads the address in Safari, Chrome, Arc and other browsers.")
+                .font(.system(size: 11)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            TextField("Website", text: $text, prompt: Text("mail.google.com"))
+                .labelsHidden()
+                .textFieldStyle(.roundedBorder)
+                .onSubmit(commit)
+            HStack {
+                Spacer()
+                Button("Cancel", role: .cancel) { dismiss() }.keyboardShortcut(.cancelAction)
+                Button("Add", action: commit).keyboardShortcut(.defaultAction).disabled(key == nil)
+            }
+        }
+        .padding(20)
+        .frame(width: 340)
+    }
+
+    /// "https://Mail.Google.com/x" or "mail.google.com" → "domain:mail.google.com".
+    private var key: String? {
+        var s = text.trimmingCharacters(in: .whitespaces).lowercased()
+        if let host = URL(string: s)?.host { s = host } else if let i = s.firstIndex(of: "/") { s = String(s[..<i]) }
+        return s.contains(".") && !s.contains(" ") ? "domain:" + s : nil
+    }
+
+    private func commit() {
+        guard let key else { return }
+        add(key)
+        dismiss()
     }
 }
 
 // MARK: App
-
-struct PermissionsPane: View {
-    @ObservedObject private var core = Core.shared
-    private let axOK = accessibilityTrusted(prompt: false)
-    private let screenOK = CGPreflightScreenCaptureAccess()
-
-    var body: some View {
-        SettingsPage(title: "Permissions") {
-            SettingsCard {
-                SettingsRow(symbol: "accessibility", title: "Accessibility", subtitle: "Needed to read the field you type in and show suggestions.") {
-                    if axOK { Granted() } else { Button("Grant Permission") { core.requestAccessibility() } }
-                }
-                RowDivider()
-                SettingsRow(symbol: "rectangle.dashed.badge.record", title: "Screen Recording", subtitle: "Needed only for “Use text on screen”.") {
-                    if screenOK { Granted() } else {
-                        Button("Grant Access") {
-                            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!)
-                        }
-                    }
-                }
-                RowDivider()
-                SettingsRow(symbol: "arrow.clockwise", title: "Relaunch NexType", subtitle: "macOS applies new permissions after a relaunch.") {
-                    Button("Relaunch") { core.relaunch() }
-                }
-            }
-        }
-    }
-}
 
 struct ModelPane: View {
     @ObservedObject private var core = Core.shared

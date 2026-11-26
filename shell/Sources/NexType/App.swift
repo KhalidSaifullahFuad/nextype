@@ -261,6 +261,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             _ = updater
             Core.shared.launch()
             Onboarding.showIfNeeded()
+            if UserDefaults.standard.string(forKey: "settingsPane") != nil { SettingsWindowController.shared.show() }
         }
     }
 
