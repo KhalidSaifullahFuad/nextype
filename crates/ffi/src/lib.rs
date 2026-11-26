@@ -158,6 +158,20 @@ pub fn stats_today() -> TodayStats {
     TodayStats { completions, words }
 }
 
+#[derive(uniffi::Record)]
+pub struct DayStats {
+    /// Local date, YYYY-MM-DD.
+    pub day: String,
+    pub completions: u64,
+    pub words: u64,
+}
+
+/// Accepts per day, oldest first; days without accepts are left out.
+#[uniffi::export]
+pub fn stats_per_day() -> Vec<DayStats> {
+    nextype::stats::per_day().into_iter().map(|(day, completions, words)| DayStats { day, completions, words }).collect()
+}
+
 /// Host of the web page in the focused field, or "" outside web views.
 #[uniffi::export]
 pub fn current_domain() -> String {
