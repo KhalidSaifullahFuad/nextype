@@ -28,7 +28,9 @@ struct Session {
 }
 
 thread_local! {
-    static DB: RefCell<Option<Connection>> = const { RefCell::new(None) };
+    /// None until the first use; Some(None) once opening failed (Keychain denied), so it isn't
+    /// retried, and the Keychain prompt doesn't come back, on every keystroke.
+    static DB: RefCell<Option<Option<Connection>>> = const { RefCell::new(None) };
     /// The field being typed in; saved when the user moves to another one.
     static SESSION: RefCell<Option<Session>> = const { RefCell::new(None) };
     /// Examples for the current field, fetched once per field so the prompt prefix stays stable.
@@ -79,9 +81,7 @@ fn open() -> rusqlite::Result<Connection> {
 fn with_db<T>(f: impl FnOnce(&Connection) -> rusqlite::Result<T>) -> Option<T> {
     DB.with(|db| {
         let mut db = db.borrow_mut();
-        if db.is_none() {
-            *db = open().map_err(|e| eprintln!("history: could not open: {e}")).ok();
-        }
+        let db = db.get_or_insert_with(|| open().map_err(|e| eprintln!("history: could not open: {e}")).ok());
         f(db.as_ref()?).map_err(|e| eprintln!("history: {e}")).ok()
     })
 }
