@@ -41,8 +41,9 @@ pub fn set_enabled(on: bool) {
 pub fn set_length(length: Length) {
     let tokens = match length {
         Length::Short => 8,
-        Length::Medium => 16,
-        Length::Long => 32,
+        // ~0.85 English words per token (Gemma 4 E2B); generation also stops at a sentence end.
+        Length::Medium => 12,
+        Length::Long => 24,
     };
     settings::MAX_TOKENS.store(tokens, Ordering::Relaxed);
 }

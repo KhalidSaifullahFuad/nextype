@@ -427,9 +427,9 @@ enum SuggestionLength: Int, CaseIterable, Identifiable {
 
     var subtitle: String {
         switch self {
-        case .short: "A few words at a time"
-        case .medium: "Finishes the sentence"
-        case .long: "A sentence or more"
+        case .short: "Up to about 6 words"
+        case .medium: "Up to about 10 words"
+        case .long: "Up to about 20 words"
         }
     }
 

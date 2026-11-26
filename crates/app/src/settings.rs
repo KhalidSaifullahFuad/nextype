@@ -13,7 +13,7 @@ pub static SCREEN: AtomicBool = AtomicBool::new(false);
 /// Save what the user writes and show the model examples of it (spec §7.4; off by default).
 pub static HISTORY: AtomicBool = AtomicBool::new(false);
 /// Longest ghost in tokens: short / medium / long (spec §9.4; the values are our guesses).
-pub static MAX_TOKENS: AtomicUsize = AtomicUsize::new(16);
+pub static MAX_TOKENS: AtomicUsize = AtomicUsize::new(12);
 /// Global custom instructions (spec §8.4).
 pub static INSTRUCTIONS: Mutex<String> = Mutex::new(String::new());
 /// Per-app settings the user changed (spec §14.2, a subset of its fields).
