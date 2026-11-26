@@ -67,9 +67,9 @@ struct OnboardingView: View {
 enum Onboarding {
     private static var window: NSWindow?
 
-    /// Shown at launch until everything is set up.
+    /// Shown at launch until everything is set up. `open NexType.app --args -showOnboarding YES` forces it.
     static func showIfNeeded() {
-        guard Core.shared.status != .running else { return }
+        guard Core.shared.status != .running || UserDefaults.standard.bool(forKey: "showOnboarding") else { return }
         let w = NSWindow(contentViewController: NSHostingController(rootView: OnboardingView()))
         w.title = "NexType"
         w.styleMask = [.titled, .closable]
