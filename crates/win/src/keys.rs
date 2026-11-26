@@ -95,11 +95,11 @@ static TYPING: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
 /// Insert `text` into the focused field on a background thread: paste it (see `clip`), or
 /// type it if the clipboard is unavailable. Off the UI thread so the keyboard hook stays fast.
-pub fn insert(text: &str) {
+pub fn insert(text: &str, split_spaces: bool) {
     let text = text.to_owned();
     std::thread::spawn(move || {
         let _one = TYPING.lock();
-        if !SPLIT_SPACES.load(Ordering::Relaxed) {
+        if !split_spaces {
             if !crate::clip::paste(&text) {
                 eprintln!("clipboard busy: typing instead");
                 type_text(&text);
@@ -130,11 +130,6 @@ pub fn insert(text: &str) {
         type_text(&text[lead..]);
     });
 }
-
-/// Type spaces at the edges of an accepted word as Space keys instead of pasting them (tray
-/// menu). On: works in editors that trim pasted spaces (Day One), but the space shows a moment
-/// before the word. Off: one paste, word and space appear together.
-pub static SPLIT_SPACES: AtomicBool = AtomicBool::new(true);
 
 fn type_text(text: &str) {
     for c in text.chars() {

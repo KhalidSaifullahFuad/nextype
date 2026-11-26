@@ -21,12 +21,16 @@ mod keys;
 #[cfg(windows)]
 mod overlay;
 #[cfg(windows)]
+mod settings;
+#[cfg(windows)]
+mod settings_ui;
+#[cfg(windows)]
 mod uia;
 #[cfg(windows)]
 mod worker;
 
 #[cfg(windows)]
-pub use app::{WM_ENGINE_TEXT, WM_FIELD, WM_KEY};
+pub use app::{WM_ENGINE_TEXT, WM_FIELD, WM_KEY, model_path, post_refresh_settings, settings_changed};
 
 #[cfg(windows)]
 fn main() {
@@ -36,12 +40,12 @@ fn main() {
 #[cfg(windows)]
 mod app {
     use std::cell::{OnceCell, RefCell};
-    use std::sync::atomic::{AtomicBool, Ordering};
+    use std::sync::atomic::Ordering;
     use std::sync::mpsc::{Receiver, Sender};
     use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
     use nextype_core::prompt::Context;
-    use nextype_core::{FieldSnapshot, OFF_BY_DEFAULT, Rect, gate, next_word, prompt_title};
+    use nextype_core::{FieldSnapshot, Rect, gate, next_word, prompt_title};
     use windows::Win32::Foundation::{HWND, LPARAM, LRESULT, POINT, WPARAM};
     use windows::Win32::Globalization::GetUserDefaultLocaleName;
     use windows::Win32::System::Com::{COINIT_APARTMENTTHREADED, CoInitializeEx};
@@ -55,6 +59,7 @@ mod app {
 
     use crate::font::{self, GhostFont};
     use crate::keys::{self, GHOST_VISIBLE, Key, TAB_ENABLED};
+    use crate::settings;
     use crate::overlay::Overlay;
     use crate::uia::Uia;
     use crate::worker::{self, LATEST, Request};
@@ -82,33 +87,40 @@ mod app {
 
     const MENU_ENABLED: usize = 1;
     const MENU_QUIT: usize = 2;
-    const MENU_SPACES: usize = 3;
+    const MENU_SETTINGS: usize = 3;
+    const MENU_PAUSE: usize = 4;
+    const MENU_APP: usize = 5;
+    const PAUSE_SECS: u64 = 3600;
+    /// Posted to the main window: send the settings to the open settings page.
+    const WM_SETTINGS_REFRESH: u32 = WM_APP + 5;
+    static MODEL: std::sync::OnceLock<String> = std::sync::OnceLock::new();
 
-    /// `%LOCALAPPDATA%\NexType\settings.txt`, one `key=value` per line.
-    fn settings_path() -> std::path::PathBuf {
-        let base = std::env::var("LOCALAPPDATA").unwrap_or_else(|_| ".".into());
-        std::path::Path::new(&base).join("NexType").join("settings.txt")
+    pub fn model_path() -> Option<String> {
+        MODEL.get().cloned()
     }
 
-    fn load_settings() {
-        let Ok(s) = std::fs::read_to_string(settings_path()) else { return };
-        for (k, v) in s.lines().filter_map(|l| l.split_once('=')) {
-            if k.trim() == "type_spaces_separately" {
-                keys::SPLIT_SPACES.store(v.trim() == "true", Ordering::Relaxed);
+    /// After any settings change: tray icon, the ghost, the open settings page.
+    pub fn settings_changed() {
+        HWND_MAIN.with(|h| h.get().map(|h| update_tray(*h)));
+        let st = settings::get();
+        if !st.enabled || st.paused(settings::now()) {
+            clear_ghost();
+        } else {
+            schedule_read();
+        }
+        post_refresh_settings(None);
+    }
+
+    /// Ask the message loop to refresh the settings page (not from inside a WebView callback).
+    pub fn post_refresh_settings(_settings_hwnd: Option<HWND>) {
+        HWND_MAIN.with(|h| {
+            if let Some(h) = h.get() {
+                unsafe {
+                    let _ = PostMessageW(Some(*h), WM_SETTINGS_REFRESH, WPARAM(0), LPARAM(0));
+                }
             }
-        }
+        });
     }
-
-    fn save_settings() {
-        let path = settings_path();
-        let body = format!("type_spaces_separately={}\n", keys::SPLIT_SPACES.load(Ordering::Relaxed));
-        let ok = path.parent().is_some_and(|d| std::fs::create_dir_all(d).is_ok()) && std::fs::write(&path, body).is_ok();
-        if !ok {
-            eprintln!("could not save settings to {}", path.display());
-        }
-    }
-
-    static ENABLED: AtomicBool = AtomicBool::new(true);
 
     struct Ghost {
         id: u64,
@@ -126,6 +138,8 @@ mod app {
         visible: usize,
         /// Last accept: until the field shows it, a read that lags behind it is ignored.
         accepted_at: Option<Instant>,
+        /// Type the spaces around an accepted word as keys (`settings::Settings::spaces_for`).
+        spaces: bool,
     }
 
     impl Ghost {
@@ -153,7 +167,11 @@ mod app {
         static LAST_LOG: RefCell<String> = const { RefCell::new(String::new()) };
         static LAST_FONT_LOG: RefCell<String> = const { RefCell::new(String::new()) };
         /// (pid, text the field should start with, text we typed) awaiting confirmation.
-        static CONFIRM: RefCell<Option<(i32, String, String)>> = const { RefCell::new(None) };
+        static CONFIRM: RefCell<Option<(i32, String, String, bool)>> = const { RefCell::new(None) };
+        /// (exe, name) of the app typed in last, for the tray's "Turn off in …".
+        static LAST_APP: RefCell<Option<(String, String)>> = const { RefCell::new(None) };
+        /// Whether the tray icon shows "on", to redraw it when a pause runs out.
+        static TRAY_ON: std::cell::Cell<bool> = const { std::cell::Cell::new(true) };
     }
 
     fn default_model() -> String {
@@ -162,7 +180,10 @@ mod app {
     }
 
     pub fn run() {
-        let model = std::env::args().nth(1).unwrap_or_else(default_model);
+        // `nextype [model.gguf] [--settings]`: --settings opens the settings window at start.
+        let args: Vec<String> = std::env::args().skip(1).collect();
+        let open_settings = args.iter().any(|a| a == "--settings");
+        let model = args.iter().find(|a| !a.starts_with("--")).cloned().unwrap_or_else(default_model);
         if !std::path::Path::new(&model).is_file() {
             eprintln!("NexType: model not found at {model}\nDownload it (see crates/win/README.md) or pass its path.");
             std::process::exit(1);
@@ -171,10 +192,10 @@ mod app {
             let _ = SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
             CoInitializeEx(None, COINIT_APARTMENTTHREADED).ok().expect("COM");
         }
-        load_settings();
         let tid = unsafe { GetCurrentThreadId() };
         UIA.with(|u| u.set(Uia::new().expect("UI Automation")).ok());
         OVERLAY.with(|o| o.set(Overlay::new().expect("overlay window")).ok());
+        let _ = MODEL.set(model.clone());
         ENGINE.with(|e| e.set(worker::spawn(model, tid)).ok());
         let hwnd = main_window().expect("main window");
         HWND_MAIN.with(|h| h.set(hwnd).ok());
@@ -185,6 +206,9 @@ mod app {
         let poll = if crate::events::spawn(tid) { POLL_MS } else { POLL_NO_EVENTS_MS };
         unsafe { SetTimer(Some(hwnd), TIMER_POLL, poll, None) };
         eprintln!("NexType: watching focused text fields. Tray icon → Quit to exit.");
+        if open_settings {
+            crate::settings_ui::open();
+        }
 
         let mut msg = MSG::default();
         while unsafe { GetMessageW(&mut msg, None, 0, 0) }.as_bool() {
@@ -224,8 +248,10 @@ mod app {
         let mut nid = NOTIFYICONDATAW { cbSize: size_of::<NOTIFYICONDATAW>() as u32, hWnd: hwnd, uID: 1, ..Default::default() };
         nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
         nid.uCallbackMessage = WM_TRAY;
-        nid.hIcon = tray_icon(ENABLED.load(Ordering::Relaxed));
-        let tip = if ENABLED.load(Ordering::Relaxed) { "NexType" } else { "NexType (paused)" };
+        let st = settings::get();
+        let on = st.enabled && !st.paused(settings::now());
+        nid.hIcon = tray_icon(on);
+        let tip = if !st.enabled { "NexType (off)" } else if on { "NexType" } else { "NexType (paused)" };
         for (d, s) in nid.szTip.iter_mut().zip(tip.encode_utf16()) {
             *d = s;
         }
@@ -268,15 +294,28 @@ mod app {
     fn tray_menu(hwnd: HWND) {
         unsafe {
             let Ok(menu) = CreatePopupMenu() else { return };
-            let on = ENABLED.load(Ordering::Relaxed);
-            let _ = AppendMenuW(menu, if on { MF_CHECKED } else { MF_UNCHECKED }, MENU_ENABLED, w!("Completions on"));
-            let split = keys::SPLIT_SPACES.load(Ordering::Relaxed);
-            let _ = AppendMenuW(
-                menu,
-                if split { MF_CHECKED } else { MF_UNCHECKED },
-                MENU_SPACES,
-                w!("Type spaces separately (for apps that drop pasted spaces)"),
-            );
+            let st = settings::get();
+            let wide = |s: &str| s.encode_utf16().chain([0]).collect::<Vec<u16>>();
+            let _ = AppendMenuW(menu, MF_STRING, MENU_SETTINGS, w!("Settings…"));
+            let _ = SetMenuDefaultItem(menu, MENU_SETTINGS as u32, 0);
+            let _ = AppendMenuW(menu, MF_SEPARATOR, 0, None);
+            let _ = AppendMenuW(menu, if st.enabled { MF_CHECKED } else { MF_UNCHECKED }, MENU_ENABLED, w!("Suggestions on"));
+            let pause = if st.paused(settings::now()) { w!("Resume suggestions") } else { w!("Pause for 1 hour") };
+            let _ = AppendMenuW(menu, if st.enabled { MF_STRING } else { MF_GRAYED }, MENU_PAUSE, pause);
+            // The app typed in last (the tray click itself moved focus to the taskbar).
+            let app = LAST_APP.with(|a| a.borrow().clone());
+            let app_label = match &app {
+                Some((exe, name)) => {
+                    let off = st.completions_for(exe, 0) == Err("turned off for this app")
+                        || st.completions_for(exe, 0) == Err("off by default for this app");
+                    let name = if name.is_empty() { exe.as_str() } else { name.as_str() };
+                    if off { format!("Turn on in {name}") } else { format!("Turn off in {name}") }
+                }
+                None => "Turn off in this app".to_owned(),
+            };
+            let app_label = wide(&app_label);
+            let flags = if app.is_some() { MF_STRING } else { MF_GRAYED };
+            let _ = AppendMenuW(menu, flags, MENU_APP, windows::core::PCWSTR(app_label.as_ptr()));
             let _ = AppendMenuW(menu, MF_SEPARATOR, 0, None);
             let _ = AppendMenuW(menu, MF_STRING, MENU_QUIT, w!("Quit NexType"));
             let mut p = POINT::default();
@@ -310,29 +349,44 @@ mod app {
                 }
                 LRESULT(0)
             }
+            WM_SETTINGS_REFRESH => {
+                crate::settings_ui::refresh();
+                LRESULT(0)
+            }
             WM_TRAY => {
                 let ev = (l.0 & 0xFFFF) as u32;
-                if ev == WM_RBUTTONUP || ev == WM_LBUTTONUP {
+                // Like PowerToys: a click opens Settings, a right-click the menu.
+                if ev == WM_LBUTTONUP {
+                    crate::settings_ui::open();
+                } else if ev == WM_RBUTTONUP {
                     tray_menu(hwnd);
                 }
                 LRESULT(0)
             }
             WM_COMMAND => {
                 match w.0 & 0xFFFF {
+                    MENU_SETTINGS => crate::settings_ui::open(),
                     MENU_ENABLED => {
-                        let on = !ENABLED.load(Ordering::Relaxed);
-                        ENABLED.store(on, Ordering::Relaxed);
-                        if !on {
-                            clear_ghost();
-                        }
-                        update_tray(hwnd);
-                        eprintln!("completions {}", if on { "on" } else { "off" });
+                        let on = settings::update(|s| s.enabled = !s.enabled).enabled;
+                        eprintln!("suggestions {}", if on { "on" } else { "off" });
+                        settings_changed();
                     }
-                    MENU_SPACES => {
-                        let on = !keys::SPLIT_SPACES.load(Ordering::Relaxed);
-                        keys::SPLIT_SPACES.store(on, Ordering::Relaxed);
-                        save_settings();
-                        eprintln!("type spaces separately {}", if on { "on" } else { "off" });
+                    MENU_PAUSE => {
+                        let now = settings::now();
+                        settings::update(|s| s.paused_until = if s.paused(now) { None } else { Some(now + PAUSE_SECS) });
+                        settings_changed();
+                    }
+                    MENU_APP => {
+                        if let Some((exe, name)) = LAST_APP.with(|a| a.borrow().clone()) {
+                            settings::update(|s| {
+                                let on = s.completions_for(&exe, 0).is_ok();
+                                let default_on = !nextype_core::OFF_BY_DEFAULT.contains(&exe.as_str());
+                                let rule = s.rule_mut(&exe, &name);
+                                // Back to the default when that is what the user asks for.
+                                rule.completions = if !on == default_on { None } else { Some(!on) };
+                            });
+                            settings_changed();
+                        }
                     }
                     MENU_QUIT => unsafe { PostQuitMessage(0) },
                     _ => {}
@@ -356,6 +410,12 @@ mod app {
     }
 
     fn on_poll() {
+        let st = settings::get();
+        let on = st.enabled && !st.paused(settings::now());
+        if TRAY_ON.with(|t| t.replace(on)) != on {
+            // A pause ran out (or began elsewhere).
+            settings_changed();
+        }
         let pid = UIA.with(|u| u.get().and_then(Uia::foreground_pid));
         let changed = FRONT_PID.with(|f| {
             let mut f = f.borrow_mut();
@@ -405,16 +465,17 @@ mod app {
     }
 
     fn on_read() {
-        if !ENABLED.load(Ordering::Relaxed) {
-            return;
-        }
         let (snap, ghost_font) = snapshot_with_font().unzip();
         log_snapshot(snap.as_ref());
+        if let Some(s) = snap.as_ref() {
+            crate::settings_ui::saw_app(&s.bundle_id, &s.app_name);
+            LAST_APP.with(|a| *a.borrow_mut() = Some((s.bundle_id.clone(), s.app_name.clone())));
+        }
         let Some(s) = snap.filter(|s| allowed(s).is_ok()) else {
             clear_ghost();
             return;
         };
-        TAB_ENABLED.store(true, Ordering::Relaxed);
+        TAB_ENABLED.store(settings::get().tab_for(&s.bundle_id), Ordering::Relaxed);
         let (before, caret) = (s.before(), s.caret_rect.unwrap_or_default());
         let kept = GHOST.with(|g| {
             let mut g = g.borrow_mut();
@@ -455,15 +516,18 @@ mod app {
                 right: s.frame.x + s.frame.w,
                 visible: 0,
                 accepted_at: None,
+                spaces: settings::get().spaces_for(&s.bundle_id),
             };
             show(&mut gh);
             *g.borrow_mut() = Some(gh);
         });
-        let context = gather_context(s);
-        ENGINE.with(|e| e.get().map(|(tx, _)| tx.send(Request { id, before, context, instructions: String::new() })));
+        let st = settings::get();
+        let context = gather_context(s, &st);
+        let (instructions, max_tokens) = (st.instructions_for(&s.bundle_id), st.length.tokens());
+        ENGINE.with(|e| e.get().map(|(tx, _)| tx.send(Request { id, before, context, instructions, max_tokens })));
     }
 
-    fn gather_context(s: &FieldSnapshot) -> Context {
+    fn gather_context(s: &FieldSnapshot, st: &settings::Settings) -> Context {
         let utc = SystemTime::now().duration_since(UNIX_EPOCH).map_or(0, |d| d.as_secs() as i64);
         let mut tzi = TIME_ZONE_INFORMATION::default();
         let mode = unsafe { GetTimeZoneInformation(&mut tzi) };
@@ -473,11 +537,12 @@ mod app {
         let n = unsafe { GetUserDefaultLocaleName(&mut buf) };
         let locale = String::from_utf16_lossy(&buf[..(n.max(1) - 1) as usize]);
         Context {
-            local_secs: utc - i64::from(bias) * 60,
+            // 0 leaves the date and time line out of the prompt.
+            local_secs: if st.context_date { utc - i64::from(bias) * 60 } else { 0 },
             languages: if locale.is_empty() { Vec::new() } else { vec![locale] },
-            name: std::env::var("USERNAME").unwrap_or_default(),
-            app: s.app_name.clone(),
-            window_title: prompt_title(s.window_title.trim_start_matches(['●', '•', '*', ' ']), &s.text).to_owned(),
+            name: if st.context_name { std::env::var("USERNAME").unwrap_or_default() } else { String::new() },
+            app: if st.context_app { s.app_name.clone() } else { String::new() },
+            window_title: if !st.context_app { String::new() } else { prompt_title(s.window_title.trim_start_matches(['●', '•', '*', ' ']), &s.text).to_owned() },
             website: s.domain.clone(),
             ..Context::default()
         }
@@ -532,7 +597,7 @@ mod app {
                 }
             }),
             Key::AcceptAll | Key::AcceptWord => {
-                let Some((pid, text, expect)) = GHOST.with(|g| {
+                let Some((pid, text, expect, spaces)) = GHOST.with(|g| {
                     g.borrow_mut().as_mut().and_then(|gh| {
                         let text = if key == Key::AcceptAll { gh.shown() } else { next_word(gh.shown()) }.to_owned();
                         if text.is_empty() {
@@ -546,14 +611,14 @@ mod app {
                         gh.accepted_at = Some(Instant::now());
                         OVERLAY.with(|o| o.get().map(Overlay::hide));
                         GHOST_VISIBLE.store(gh.visible > 0, Ordering::Relaxed);
-                        Some((gh.pid, text, expect))
+                        Some((gh.pid, text, expect, gh.spaces))
                     })
                 }) else {
                     return;
                 };
-                keys::insert(&text);
+                keys::insert(&text, spaces);
                 eprintln!("accept {key:?}: typed {text:?}");
-                CONFIRM.with(|c| *c.borrow_mut() = Some((pid, expect, text)));
+                CONFIRM.with(|c| *c.borrow_mut() = Some((pid, expect, text, spaces)));
                 set_timer(TIMER_CONFIRM, CONFIRM_MS);
                 schedule_read();
             }
@@ -563,14 +628,14 @@ mod app {
     /// Spec §12.2: check the accepted text landed. shortcut: log only; the clipboard paste
     /// fallback of the Mac runtime is not ported yet.
     fn confirm_insert() {
-        let Some((pid, expect, text)) = CONFIRM.with(|c| c.borrow_mut().take()) else { return };
+        let Some((pid, expect, text, spaces)) = CONFIRM.with(|c| c.borrow_mut().take()) else { return };
         match snapshot().filter(|s| s.pid == pid) {
             None => eprintln!("insert NOT confirmed: focus moved"),
             Some(s) if s.before().starts_with(&expect) => eprintln!("insert confirmed"),
             // The paste was lost (nothing changed before the caret): send it once more.
             Some(s) if Some(s.before()) == expect.strip_suffix(text.as_str()) => {
                 eprintln!("insert lost: pasting {text:?} again");
-                keys::insert(&text);
+                keys::insert(&text, spaces);
                 schedule_read();
             }
             Some(_) => eprintln!("insert NOT confirmed: field differs"),
@@ -578,9 +643,7 @@ mod app {
     }
 
     fn allowed(s: &FieldSnapshot) -> Result<(), &'static str> {
-        if OFF_BY_DEFAULT.contains(&s.bundle_id.as_str()) {
-            return Err("turned off for this app");
-        }
+        settings::get().completions_for(&s.bundle_id, settings::now())?;
         gate(s)
     }
 

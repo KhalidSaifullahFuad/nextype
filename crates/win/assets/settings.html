@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NexType Settings</title>
+<style>
+  /* WinUI 3 / Fluent tokens and metrics (PowerToys Settings). The window behind is Mica, so the
+     page is transparent; without Mica (Windows 10) it paints --window. */
+  :root {
+    color-scheme: light dark;
+    --accent: #0067c0;
+    --on-accent: #ffffff;
+    --text: rgba(0, 0, 0, 0.896);
+    --text-2: rgba(0, 0, 0, 0.606);
+    --text-disabled: rgba(0, 0, 0, 0.361);
+    --card: rgba(255, 255, 255, 0.7);
+    --card-2: rgba(246, 246, 246, 0.5);
+    --card-border: rgba(0, 0, 0, 0.0578);
+    --divider: rgba(0, 0, 0, 0.0803);
+    --subtle-hover: rgba(0, 0, 0, 0.0373);
+    --subtle-press: rgba(0, 0, 0, 0.0241);
+    --control: rgba(255, 255, 255, 0.7);
+    --control-hover: rgba(249, 249, 249, 0.5);
+    --control-press: rgba(249, 249, 249, 0.3);
+    --control-border: rgba(0, 0, 0, 0.0578);
+    --control-border-bottom: rgba(0, 0, 0, 0.1622);
+    --input-focus: #ffffff;
+    --switch-off: rgba(0, 0, 0, 0.0241);
+    --switch-off-border: rgba(0, 0, 0, 0.4458);
+    --switch-knob-off: rgba(0, 0, 0, 0.6063);
+    --flyout: #f9f9f9;
+    --flyout-border: rgba(0, 0, 0, 0.0578);
+    --flyout-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+    --danger: #c42b1c;
+    --window: #f3f3f3;
+    --scroll: rgba(0, 0, 0, 0.45);
+  }
+  :root[data-theme="dark"] {
+    --accent: #4cc2ff;
+    --on-accent: #000000;
+    --text: #ffffff;
+    --text-2: rgba(255, 255, 255, 0.786);
+    --text-disabled: rgba(255, 255, 255, 0.3628);
+    --card: rgba(255, 255, 255, 0.0512);
+    --card-2: rgba(255, 255, 255, 0.0326);
+    --card-border: rgba(0, 0, 0, 0.1);
+    --divider: rgba(255, 255, 255, 0.0837);
+    --subtle-hover: rgba(255, 255, 255, 0.0605);
+    --subtle-press: rgba(255, 255, 255, 0.0419);
+    --control: rgba(255, 255, 255, 0.0605);
+    --control-hover: rgba(255, 255, 255, 0.0837);
+    --control-press: rgba(255, 255, 255, 0.0326);
+    --control-border: rgba(255, 255, 255, 0.0698);
+    --control-border-bottom: rgba(255, 255, 255, 0.0465);
+    --input-focus: rgba(30, 30, 30, 0.7);
+    --switch-off: rgba(0, 0, 0, 0.1);
+    --switch-off-border: rgba(255, 255, 255, 0.6047);
+    --switch-knob-off: rgba(255, 255, 255, 0.786);
+    --flyout: #2c2c2c;
+    --flyout-border: rgba(0, 0, 0, 0.2);
+    --flyout-shadow: 0 8px 16px rgba(0, 0, 0, 0.26);
+    --danger: #ff99a4;
+    --window: #202020;
+    --scroll: rgba(255, 255, 255, 0.55);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--window); }
+  :root.mica, :root.mica body { background: transparent; }
+  body {
+    font: 14px/20px "Segoe UI Variable Text", "Segoe UI", sans-serif;
+    color: var(--text);
+    display: grid;
+    grid-template: 48px 1fr / 320px 1fr;
+    overflow: hidden;
+    user-select: none;
+    cursor: default;
+  }
+  .icon { font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets"; font-style: normal; font-weight: normal; line-height: 1; }
+  button, select, textarea, input { font: inherit; color: inherit; }
+
+  /* ---------- Title bar ---------- */
+  /* PowerToys' TitleBar: [pane button][icon][title][drag *][search, 516][drag *][caption buttons].
+     The search box is 516 wide, centered between the title and the caption buttons. */
+  .titlebar {
+    grid-column: 1 / -1; display: grid; align-items: center; position: relative;
+    grid-template-columns: auto minmax(4px, 1fr) 516px minmax(4px, 1fr);
+    /* PowerToys reserves less than the full caption-button width (AppWindow RightInset), which puts
+       its search box ~25px right of the true center; match that. */
+    padding-right: calc(var(--caption-inset, 138px) - 50px);
+  }
+  .titlebar .search { grid-column: 3; }
+  .pane-btn { display: none; width: 40px; height: 36px; margin: 0 -8px 0 -12px; border: 0; border-radius: 4px; background: transparent; place-items: center; font-size: 16px; padding: 0; }
+  .pane-btn:hover { background: var(--subtle-hover); }
+  .pane-btn:active { background: var(--subtle-press); color: var(--text-2); }
+  .titlebar .left { display: flex; align-items: center; gap: 15px; padding-left: 16px; font-size: 12px; line-height: 16px; min-width: 0; white-space: nowrap; }
+  .titlebar .logo { width: 20px; height: 20px; border-radius: 5px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font: 700 12px/1 "Segoe UI Variable Display", "Segoe UI"; flex: none; }
+  :root.inactive .titlebar .left { color: var(--text-disabled); }
+  :root.inactive .titlebar .logo { opacity: 0.5; }
+  .titlebar .resize-top { position: absolute; left: 0; right: 138px; top: 0; height: 4px; cursor: ns-resize; }
+  :root.maximized .titlebar .resize-top { display: none; }
+  /* The minimize/maximize/close buttons are Windows' own, in a hole the page leaves top right. */
+
+  /* Search box (AutoSuggestBox) */
+  .search { position: relative; width: 100%; }
+  .search input {
+    width: 100%; height: 32px; padding: 0 64px 0 11px; border-radius: 4px; outline: none;
+    border: 1px solid var(--control-border); border-bottom-color: var(--control-border-bottom);
+    background: var(--control); color: var(--text);
+  }
+  .search input::placeholder { color: var(--text-2); }
+  .search input:hover { background: var(--control-hover); }
+  .search input:focus { background: var(--input-focus); border-bottom: 2px solid var(--accent); padding-bottom: 1px; }
+  .search .glass { position: absolute; right: 1px; top: 1px; width: 34px; height: 30px; display: grid; place-items: center; font-size: 12px; color: var(--text-2); pointer-events: none; }
+  .search .clear { position: absolute; right: 34px; top: 4px; width: 26px; height: 24px; border: 0; border-radius: 3px; background: transparent; display: none; place-items: center; font-size: 10px; color: var(--text-2); padding: 0; }
+  .search .clear:hover { background: var(--subtle-hover); }
+  .search.has-text .clear { display: grid; }
+
+  /* ---------- Navigation ---------- */
+  nav { display: flex; flex-direction: column; padding: 4px 0; overflow-y: auto; }
+  .nav-item {
+    position: relative; display: flex; align-items: center; gap: 16px; height: 36px; margin: 2px 4px; padding: 0 12px;
+    border-radius: 4px; white-space: nowrap;
+  }
+  .nav-item .icon { font-size: 16px; width: 16px; text-align: center; }
+  .nav-item:hover { background: var(--subtle-hover); }
+  .nav-item:active { background: var(--subtle-press); color: var(--text-2); }
+  .nav-item.selected { background: var(--subtle-hover); }
+  /* One selection pill that slides between items, like NavigationView's. */
+  nav { position: relative; }
+  #nav-pill { position: absolute; left: 4px; top: 0; width: 3px; height: 16px; border-radius: 2px; background: var(--accent); pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.15s; }
+  .nav-sep { height: 1px; background: var(--divider); margin: 3px 0; }
+  nav .grow { flex: 1; }
+
+  /* ---------- Content ---------- */
+  .content { grid-column: 2; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  header { padding: 6px 36px 0 20px; flex: none; }
+  header h1 { max-width: 1000px; margin-left: auto; margin-right: auto; }
+  h1 { font: 600 28px/36px "Segoe UI Variable Display", "Segoe UI", sans-serif; margin: 0 0 22px 0; }
+  .scroll { flex: 1; overflow-y: auto; padding: 0 20px 48px 20px; scrollbar-gutter: stable; }
+  /* Thin scroll bar that widens on hover, like WinUI's. */
+  .scroll::-webkit-scrollbar { width: 16px; }
+  .scroll::-webkit-scrollbar-track { background: transparent; }
+  .scroll::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 8px; border: 7px solid transparent; background-clip: content-box; min-height: 40px; }
+  .scroll:hover::-webkit-scrollbar-thumb { border-width: 5px; }
+  .page { display: none; max-width: 1000px; margin: 0 auto; }
+  
+  .page.shown { display: block; }
+  h2 { font: 600 14px/20px "Segoe UI Variable Text", "Segoe UI", sans-serif; margin: 30px 0 8px 1px; }
+  .page > h2:first-child { margin-top: 0; }
+  .intro { color: var(--text-2); margin: 0 0 26px 1px; max-width: 760px; }
+
+  /* SettingsCard / SettingsExpander */
+  .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 4px; margin-bottom: 4px; overflow: hidden; }
+  .row { display: flex; align-items: center; min-height: 68px; padding: 13px 16px; }
+  .card { container-type: inline-size; }
+  .row > .icon { width: 20px; flex: none; font-size: 20px; text-align: center; margin: 0 20px 0 2px; }
+  .row .label { flex: 1; min-width: 0; padding-right: 24px; }
+  .row .title { display: block; }
+  .row .desc { display: block; font-size: 12px; line-height: 16px; color: var(--text-2); margin-top: 1px; }
+  .row .control { display: flex; align-items: center; gap: 8px; flex: none; }
+  .row.click:hover { background: var(--card-2); }
+  .row.click:active { background: var(--subtle-press); }
+  .expand-btn { width: 32px; height: 32px; margin: 0 -8px 0 8px; display: grid; place-items: center; border-radius: 4px; font-size: 12px; }
+  .row.click:hover .expand-btn { background: var(--subtle-hover); }
+  .expand-btn .icon { transition: transform 0.2s cubic-bezier(0.1, 0.9, 0.2, 1); }
+  .card.open > .row .expand-btn .icon { transform: rotate(180deg); }
+  .sub { border-top: 1px solid var(--divider); }
+  .sub .row { min-height: 52px; padding: 9px 16px 9px 58px; }
+  .sub .row.top { align-items: flex-start; padding-top: 13px; padding-bottom: 13px; }
+  .card:not(.open) > .sub.fold { display: none; }
+  .wide { padding: 0 16px 16px 58px; margin-top: -4px; }
+
+  /* ToggleSwitch with its On/Off label on the left */
+  .switch { display: flex; align-items: center; gap: 12px; }
+  .switch .state { min-width: 22px; text-align: right; }
+  .switch input {
+    appearance: none; width: 40px; height: 20px; margin: 0; border-radius: 10px; flex: none;
+    border: 1px solid var(--switch-off-border); background: var(--switch-off); position: relative; outline: none;
+  }
+  .switch input::after {
+    content: ""; position: absolute; top: 50%; left: 3px; width: 12px; height: 12px; margin-top: -6px; border-radius: 7px;
+    background: var(--switch-knob-off); transition: left 0.167s cubic-bezier(0.55, 0.55, 0, 1), width 0.083s, height 0.083s, margin 0.083s;
+  }
+  .switch:hover input { background: var(--subtle-hover); }
+  .switch:hover input::after { width: 14px; height: 14px; margin-top: -7px; left: 2px; }
+  .switch:active input::after { width: 17px; }
+  .switch input:checked { background: var(--accent); border-color: var(--accent); }
+  .switch input:checked::after { left: 23px; background: var(--on-accent); }
+  .switch:hover input:checked { filter: brightness(1.05); }
+  .switch:hover input:checked::after { left: 22px; }
+  .switch:active input:checked::after { left: 19px; }
+  .switch input:focus-visible, .btn:focus-visible, select:focus-visible { box-shadow: 0 0 0 1px var(--window), 0 0 0 3px var(--text); }
+
+  /* ComboBox */
+  .combo { position: relative; display: inline-flex; vertical-align: middle; }
+  .combo select {
+    appearance: none; height: 32px; min-width: 240px; padding: 0 36px 0 11px; border-radius: 4px; outline: none;
+    border: 1px solid var(--control-border); border-bottom-color: var(--control-border-bottom); background: var(--control);
+  }
+  .combo select:hover { background: var(--control-hover); }
+  .combo select:active { background: var(--control-press); color: var(--text-2); }
+  .combo select:disabled { color: var(--text-disabled); }
+  .combo select option { background: var(--flyout); color: var(--text); }
+  .combo select.open { background: var(--control-press); color: var(--text-2); }
+
+  /* ComboBox drop-down: drawn by the page (the native <select> popup is a Win32 menu that ignores the theme).
+     It opens over the combo with the selected item lined up on the combo's text, like WinUI. */
+  .flyout {
+    position: fixed; z-index: 100; padding: 2px 0; border-radius: 8px; overflow-y: auto; max-height: 360px;
+    background: var(--flyout); border: 1px solid var(--flyout-border); box-shadow: var(--flyout-shadow);
+    animation: flyout-in 0.167s cubic-bezier(0, 0, 0, 1);
+  }
+  @keyframes flyout-in { from { opacity: 0; transform: scaleY(0.92); } }
+  .flyout .item {
+    position: relative; height: 32px; margin: 2px 4px; padding: 0 11px; border-radius: 4px;
+    display: flex; align-items: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: background-color 0.083s linear;
+  }
+  .flyout .item.hot { background: var(--subtle-hover); }
+  .flyout .item:active { background: var(--subtle-press); color: var(--text-2); }
+  .flyout .item.selected { background: var(--subtle-hover); }
+  .flyout .item.selected.hot { background: var(--subtle-press); }
+  .flyout .item.selected::before {
+    content: ""; position: absolute; left: 0; top: 50%; width: 3px; height: 16px; margin-top: -8px; border-radius: 2px; background: var(--accent);
+    animation: pill-in 0.167s cubic-bezier(0, 0, 0, 1);
+  }
+  @keyframes pill-in { from { transform: scaleY(0); } }
+  .flyout .item.disabled { color: var(--text-disabled); pointer-events: none; }
+  .flyout::-webkit-scrollbar { width: 8px; }
+  .flyout::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
+  .combo::after { content: "\E70D"; font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets"; font-size: 12px; line-height: 1; position: absolute; right: 13px; top: 0; bottom: 0; display: flex; align-items: center; color: var(--text-2); pointer-events: none; }
+
+  /* Buttons */
+  .btn {
+    height: 32px; padding: 0 11px; border-radius: 4px; outline: none; display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--control-border); border-bottom-color: var(--control-border-bottom); background: var(--control);
+  }
+  .btn:hover { background: var(--control-hover); }
+  .btn:active { background: var(--control-press); color: var(--text-2); }
+  .btn:disabled { color: var(--text-disabled); background: var(--control-press); }
+  .btn .icon { font-size: 12px; }
+
+  /* TextBox */
+  textarea {
+    display: block; width: 100%; min-height: 64px; padding: 5px 11px 6px 11px; border-radius: 4px; outline: none; resize: none; line-height: 20px; user-select: text;
+    border: 1px solid var(--control-border); border-bottom-color: var(--control-border-bottom); background: var(--control);
+  }
+  textarea::placeholder { color: var(--text-2); }
+  textarea:hover { background: var(--control-hover); }
+  textarea:focus { background: var(--input-focus); border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
+  textarea::-webkit-scrollbar { width: 8px; }
+  textarea::-webkit-scrollbar-thumb { background: var(--scroll); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
+
+  .kbd {
+    display: inline-block; min-width: 24px; padding: 0 6px; border-radius: 4px; text-align: center; font-size: 12px; line-height: 18px;
+    background: var(--control); border: 1px solid var(--control-border); border-bottom-color: var(--control-border-bottom);
+  }
+  .badge { font-size: 12px; line-height: 16px; padding: 2px 8px; border-radius: 10px; background: var(--subtle-hover); color: var(--text-2); }
+  .mono { font-family: "Cascadia Mono", Consolas, monospace; font-size: 12px; user-select: text; word-break: break-all; }
+  .empty { padding: 20px 16px; color: var(--text-2); }
+  .hidden { display: none !important; }
+
+  /* ---------- Motion (WinUI timings: 83ms fast, 167ms normal, decelerate curve) ---------- */
+  .nav-item, .row.click, .expand-btn, .btn, .search input, .search .clear, .combo select, textarea, .switch input {
+    transition: background-color 0.083s linear, color 0.083s linear, border-color 0.083s linear;
+  }
+  @keyframes enter { from { opacity: 0; transform: translateY(24px); } }
+  @keyframes fade { from { opacity: 0; } }
+  @keyframes fold { from { opacity: 0; transform: translateY(-12px); } }
+  .page.enter { animation: enter 0.3s cubic-bezier(0, 0, 0, 1); }
+  h1.enter { animation: fade 0.2s linear; }
+  .card.open > .sub.fold { animation: fold 0.2s cubic-bezier(0, 0, 0, 1); }
+  /* ---------- Responsive (NavigationView / SettingsCard breakpoints) ---------- */
+  /* NavigationView: Expanded at 1007px and up; below that Minimal, the pane hidden behind the
+     title bar's pane button and opening over the content. */
+  @media (max-width: 1006px) {
+    body { grid-template-columns: 0 1fr; }
+    .pane-btn { display: grid; }
+    nav {
+      position: fixed; z-index: 50; left: 0; top: 48px; bottom: 0; width: 320px;
+      background: var(--flyout); border: 1px solid var(--flyout-border); border-left: 0; border-radius: 0 8px 8px 0;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.26);
+      transform: translateX(-100%); visibility: hidden;
+      transition: transform 0.25s cubic-bezier(0, 0, 0, 1), visibility 0s 0.25s;
+    }
+    :root.pane-open nav { transform: none; visibility: visible; transition: transform 0.25s cubic-bezier(0, 0, 0, 1); }
+  }
+  /* TitleBar Narrow state (CompactStateBreakpoint 900): title hidden, search stretches. */
+  @media (max-width: 900px) {
+    .titlebar { grid-template-columns: auto 16px minmax(0, 1fr) 16px; }
+    .titlebar .app-title { display: none; }
+  }
+  /* SettingsCard RightWrapped (card 286-476px): the control drops below the text, left aligned. */
+  @container (max-width: 476px) {
+    .row { flex-wrap: wrap; row-gap: 8px; }
+    .row .label { flex: 1 1 calc(100% - 42px); padding-right: 0; }
+    .row .control { flex-basis: 100%; margin-left: 42px; justify-content: flex-start; }
+    .sub .row .control { margin-left: 0; }
+    .card > .row { position: relative; }
+    .row .expand-btn { position: absolute; right: 16px; top: 18px; }
+  }
+  /* RightWrappedNoIcon (286px and under): the icon goes too. */
+  @container (max-width: 286px) {
+    .row > .icon, .row > .app-glyph { display: none; }
+    .row .label { flex-basis: 100%; }
+    .row .control { margin-left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  .hero { display: flex; gap: 16px; align-items: center; padding: 16px; }
+  .hero .big { width: 48px; height: 48px; border-radius: 10px; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font: 700 24px "Segoe UI Variable Display", "Segoe UI"; flex: none; }
+  .hero .name { font: 600 20px/28px "Segoe UI Variable Display", "Segoe UI"; }
+  .hero .desc { font-size: 12px; line-height: 16px; color: var(--text-2); }
+  .app-glyph { width: 20px; height: 20px; flex: none; margin-right: 20px; border-radius: 4px; display: grid; place-items: center; font: 600 11px "Segoe UI Variable Text", "Segoe UI"; background: var(--subtle-hover); color: var(--text-2); }
+</style>
+</head>
+<body>
+<div class="titlebar" id="titlebar">
+  <div class="left"><button class="pane-btn icon" id="pane-btn" title="Open navigation">&#xE700;</button><span class="logo">N</span><span class="app-title">NexType Settings</span></div>
+  <div class="search" id="search-box">
+    <input id="search" placeholder="Search for settings" autocomplete="off" spellcheck="false">
+    <button class="clear icon" id="search-clear" title="Clear">&#xE894;</button>
+    <span class="glass icon">&#xE721;</span>
+  </div>
+  <div class="resize-top" id="resize-top"></div>
+</div>
+
+<nav>
+  <div id="nav-pill"></div>
+  <div class="nav-item selected" data-page="general"><i class="icon">&#xE713;</i>General</div>
+  <div class="nav-sep"></div>
+  <div class="nav-item" data-page="context"><i class="icon">&#xE8BD;</i>Context</div>
+  <div class="nav-item" data-page="apps"><i class="icon">&#xE71D;</i>Apps</div>
+  <div class="grow"></div>
+  <div class="nav-item" data-page="about"><i class="icon">&#xE946;</i>About NexType</div>
+</nav>
+
+<div class="content">
+  <header><h1 id="page-title">General</h1></header>
+  <div class="scroll" id="scroll">
+
+  <!-- General -->
+  <section class="page shown" id="page-general" data-title="General">
+    <h2>Suggestions</h2>
+    <div class="card"><div class="row" data-search="completions on off enable suggestions">
+      <i class="icon">&#xE82F;</i>
+      <div class="label"><span class="title">Suggestions</span><span class="desc">Show a suggestion in gray as you type</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="enabled"></label></div>
+    </div></div>
+    <div class="card hidden" id="pause-card"><div class="row" data-search="pause paused resume hour">
+      <i class="icon">&#xE769;</i>
+      <div class="label"><span class="title">Paused</span><span class="desc" id="pause-desc"></span></div>
+      <div class="control"><button class="btn" id="resume">Resume now</button></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="length short medium long words">
+      <i class="icon">&#xE8E9;</i>
+      <div class="label"><span class="title">Suggestion length</span><span class="desc">How far ahead a suggestion goes. It still stops at the end of a sentence</span></div>
+      <div class="control"><span class="combo"><select data-key="length">
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+      </select></span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="instructions style tone custom spelling">
+      <i class="icon">&#xE70F;</i>
+      <div class="label"><span class="title">Instructions</span><span class="desc">How you like to write, in every app. For example: Use British spelling</span></div>
+    </div>
+    <div class="wide"><textarea data-key="instructions" placeholder="No instructions" spellcheck="true"></textarea></div></div>
+
+    <h2>Accepting suggestions</h2>
+    <div class="card"><div class="row" data-search="tab key accept word shortcut escape">
+      <i class="icon">&#xE765;</i>
+      <div class="label"><span class="title">Shortcuts</span><span class="desc"><span class="kbd">Tab</span> takes the next word, <span class="kbd">`</span> takes the whole suggestion, <span class="kbd">Esc</span> hides it</span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="spaces paste day one separately type">
+      <i class="icon">&#xE75D;</i>
+      <div class="label"><span class="title">Type spaces separately</span><span class="desc">For apps that drop spaces from pasted text, such as Day One. The space shows a moment before the word. You can set this per app</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="type_spaces_separately"></label></div>
+    </div></div>
+
+    <h2>Startup</h2>
+    <div class="card"><div class="row" data-search="open at login startup start windows boot run">
+      <i class="icon">&#xE7E8;</i>
+      <div class="label"><span class="title">Run at startup</span><span class="desc">NexType will launch automatically when you sign in</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="open_at_login"></label></div>
+    </div></div>
+  </section>
+
+  <!-- Context -->
+  <section class="page" id="page-context" data-title="Context">
+    <p class="intro">What the writer knows besides the text before the caret. Everything stays on this PC: the model runs here and nothing is sent anywhere.</p>
+    <h2>Included in every suggestion</h2>
+    <div class="card"><div class="row" data-search="date time clock day">
+      <i class="icon">&#xE787;</i>
+      <div class="label"><span class="title">Date and time</span><span class="desc">So "see you on" can become a real day</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="context_date"></label></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="name user sign off">
+      <i class="icon">&#xE77B;</i>
+      <div class="label"><span class="title">Your name</span><span class="desc">Your Windows user name, for sign-offs</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="context_name"></label></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="app window title subject">
+      <i class="icon">&#xE7C4;</i>
+      <div class="label"><span class="title">App and window title</span><span class="desc">The app's name and its window title, such as an email's subject</span></div>
+      <div class="control"><label class="switch"><span class="state"></span><input type="checkbox" data-key="context_app"></label></div>
+    </div></div>
+    <h2>Coming to Windows</h2>
+    <div class="card"><div class="row" data-search="clipboard copied text coming soon">
+      <i class="icon">&#xE8C8;</i>
+      <div class="label"><span class="title">Use copied text</span><span class="desc">Text you copied in the last 2 minutes helps the suggestions. Passwords are never used</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="screen text window reply email ocr coming soon">
+      <i class="icon">&#xE7F4;</i>
+      <div class="label"><span class="title">Use text on screen</span><span class="desc">Reads the window above where you type, such as the email you are replying to. Stays on this PC</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="learn history past writing style encrypted coming soon">
+      <i class="icon">&#xE81C;</i>
+      <div class="label"><span class="title">Learn from my writing</span><span class="desc">Saves what you write, encrypted on this PC, so suggestions match your style. Never in password fields</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="delete history saved writing clear coming soon">
+      <i class="icon">&#xE74D;</i>
+      <div class="label"><span class="title">Delete saved writing</span><span class="desc">Erase everything NexType has learned from your writing</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+  </section>
+
+  <!-- Apps -->
+  <section class="page" id="page-apps" data-title="Apps">
+    <p class="intro">Settings for one app that differ from the general ones. Terminals, launchers and password managers start with suggestions off.</p>
+    <div class="card"><div class="row" data-search="add app override">
+      <i class="icon">&#xE710;</i>
+      <div class="label"><span class="title">Add an app</span><span class="desc">From the apps you typed in since NexType started</span></div>
+      <div class="control"><span class="combo"><select id="add-app"></select></span><button class="btn" id="add">Add</button></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="website site browser domain url gmail coming soon">
+      <i class="icon">&#xE774;</i>
+      <div class="label"><span class="title">Add a website</span><span class="desc">Its own settings for a site in your browser, such as mail.google.com</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+    <h2>Your apps</h2>
+    <div id="app-list"></div>
+  </section>
+
+  <!-- About -->
+  <section class="page" id="page-about" data-title="About NexType">
+    <div class="card"><div class="hero">
+      <div class="big">N</div>
+      <div><div class="name">NexType</div><div class="desc" id="version"></div></div>
+    </div>
+    <div class="sub"><div class="row" style="padding-left:16px"><div class="label"><span class="desc">Writing suggestions from a model that runs on this PC. Nothing you type leaves it.</span></div></div></div></div>
+    <h2>Files</h2>
+    <div class="card"><div class="row" data-search="model file gguf">
+      <i class="icon">&#xE950;</i>
+      <div class="label"><span class="title">Model</span><span class="desc mono" id="model"></span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="download model update gguf coming soon">
+      <i class="icon">&#xE896;</i>
+      <div class="label"><span class="title">Download model</span><span class="desc">Get or update the model from inside NexType (2.8 GB)</span></div>
+      <div class="control"><span class="badge">Coming soon</span></div>
+    </div></div>
+    <div class="card"><div class="row" data-search="folder settings file data">
+      <i class="icon">&#xE8B7;</i>
+      <div class="label"><span class="title">Settings folder</span><span class="desc mono" id="folder"></span></div>
+      <div class="control"><button class="btn" id="open-folder">Open folder</button></div>
+    </div></div>
+  </section>
+
+  <!-- Search results -->
+  <section class="page" id="page-search" data-title="Search results"></section>
+  </div>
+</div>
+
+<script>
+"use strict";
+// Talks to Rust through window.ipc.postMessage; Rust calls nx.load(state) and nx.frame(state).
+window.nx = (() => {
+  let state = null;
+  let saveTimer = 0;
+  let current = "general";
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const post = (msg) => window.ipc && window.ipc.postMessage(JSON.stringify(msg));
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  function save(delay = 0) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => post({ type: "save", settings: state.settings }), delay);
+  }
+
+  // accent = [shade for dark theme, shade for light theme] from the Windows accent palette.
+  function theme(accent, dark) {
+    const root = document.documentElement;
+    root.dataset.theme = dark ? "dark" : "light";
+    root.style.setProperty("--accent", dark ? accent[0] : accent[1]);
+  }
+
+  // ---------- Title bar ----------
+  function frame(f) {
+    const root = document.documentElement;
+    root.classList.toggle("maximized", f.maximized);
+    root.classList.toggle("inactive", !f.active);
+    if (f.inset) root.style.setProperty("--caption-inset", `${f.inset}px`);
+  }
+  // Minimal navigation: the pane opens over the content and closes on a pick, Esc or a click outside.
+  const setPane = (open) => document.documentElement.classList.toggle("pane-open", open);
+  $("#pane-btn").addEventListener("click", () => setPane(!document.documentElement.classList.contains("pane-open")));
+  document.addEventListener("mousedown", (e) => {
+    if (!e.target.closest("nav, #pane-btn")) setPane(false);
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setPane(false); });
+  matchMedia("(max-width: 1006px)").addEventListener("change", () => { setPane(false); movePill(); });
+  const dragArea = (e) => !e.target.closest("button, input, .resize-top");
+  $("#titlebar").addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    if (e.target.id === "resize-top") post({ type: "window", action: "resizeTop" });
+    else if (dragArea(e)) post({ type: "window", action: e.detail === 2 ? "maximize" : "drag" });
+  });
+  $("#titlebar").addEventListener("contextmenu", (e) => {
+    if (!dragArea(e)) return;
+    e.preventDefault();
+    post({ type: "window", action: "menu" });
+  });
+
+  // ---------- Settings ----------
+  function stateText(input) {
+    const s = input.closest(".switch")?.querySelector(".state");
+    if (s) s.textContent = input.checked ? "On" : "Off";
+  }
+
+  function bindGlobal() {
+    for (const el of $$("[data-key]")) {
+      const key = el.dataset.key;
+      if (el.type === "checkbox") {
+        el.checked = !!state.settings[key];
+        stateText(el);
+      } else if (document.activeElement !== el) {
+        el.value = state.settings[key] ?? "";
+      }
+    }
+  }
+
+  function pauseCard() {
+    const until = state.settings.paused_until;
+    const paused = until && until > Date.now() / 1000;
+    $("#pause-card").classList.toggle("hidden", !paused);
+    if (paused) {
+      const t = new Date(until * 1000).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      $("#pause-desc").textContent = `Suggestions are paused until ${t}`;
+    }
+  }
+
+  const choice = (v) => (v === null || v === undefined ? "default" : v ? "on" : "off");
+  const fromChoice = (v) => (v === "default" ? null : v === "on");
+  const initial = (a) => (a.name || a.exe).trim().charAt(0).toUpperCase();
+  const combo = (i, field, def) => `<span class="combo"><select data-app="${i}" data-field="${field}">
+      <option value="default">Default (${def})</option><option value="on">On</option><option value="off">Off</option></select></span>`;
+
+  function appList() {
+    const list = $("#app-list");
+    const apps = state.settings.apps;
+    const open = new Set($$(".card.open", list).map((c) => c.dataset.exe));
+    if (!apps.length) {
+      list.innerHTML = `<div class="card"><div class="empty">No apps yet. Add one above, or right-click the NexType tray icon while you're in an app and choose "Turn off in …".</div></div>`;
+      return;
+    }
+    list.innerHTML = apps.map((a, i) => {
+      const offDefault = state.offByDefault.includes(a.exe);
+      const summary = [
+        a.completions === false ? "Suggestions off" : a.completions === true ? "Suggestions on" : offDefault ? "Off by default" : null,
+        a.tab === false ? "Tab off" : null,
+        a.type_spaces_separately === true ? "Spaces typed" : a.type_spaces_separately === false ? "Spaces pasted" : null,
+        a.instructions.trim() ? "Own instructions" : null,
+      ].filter(Boolean).join(", ") || "Same as the general settings";
+      return `
+      <div class="card${open.has(a.exe) ? " open" : ""}" data-exe="${esc(a.exe)}">
+        <div class="row click" data-toggle>
+          <span class="app-glyph">${esc(initial(a))}</span>
+          <div class="label"><span class="title">${esc(a.name || a.exe)}</span><span class="desc">${esc(summary)}</span></div>
+          <div class="control"><span class="expand-btn"><i class="icon">&#xE70D;</i></span></div>
+        </div>
+        <div class="sub fold"><div class="row">
+          <div class="label"><span class="title">Suggestions</span></div>
+          <div class="control">${combo(i, "completions", offDefault ? "off" : "on")}</div>
+        </div></div>
+        <div class="sub fold"><div class="row">
+          <div class="label"><span class="title">Tab takes the next word</span><span class="desc">Off leaves Tab to the app. The key above Tab still works</span></div>
+          <div class="control">${combo(i, "tab", "on")}</div>
+        </div></div>
+        <div class="sub fold"><div class="row">
+          <div class="label"><span class="title">Type spaces separately</span><span class="desc">On if this app drops spaces from pasted text</span></div>
+          <div class="control">${combo(i, "type_spaces_separately", state.settings.type_spaces_separately ? "on" : "off")}</div>
+        </div></div>
+        <div class="sub fold"><div class="row top">
+          <div class="label" style="padding-right:0"><span class="title">Instructions</span><span class="desc">Added to the general instructions in this app</span>
+            <textarea style="margin-top:8px" data-app="${i}" data-field="instructions" placeholder="No instructions" spellcheck="true">${esc(a.instructions)}</textarea></div>
+        </div></div>
+        <div class="sub fold"><div class="row">
+          <div class="label"><span class="title">Remove</span><span class="desc">Use the general settings in ${esc(a.name || a.exe)} again (${esc(a.exe)})</span></div>
+          <div class="control"><button class="btn" data-remove="${i}">Remove</button></div>
+        </div></div>
+      </div>`;
+    }).join("");
+    for (const sel of $$("select[data-app]", list)) sel.value = choice(apps[sel.dataset.app][sel.dataset.field]);
+  }
+
+  function addList() {
+    const have = new Set(state.settings.apps.map((a) => a.exe));
+    const options = state.recent.filter((r) => !have.has(r.exe));
+    const sel = $("#add-app");
+    sel.innerHTML = options.length
+      ? options.map((r) => `<option value="${esc(r.exe)}">${esc(r.name || r.exe)}</option>`).join("")
+      : `<option value="">No new apps yet</option>`;
+    sel.disabled = !options.length;
+    $("#add").disabled = !options.length;
+  }
+
+  function render() {
+    restoreCards();
+    bindGlobal();
+    pauseCard();
+    appList();
+    addList();
+    $("#version").textContent = `Version ${state.version}`;
+    $("#model").textContent = state.model || "";
+    $("#folder").textContent = state.folder || "";
+    if ($("#search").value.trim()) search($("#search").value);
+  }
+
+  function load(s) {
+    state = s;
+    theme(s.accent, s.dark);
+    document.documentElement.classList.toggle("mica", !!s.mica);
+    render();
+    movePill();
+  }
+
+  // Restart the entrance animation on a page and the title.
+  let current_shown = null;
+  function replay(sel) {
+    for (const el of [$(sel), $("#page-title")]) {
+      el.classList.remove("enter");
+      void el.offsetWidth;
+      el.classList.add("enter");
+    }
+  }
+  // Slide the pill to the selected item; fade it out when nothing is selected (search results).
+  let pillPlaced = false;
+  function movePill() {
+    const pill = $("#nav-pill"), sel = $(".nav-item.selected");
+    if (!sel) { pill.style.opacity = 0; return; }
+    const y = sel.offsetTop + (sel.offsetHeight - 16) / 2;
+    if (!pillPlaced) { pill.style.transition = "none"; pillPlaced = true; requestAnimationFrame(() => (pill.style.transition = "")); }
+    pill.style.transform = `translateY(${y}px)`;
+    pill.style.opacity = 1;
+  }
+
+  function show(page) {
+    current = page;
+    for (const n of $$(".nav-item")) n.classList.toggle("selected", n.dataset.page === page);
+    const prev = current_shown;
+    for (const p of $$(".page")) p.classList.toggle("shown", p.id === `page-${page}`);
+    $("#page-title").textContent = $(`#page-${page}`).dataset.title;
+    if (prev !== `page-${page}`) replay(`#page-${page}`);
+    current_shown = `page-${page}`;
+    movePill();
+    $("#scroll").scrollTop = 0;
+  }
+
+  // ---------- Search: a results page with the matching cards, grouped by page ----------
+  const placeholders = new Map();
+  function restoreCards() {
+    for (const [card, ph] of placeholders) ph.replaceWith(card);
+    placeholders.clear();
+  }
+  function search(q) {
+    q = q.trim().toLowerCase();
+    $("#search-box").classList.toggle("has-text", !!q);
+    restoreCards();
+    const results = $("#page-search");
+    results.innerHTML = "";
+    if (!q) {
+      show(current);
+      return;
+    }
+    for (const page of $$(".page:not(#page-search)")) {
+      const hits = $$(":scope > .card, #app-list > .card", page).filter((c) => {
+        const text = (c.textContent + " " + ($("[data-search]", c)?.dataset.search || "")).toLowerCase();
+        return text.includes(q) && !c.classList.contains("hidden");
+      });
+      if (!hits.length) continue;
+      const h = document.createElement("h2");
+      h.textContent = page.dataset.title;
+      results.appendChild(h);
+      for (const c of hits) {
+        // Move the card itself (its controls keep working) and leave a marker to put it back.
+        const ph = document.createComment("card");
+        c.replaceWith(ph);
+        placeholders.set(c, ph);
+        results.appendChild(c);
+      }
+    }
+    if (!results.children.length) results.innerHTML = `<div class="card"><div class="empty">No results for "${esc(q)}"</div></div>`;
+    for (const p of $$(".page")) p.classList.toggle("shown", p === results);
+    for (const n of $$(".nav-item")) n.classList.remove("selected");
+    $("#page-title").textContent = "Search results";
+    if (current_shown !== "page-search") replay("#page-search");
+    current_shown = "page-search";
+    movePill();
+    $("#scroll").scrollTop = 0;
+  }
+  // ---------- ComboBox drop-down ----------
+  // The <select> stays the source of truth (value, change events); only its popup is replaced.
+  let flyout = null;
+  function closeFlyout(focus = true) {
+    if (!flyout) return;
+    const { el, sel } = flyout;
+    flyout = null;
+    el.remove();
+    sel.classList.remove("open");
+    if (focus) sel.focus();
+  }
+  function hot(i) {
+    const items = $$(".item", flyout.el);
+    i = Math.max(0, Math.min(items.length - 1, i));
+    items.forEach((it, j) => it.classList.toggle("hot", j === i));
+    items[i]?.scrollIntoView({ block: "nearest" });
+    flyout.hot = i;
+  }
+  function pick(i) {
+    const { sel } = flyout;
+    const opt = sel.options[i];
+    closeFlyout();
+    if (!opt || opt.disabled || sel.selectedIndex === i) return;
+    sel.selectedIndex = i;
+    sel.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+  function openFlyout(sel) {
+    closeFlyout(false);
+    if (sel.disabled || !sel.options.length) return;
+    const el = document.createElement("div");
+    el.className = "flyout";
+    el.setAttribute("role", "listbox");
+    [...sel.options].forEach((o, i) => {
+      const it = document.createElement("div");
+      it.className = "item" + (i === sel.selectedIndex ? " selected" : "") + (o.disabled ? " disabled" : "");
+      it.textContent = o.textContent;
+      it.addEventListener("mouseenter", () => hot(i));
+      it.addEventListener("click", () => pick(i));
+      el.appendChild(it);
+    });
+    el.addEventListener("mousedown", (e) => e.preventDefault()); // keep focus on the select
+    document.body.appendChild(el);
+    sel.classList.add("open");
+    flyout = { el, sel, hot: -1 };
+
+    // Line the selected item up with the combo; keep the whole list on screen.
+    const r = sel.getBoundingClientRect();
+    const stride = 36, top0 = 1 + 2 + 2; // border + list padding + item margin
+    const idx = Math.max(0, sel.selectedIndex);
+    el.style.left = `${r.left - 4}px`;
+    el.style.minWidth = `${r.width + 8}px`;
+    const h = el.offsetHeight;
+    let y = r.top + r.height / 2 - (top0 + idx * stride + 16);
+    y = Math.max(4, Math.min(innerHeight - h - 4, y));
+    el.style.top = `${y}px`;
+    el.style.transformOrigin = `center ${r.top + r.height / 2 - y}px`;
+    if (el.scrollHeight > el.clientHeight) el.children[idx]?.scrollIntoView({ block: "center" });
+    hot(idx);
+  }
+  document.addEventListener("mousedown", (e) => {
+    const sel = e.target.closest(".combo select");
+    if (sel) {
+      e.preventDefault();
+      if (flyout?.sel === sel) closeFlyout();
+      else { sel.focus(); openFlyout(sel); }
+      return;
+    }
+    if (flyout && !flyout.el.contains(e.target)) closeFlyout(false);
+  }, true);
+  document.addEventListener("keydown", (e) => {
+    if (flyout) {
+      const n = flyout.sel.options.length;
+      const keys = {
+        ArrowDown: () => hot(flyout.hot + 1), ArrowUp: () => hot(flyout.hot - 1),
+        Home: () => hot(0), End: () => hot(n - 1),
+        PageDown: () => hot(flyout.hot + 8), PageUp: () => hot(flyout.hot - 8),
+        Enter: () => pick(flyout.hot), " ": () => pick(flyout.hot),
+        Escape: () => closeFlyout(), Tab: () => closeFlyout(),
+      };
+      if (keys[e.key]) { if (e.key !== "Tab") e.preventDefault(); e.stopPropagation(); keys[e.key](); }
+      return;
+    }
+    const sel = e.target.closest?.(".combo select");
+    if (sel && (e.key === "Enter" || e.key === " " || e.key === "F4" || (e.altKey && e.key === "ArrowDown"))) {
+      e.preventDefault();
+      openFlyout(sel);
+    }
+  }, true);
+  addEventListener("blur", () => closeFlyout(false));
+  addEventListener("resize", () => closeFlyout(false));
+  document.addEventListener("scroll", (e) => { if (flyout && !flyout.el.contains(e.target)) closeFlyout(false); }, true);
+
+  const clearSearch = () => { $("#search").value = ""; search(""); };
+  addEventListener("resize", movePill);
+  $("#search").addEventListener("input", (e) => search(e.target.value));
+  $("#search").addEventListener("keydown", (e) => { if (e.key === "Escape") clearSearch(); });
+  $("#search-clear").addEventListener("click", () => { clearSearch(); $("#search").focus(); });
+
+  // ---------- Events ----------
+  for (const n of $$(".nav-item")) n.addEventListener("click", () => {
+    setPane(false);
+    if ($("#search").value) clearSearch();
+    show(n.dataset.page);
+  });
+  document.addEventListener("change", (e) => {
+    const el = e.target;
+    if (el.dataset.key) {
+      state.settings[el.dataset.key] = el.type === "checkbox" ? el.checked : el.value;
+      if (el.type === "checkbox") stateText(el);
+      if (el.dataset.key === "type_spaces_separately") appList();
+      save();
+    } else if (el.dataset.app !== undefined && el.tagName === "SELECT") {
+      state.settings.apps[el.dataset.app][el.dataset.field] = fromChoice(el.value);
+      // Update the summary line in place; re-rendering would close the menu and lose focus.
+      const card = el.closest(".card");
+      const open = card.classList.contains("open");
+      appList();
+      if (open) $(`.card[data-exe="${CSS.escape(card.dataset.exe)}"]`)?.classList.add("open");
+      save();
+    }
+  });
+  document.addEventListener("input", (e) => {
+    const el = e.target;
+    if (el.tagName !== "TEXTAREA") return;
+    if (el.dataset.key) state.settings[el.dataset.key] = el.value;
+    else state.settings.apps[el.dataset.app].instructions = el.value;
+    save(400);
+  });
+  document.addEventListener("click", (e) => {
+    const rm = e.target.closest("[data-remove]");
+    if (rm) {
+      state.settings.apps.splice(+rm.dataset.remove, 1);
+      render();
+      save();
+      return;
+    }
+    const t = e.target.closest("[data-toggle]");
+    if (t && !e.target.closest("select, textarea, button")) t.closest(".card").classList.toggle("open");
+  });
+  $("#add").addEventListener("click", () => {
+    const exe = $("#add-app").value;
+    if (!exe) return;
+    const r = state.recent.find((x) => x.exe === exe);
+    state.settings.apps.unshift({ exe, name: r ? r.name : exe, completions: null, tab: null, type_spaces_separately: null, instructions: "" });
+    render();
+    $(".card", $("#app-list"))?.classList.add("open");
+    save();
+  });
+  $("#resume").addEventListener("click", () => { state.settings.paused_until = null; render(); save(); });
+  $("#open-folder").addEventListener("click", () => post({ type: "openFolder" }));
+  // A settings window, not a browser: no page menu, reload, print, find or zoom.
+  document.addEventListener("contextmenu", (e) => { if (!e.target.closest("textarea, input")) e.preventDefault(); });
+  document.addEventListener("keydown", (e) => {
+    const k = e.key.toLowerCase();
+    if (k === "f5" || (e.ctrlKey && ["r", "p", "f", "g", "u", "+", "-", "=", "0"].includes(k))) {
+      e.preventDefault();
+      if (e.ctrlKey && k === "f") $("#search").focus();
+    }
+  });
+  document.addEventListener("wheel", (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+
+  theme(["#4cc2ff", "#0067c0"], matchMedia("(prefers-color-scheme: dark)").matches);
+  return { load, frame, show };
+})();
+window.ipc && window.ipc.postMessage(JSON.stringify({ type: "ready" }));
+</script>
+</body>
+</html>

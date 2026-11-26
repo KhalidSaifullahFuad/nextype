@@ -20,14 +20,14 @@ pub static LATEST: AtomicU64 = AtomicU64::new(0);
 const N_CTX: u32 = 4096;
 /// Text before the caret handed to the prompt builder, which trims it to its token budget.
 const WINDOW_CHARS: usize = 4000;
-/// Longest ghost in tokens (the Mac's "medium").
-const MAX_TOKENS: usize = 16;
 
 pub struct Request {
     pub id: u64,
     pub before: String,
     pub context: Context,
     pub instructions: String,
+    /// Longest ghost in tokens (`settings::Length`).
+    pub max_tokens: usize,
 }
 
 /// Start the worker. Each time a suggestion grows, `(id, text)` is queued on the returned
@@ -64,7 +64,7 @@ pub fn spawn(model_path: String, ui_thread: u32) -> (Sender<Request>, Receiver<(
                 let prompt = build(tail(&req.before, WINDOW_CHARS), &req.context, &req.instructions, &|s| completer.count_tokens(s));
                 let heal = prompt.heal.as_str();
                 let (mut shown, mut sentence_done) = (0, false);
-                let result = completer.complete(&prompt.text, heal, MAX_TOKENS, |text| {
+                let result = completer.complete(&prompt.text, heal, req.max_tokens, |text| {
                     let Some(mut s) = text.strip_prefix(heal) else { return LATEST.load(Ordering::Relaxed) == id };
                     let copied = copy_cut(s, &req.context.window_title, 8);
                     if let Some(end) = [sentence_end(s), repeat_cut(s), copied].into_iter().flatten().min() {
