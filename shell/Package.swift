@@ -9,12 +9,14 @@ let rustLib = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deleti
 let package = Package(
     name: "NexType",
     platforms: [.macOS(.v14)],
+    // Auto-update (scripts/release.sh writes the feed); bundle.sh copies the framework into the app.
+    dependencies: [.package(url: "https://github.com/sparkle-project/Sparkle", from: "2.6.0")],
     targets: [
         // C module holding the uniffi-generated header; a C target needs one source file.
         .target(name: "nextype_ffiFFI", path: "Sources/nextype_ffiFFI", publicHeadersPath: "include"),
         .executableTarget(
             name: "NexType",
-            dependencies: ["nextype_ffiFFI"],
+            dependencies: ["nextype_ffiFFI", .product(name: "Sparkle", package: "Sparkle")],
             path: "Sources/NexType",
             swiftSettings: [.swiftLanguageMode(.v5)],
             linkerSettings: [

@@ -1,5 +1,6 @@
 import AppKit
 import ServiceManagement
+import Sparkle
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -85,7 +86,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .apps: "override exclude disable website domain browser"
         case .permissions: "accessibility screen recording privacy"
         case .model: "download gemma qwen recommended memory delete location"
-        case .about: "version"
+        case .about: "version update check sparkle"
         }
     }
 
@@ -895,6 +896,19 @@ struct AboutPane: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 20)
             }
+            SettingsCard {
+                ToggleRow(symbol: "arrow.triangle.2.circlepath", title: "Check for updates automatically",
+                          subtitle: "Once a day. You're asked before anything is installed.", isOn: $autoCheck)
+                    .onChange(of: autoCheck) { _, on in updater.updater.automaticallyChecksForUpdates = on }
+                RowDivider()
+                SettingsRow(symbol: "arrow.down.app", title: "Updates", subtitle: "Version \(version) (build \(build))") {
+                    Button("Check Now") { updater.checkForUpdates(nil) }
+                }
+            }
         }
     }
+
+    @State private var autoCheck = updater.updater.automaticallyChecksForUpdates
+    private var version: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "dev" }
+    private var build: String { Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "?" }
 }

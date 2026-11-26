@@ -1,5 +1,10 @@
 import AppKit
+import Sparkle
 import SwiftUI
+
+/// Auto-update: checks the feed in Info.plist (SUFeedURL) about once a day, then downloads,
+/// verifies (SUPublicEDKey) and installs on request. Started at launch.
+let updater = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
 
 /// A model NexType can run: a pinned GGUF file on Hugging Face (spec §16).
 struct ModelInfo: Identifiable, Equatable {
@@ -253,6 +258,7 @@ final class Core: ObservableObject {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         MainActor.assumeIsolated {
+            _ = updater
             Core.shared.launch()
             Onboarding.showIfNeeded()
         }
@@ -312,6 +318,7 @@ struct NexTypeApp: App {
                 Button("Relaunch NexType") { core.relaunch() }
             }
             Divider()
+            Button("Check for Updates…") { updater.checkForUpdates(nil) }
             Button("Settings…") { SettingsWindowController.shared.show() }
                 .keyboardShortcut(",")
             Button("Quit NexType") { NSApp.terminate(nil) }

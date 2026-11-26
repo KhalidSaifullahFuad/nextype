@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Update feed read by the app (SUFeedURL). scripts/release.sh adds each version; push it only
+     after the release's zip is uploaded, or users get a broken download. -->
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>NexType</title>
+    <!-- new versions go below -->
+  </channel>
+</rss>
