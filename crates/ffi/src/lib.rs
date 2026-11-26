@@ -26,6 +26,12 @@ pub fn start(model_path: String) -> bool {
     nextype::start(model_path)
 }
 
+/// Switch to another model file (after `start`). Main thread.
+#[uniffi::export]
+pub fn set_model(model_path: String) {
+    nextype::set_model(model_path);
+}
+
 /// Undo changes made to other apps (Chrome's accessibility mode); call before quitting.
 #[uniffi::export]
 pub fn stop() {

@@ -84,7 +84,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .learning: "history writing style saved delete encrypted"
         case .apps: "override exclude disable website domain browser"
         case .permissions: "accessibility screen recording privacy"
-        case .model: "download gemma status location"
+        case .model: "download gemma qwen recommended memory delete location"
         case .about: "version"
         }
     }
@@ -792,39 +792,84 @@ struct PermissionsPane: View {
 
 struct ModelPane: View {
     @ObservedObject private var core = Core.shared
-    @ObservedObject private var download = modelDownload
 
     var body: some View {
         SettingsPage(title: "Model") {
+            SettingsCard { ModelList() }
+            Note("Recommended for this Mac's \(macMemoryGB) GB of memory. Bigger models write better but use more memory and can be slower. Every model runs on your Mac; your text never leaves it.")
             SettingsCard {
-                SettingsRow(symbol: "cpu", title: "Gemma 4 E2B (Q4_0)", subtitle: "Runs entirely on your Mac. 2.8 GB.") {
-                    if core.status == .modelMissing {
-                        Label("Not downloaded", systemImage: "exclamationmark.triangle").foregroundStyle(.orange)
-                    } else {
-                        Granted(text: "Installed")
-                    }
-                }
-                RowDivider()
-                SettingsRow(symbol: "folder", title: "Model file", subtitle: (modelURL.path as NSString).abbreviatingWithTildeInPath) {
-                    Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([modelURL]) }
-                        .disabled(core.status == .modelMissing)
-                }
-                if core.status == .modelMissing {
-                    RowDivider()
-                    SettingsRow(symbol: "arrow.down.circle", title: "Download model",
-                                subtitle: downloadLine(download.state) ?? "Downloads once from Hugging Face and is checked before use.") {
-                        if case .running = download.state {
-                            Button("Cancel") { download.cancel() }
-                        } else if !download.isBusy {
-                            Button("Download") { download.start() }
-                        }
-                    }
-                    if case .running(let fraction) = download.state {
-                        ProgressView(value: fraction).tint(.orange).padding(.leading, 42).padding(.bottom, 10)
-                    }
+                SettingsRow(symbol: "folder", title: "Model file", subtitle: (core.model.url.path as NSString).abbreviatingWithTildeInPath) {
+                    Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([core.model.url]) }
+                        .disabled(!core.model.installed)
                 }
             }
         }
+    }
+}
+
+/// Every model, with the one this Mac should run marked. Used in Settings and the setup window.
+struct ModelList: View {
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(models) { m in
+                ModelRow(model: m, download: downloads[m.id]!)
+                if m != models.last { RowDivider() }
+            }
+        }
+    }
+}
+
+/// Click to use a model; one not on disk is downloaded first.
+private struct ModelRow: View {
+    let model: ModelInfo
+    @ObservedObject var download: Download
+    @ObservedObject private var core = Core.shared
+
+    var body: some View {
+        let selected = core.model == model
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 12) {
+                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                    .font(.system(size: 16))
+                    .foregroundStyle(selected ? Color.orange : Color.secondary)
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 6) {
+                        Text(model.name).font(.system(size: 13))
+                        if model == recommendedModel {
+                            Text("Recommended").font(.system(size: 10, weight: .semibold)).foregroundStyle(.orange)
+                                .padding(.horizontal, 6).padding(.vertical, 2)
+                                .background(Capsule().fill(Color.orange.opacity(0.15)))
+                        }
+                    }
+                    Text(subtitle).font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 16)
+                if case .running = download.state {
+                    Button("Cancel") { download.cancel() }
+                } else if download.isBusy {
+                    EmptyView()
+                } else if !model.installed {
+                    Button("Download") { core.select(model) }
+                } else if !selected {
+                    Button("Delete") { core.delete(model) }
+                }
+            }
+            .padding(.vertical, 8)
+            .contentShape(Rectangle())
+            .onTapGesture { if !selected { core.select(model) } }
+            if case .running(let fraction) = download.state {
+                ProgressView(value: fraction).tint(.orange).padding(.leading, 28).padding(.bottom, 8)
+            }
+        }
+    }
+
+    private var subtitle: String {
+        if let line = downloadLine(download.state) { return line }
+        let base = model.sizeText
+        if model.installed { return base + " · Downloaded" }
+        if !model.fitsThisMac { return base + " · Best with more than \(model.bestAboveGB) GB of RAM; may slow down other apps" }
+        return base
     }
 }
 

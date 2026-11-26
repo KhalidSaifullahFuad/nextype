@@ -1,4 +1,4 @@
-//! Prompt builder (spec §7.1, §8): Gemma 4 chat format, all context in the user turn, the model
+//! Prompt builder (spec §7.1, §8): the model's chat format, all context in the user turn, the model
 //! turn pre-filled with the text before the caret so the model just continues it.
 //! Platform-free: the caller supplies the context values and a token counter.
 
@@ -24,6 +24,36 @@ const MID_TASK: &str = "Continue my text from the cursor with only the words tha
 /// The current line before the caret, repeated around the gap marker.
 const GAP_LINE_BUDGET: usize = 100;
 
+/// Chat format of the loaded model, from its GGUF `general.architecture`.
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub enum Template {
+    #[default]
+    Gemma4,
+    Gemma3,
+    /// Qwen 3, with an empty think block so it answers without reasoning first.
+    Qwen3,
+}
+
+impl Template {
+    pub fn from_arch(arch: &str) -> Option<Self> {
+        match arch {
+            "gemma4" => Some(Self::Gemma4),
+            "gemma3" => Some(Self::Gemma3),
+            "qwen3" => Some(Self::Qwen3),
+            _ => None,
+        }
+    }
+
+    /// The user turn, then the model turn pre-filled with `reply`.
+    fn wrap(self, user: &str, reply: &str) -> String {
+        match self {
+            Self::Gemma4 => format!("<|turn>user\n{user}<turn|>\n<|turn>model\n{reply}"),
+            Self::Gemma3 => format!("<start_of_turn>user\n{user}<end_of_turn>\n<start_of_turn>model\n{reply}"),
+            Self::Qwen3 => format!("<|im_start|>user\n{user}<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n{reply}"),
+        }
+    }
+}
+
 /// What the app knows about the moment of typing (spec §7.1). Empty values are left out.
 #[derive(Debug, Default, Clone)]
 pub struct Context {
@@ -43,6 +73,8 @@ pub struct Context {
     pub clipboard: String,
     /// Text after the caret when it is mid-line (spec §8.6), else empty.
     pub after: String,
+    /// Set by the engine for the model it has loaded.
+    pub template: Template,
 }
 
 #[derive(Debug, PartialEq)]
@@ -97,7 +129,7 @@ pub fn build(before: &str, ctx: &Context, instructions: &str, count: &dyn Fn(&st
     }
     user.push_str("\n\n");
     user.push_str(if after.is_empty() { TASK } else { MID_TASK });
-    Prompt { text: format!("<|turn>user\n{user}<turn|>\n<|turn>model\n{kept}"), heal: heal.to_owned() }
+    Prompt { text: ctx.template.wrap(&user, kept), heal: heal.to_owned() }
 }
 
 /// Context lines in order of importance; the least important are dropped to fit the budget.
@@ -220,6 +252,7 @@ mod tests {
             screen: String::new(),
             clipboard: String::new(),
             after: String::new(),
+            template: Template::Gemma4,
         }
     }
 
@@ -281,6 +314,19 @@ mod tests {
         assert!(p.text.contains("where my cursor is:\nLet us meet[GAP] tomorrow at noon.\n\nContinue my text from the cursor"));
         assert!(p.text.ends_with("<|turn>model\nLet us"));
         assert!(!build("Let us meet", &Context::default(), "", &words).text.contains("[GAP]"));
+    }
+
+    #[test]
+    fn each_model_family_gets_its_chat_format() {
+        let mut c = Context::default();
+        c.template = Template::Gemma3;
+        let p = build("Hi all", &c, "", &words);
+        assert!(p.text.starts_with("<start_of_turn>user\nI am") && p.text.ends_with("<end_of_turn>\n<start_of_turn>model\nHi"));
+        c.template = Template::Qwen3;
+        let p = build("Hi all", &c, "", &words);
+        assert!(p.text.starts_with("<|im_start|>user\nI am") && p.text.ends_with("<|im_start|>assistant\n<think>\n\n</think>\n\nHi"));
+        assert_eq!(Template::from_arch("qwen3"), Some(Template::Qwen3));
+        assert_eq!(Template::from_arch("llama"), None);
     }
 
     #[test]

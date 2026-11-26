@@ -32,6 +32,7 @@ Updated: 2026-11-19.
 - [x] SwiftUI menu bar app over the Rust core (uniffi)
 - [x] Onboarding: Accessibility, then the model download (resume, sha256 check, retries, cancel, disk check)
 - [x] Settings window: searchable sidebar with General, Suggestions, Keyboard, Context sources, Learn my style, Apps & websites, Permissions, Model and About; same look as the Launchpad project's settings. Reopening the app shows it
+- [x] Model choice: Gemma 4 E4B/E2B, Gemma 3 4B/1B, Qwen 3 1.7B; recommended by memory, switched live, chat format read from the file
 - [x] Menu: today's stats, on/off, pause 1 h, turn off in this app, this app's Tab shortcut, or this website
 - [x] Stats file; paste fallback when typed insertion fails
 

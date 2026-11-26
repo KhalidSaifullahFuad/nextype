@@ -68,7 +68,7 @@ thread_local! {
     /// The field text at the previous read, to tell typing from caret moves.
     static LAST_TEXT: RefCell<Option<(i32, String)>> = const { RefCell::new(None) };
     static OVERLAY: OnceCell<Overlay> = const { OnceCell::new() };
-    static ENGINE: OnceCell<Sender<Request>> = const { OnceCell::new() };
+    static ENGINE: RefCell<Option<Sender<Request>>> = const { RefCell::new(None) };
 }
 
 /// Whether this process has the Accessibility permission; `prompt` shows the system dialog.
@@ -110,7 +110,7 @@ pub fn start(model_path: String) -> bool {
     eprintln!("NexType: watching focused text fields.");
 
     OVERLAY.with(|o| o.set(Overlay::new(mtm)).ok());
-    ENGINE.with(|e| e.set(engine::spawn(model_path, on_engine_text)).ok());
+    ENGINE.with(|e| *e.borrow_mut() = Some(engine::spawn(model_path, on_engine_text)));
     if !keys::install_tap(on_key) {
         eprintln!("NexType: could not install the keyboard tap; accept keys will not work.");
     }
@@ -125,6 +125,19 @@ pub fn start(model_path: String) -> bool {
     }
     DEBOUNCE.with(|d| *d.borrow_mut() = Some(debounce));
     true
+}
+
+/// Load another model; the old one is freed once its worker sees its channel closed. Before
+/// `start` this does nothing (start takes the path). Main thread only.
+pub fn set_model(model_path: String) {
+    ENGINE.with(|e| {
+        let mut e = e.borrow_mut();
+        if e.is_some() {
+            LATEST.fetch_add(1, Ordering::Relaxed);
+            *e = Some(engine::spawn(model_path, on_engine_text));
+        }
+    });
+    clear_ghost();
 }
 
 fn timer(first_fire_in: f64, interval: f64, cb: unsafe extern "C-unwind" fn(*mut CFRunLoopTimer, *mut std::ffi::c_void)) -> CFRetained<CFRunLoopTimer> {
@@ -238,7 +251,7 @@ fn request(s: &FieldSnapshot, caret: Rect) {
         }
         instructions.push_str(o.instructions.trim());
     }
-    ENGINE.with(|e| e.get().map(|tx| tx.send(Request { id, before, context: gather_context(s), instructions })));
+    ENGINE.with(|e| e.borrow().as_ref().map(|tx| tx.send(Request { id, before, context: gather_context(s), instructions })));
 }
 
 /// The context lines of the prompt (spec §7.1), read on the main thread.
@@ -262,6 +275,7 @@ fn gather_context(s: &FieldSnapshot) -> Context {
         screen: if settings::SCREEN.load(Ordering::Relaxed) { screen::text_for(s) } else { String::new() },
         clipboard: if settings::CLIPBOARD.load(Ordering::Relaxed) { clipboard::recent_text().unwrap_or_default() } else { String::new() },
         after: if s.mid_line() { s.after().to_owned() } else { String::new() },
+        ..Default::default() // template: the engine sets it
     }
 }
 

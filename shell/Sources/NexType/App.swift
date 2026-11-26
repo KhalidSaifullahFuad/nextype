@@ -1,17 +1,62 @@
 import AppKit
 import SwiftUI
 
-/// Where the model lives (M4 download target). Dev: a symlink to the checkout's `models/` file.
-let modelURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-    .appendingPathComponent("NexType/models/gemma-4-E2B-it-Q4_0.gguf")
+/// A model NexType can run: a pinned GGUF file on Hugging Face (spec §16).
+struct ModelInfo: Identifiable, Equatable {
+    let name: String
+    let repo: String
+    let commit: String
+    /// File name in the repo, also the local file name.
+    let id: String
+    let sha256: String
+    let size: Int64
+    /// Runs best alongside the user's apps on Macs with more memory (GB) than this. The whole
+    /// file stays in memory while NexType runs, so it should take about a sixth of it at most.
+    let bestAboveGB: Int
 
-/// Pinned model (spec §16): ggml-org/gemma-4-E2B-it-GGUF at a fixed commit, Q4_0.
-let modelDownload = Download(
-    url: URL(string: "https://huggingface.co/ggml-org/gemma-4-E2B-it-GGUF/resolve/2a8538c2e2d4687953a86c422c7c623cfd022880/gemma-4-E2B-it-Q4_0.gguf")!,
-    dest: modelURL,
-    sha256: "8e30dff3ac4c8434c49a7036fa15564bdbb6044e42bf04550bf1a096ad7e6a52",
-    size: 2_841_481_184
-)
+    /// Dev: a symlink to the checkout's `models/` file works too.
+    var url: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("NexType/models/\(id)")
+    }
+    var sizeText: String { ByteCountFormatter.string(fromByteCount: size, countStyle: .file) }
+    var installed: Bool { FileManager.default.fileExists(atPath: url.path) }
+    var fitsThisMac: Bool { macMemoryGB > bestAboveGB }
+}
+
+/// Best first. The engine reads the chat format from the file, so only these families work:
+/// Gemma 4, Gemma 3, Qwen 3.
+let models = [
+    ModelInfo(name: "Gemma 4 E4B", repo: "ggml-org/gemma-4-E4B-it-GGUF", commit: "8903cb408c7df39cde2ed15fac397e6d7be92951",
+              id: "gemma-4-E4B-it-Q4_0.gguf", sha256: "a555b900214b477d8880e7832e0b8925e139b0159640036b09fe472b6f2097f2",
+              size: 4_590_807_392, bestAboveGB: 16),
+    ModelInfo(name: "Gemma 4 E2B", repo: "ggml-org/gemma-4-E2B-it-GGUF", commit: "2a8538c2e2d4687953a86c422c7c623cfd022880",
+              id: "gemma-4-E2B-it-Q4_0.gguf", sha256: "8e30dff3ac4c8434c49a7036fa15564bdbb6044e42bf04550bf1a096ad7e6a52",
+              size: 2_841_481_184, bestAboveGB: 8),
+    ModelInfo(name: "Gemma 3 4B", repo: "ggml-org/gemma-3-4b-it-GGUF", commit: "d0976223747697cb51e056d85c532013931fe52e",
+              id: "gemma-3-4b-it-Q4_K_M.gguf", sha256: "882e8d2db44dc554fb0ea5077cb7e4bc49e7342a1f0da57901c0802ea21a0863",
+              size: 2_489_757_856, bestAboveGB: 8),
+    ModelInfo(name: "Qwen 3 1.7B", repo: "unsloth/Qwen3-1.7B-GGUF", commit: "d7f544eead698dbd1f15126ef60b45a1e1933222",
+              id: "Qwen3-1.7B-Q4_K_M.gguf", sha256: "b139949c5bd74937ad8ed8c8cf3d9ffb1e99c866c823204dc42c0d91fa181897",
+              size: 1_107_409_472, bestAboveGB: 4),
+    ModelInfo(name: "Gemma 3 1B", repo: "ggml-org/gemma-3-1b-it-GGUF", commit: "f9c28bcd85737ffc5aef028638d3341d49869c27",
+              id: "gemma-3-1b-it-Q4_K_M.gguf", sha256: "8ccc5cd1f1b3602548715ae25a66ed73fd5dc68a210412eea643eb20eb75a135",
+              size: 806_058_240, bestAboveGB: 0),
+]
+
+let macMemoryGB = Int(ProcessInfo.processInfo.physicalMemory >> 30)
+
+/// The best model this Mac's memory allows. shortcut: memory only, not chip speed; an M1 with
+/// 16 GB may find E4B slow, so benchmark first-token time if users report lag.
+let recommendedModel = models.first { $0.fitsThisMac } ?? models[models.count - 1]
+
+/// One download per model, so each keeps its own progress.
+let downloads: [String: Download] = Dictionary(uniqueKeysWithValues: models.map { m in
+    let d = Download(url: URL(string: "https://huggingface.co/\(m.repo)/resolve/\(m.commit)/\(m.id)")!,
+                     dest: m.url, sha256: m.sha256, size: m.size)
+    d.onDone = { MainActor.assumeIsolated { Core.shared.downloaded(m) } }
+    return (m.id, d)
+})
 
 /// "Downloading 42%" style line for menus; nil when there is nothing to say.
 func downloadLine(_ s: Download.State) -> String? {
@@ -70,10 +115,12 @@ final class Core: ObservableObject {
     @Published var today = (completions: 0, words: 0)
     /// Website of the field NexType last read ("" outside browsers).
     @Published var domain = ""
+    /// The model to run. Existing installs keep E2B, the only model earlier builds had.
+    @Published private(set) var model: ModelInfo = models.first { $0.id == UserDefaults.standard.string(forKey: "model") }
+        ?? (models[1].installed ? models[1] : recommendedModel)
     private var statsTimer: Timer?
 
     private init() {
-        modelDownload.onDone = { [weak self] in self?.launch() }
         NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main
         ) { note in
@@ -143,8 +190,30 @@ final class Core: ObservableObject {
     func launch() {
         apply()
         guard accessibilityTrusted(prompt: false) else { return status = .needsAccessibility }
-        guard FileManager.default.fileExists(atPath: modelURL.path) else { return status = .modelMissing }
-        status = start(modelPath: modelURL.path) ? .running : .needsAccessibility
+        guard model.installed else { return status = .modelMissing }
+        status = start(modelPath: model.url.path) ? .running : .needsAccessibility
+    }
+
+    var download: Download { downloads[model.id]! }
+
+    /// Use `m` from now on. Not on disk yet: download it, and keep the current one running meanwhile.
+    func select(_ m: ModelInfo) {
+        model = m
+        UserDefaults.standard.set(m.id, forKey: "model")
+        guard m.installed else { return downloads[m.id]!.start() }
+        setModel(modelPath: m.url.path)  // no-op until started; start is a no-op after
+        launch()
+    }
+
+    func downloaded(_ m: ModelInfo) {
+        if m == model { select(m) } else { objectWillChange.send() }
+    }
+
+    /// Frees disk space; the model in use can't be deleted.
+    func delete(_ m: ModelInfo) {
+        guard m != model else { return }
+        try? FileManager.default.removeItem(at: m.url)
+        objectWillChange.send()
     }
 
     /// Push every persisted setting to the core.
@@ -205,7 +274,6 @@ struct NexTypeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @AppStorage("enabled") private var enabled = true
     @ObservedObject private var core = Core.shared
-    @ObservedObject private var download = modelDownload
 
     var body: some Scene {
         MenuBarExtra("NexType", systemImage: enabled ? "text.cursor" : "pause.circle") {
@@ -238,11 +306,7 @@ struct NexTypeApp: App {
                     core.update(key) { $0.completionsOff.toggle() }
                 }
             }
-            if core.status == .modelMissing {
-                if let line = downloadLine(download.state) { Text(line) }
-                if !download.isBusy { Button("Download model (2.8 GB)") { download.start() } }
-                if case .running = download.state { Button("Cancel download") { download.cancel() } }
-            }
+            if core.status == .modelMissing { MenuDownload(model: core.model, download: core.download) }
             if core.status == .needsAccessibility {
                 Button("Grant Accessibility…") { core.requestAccessibility() }
                 Button("Relaunch NexType") { core.relaunch() }
@@ -253,5 +317,17 @@ struct NexTypeApp: App {
             Button("Quit NexType") { NSApp.terminate(nil) }
                 .keyboardShortcut("q")
         }
+    }
+}
+
+/// Menu items for the selected model's download.
+private struct MenuDownload: View {
+    let model: ModelInfo
+    @ObservedObject var download: Download
+
+    var body: some View {
+        if let line = downloadLine(download.state) { Text(line) }
+        if !download.isBusy { Button("Download \(model.name) (\(model.sizeText))") { download.start() } }
+        if case .running = download.state { Button("Cancel download") { download.cancel() } }
     }
 }

@@ -1,7 +1,7 @@
 //! M0 spike: simulate typing `text` one character at a time and measure per-keystroke latency.
 //! Usage: spike <model.gguf> "<text to type>" [max_tokens] [clipboard text]
 
-use nextype_core::prompt::{Context, build};
+use nextype_core::prompt::{Context, Template, build};
 use nextype_engine::{Completer, LlamaBackend, load_model};
 
 fn main() -> Result<(), nextype_engine::Error> {
@@ -10,15 +10,16 @@ fn main() -> Result<(), nextype_engine::Error> {
         return Err("usage: spike <model.gguf> \"<text>\" [max_tokens]".into());
     };
     let max_tokens: usize = rest.first().map_or(Ok(8), |s| s.parse())?;
-    let ctx = Context { clipboard: rest.get(1).cloned().unwrap_or_default(), ..Context::default() };
 
     let mut backend = LlamaBackend::init()?;
     backend.void_logs();
     let model = load_model(&backend, model_path)?;
+    let template = Template::from_arch(&model.meta_val_str("general.architecture")?).unwrap_or_default();
+    let ctx = Context { clipboard: rest.get(1).cloned().unwrap_or_default(), template, ..Context::default() };
     let mut completer = Completer::new(&backend, &model, 4096)?;
 
     // Warmup: first full prefill (cold), not counted.
-    let (_, cold) = completer.complete(&build("", &Context::default(), "", &|s| completer.count_tokens(s)).text, "", 1, |_| true)?;
+    let (_, cold) = completer.complete(&build("", &ctx, "", &|s| completer.count_tokens(s)).text, "", 1, |_| true)?;
     println!("cold prefill: {} tokens in {:.1} ms", cold.prefilled, cold.prefill_ms);
 
     let (mut lat, mut first) = (Vec::new(), Vec::new());

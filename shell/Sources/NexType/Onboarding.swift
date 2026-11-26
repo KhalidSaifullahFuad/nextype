@@ -1,10 +1,9 @@
 import AppKit
 import SwiftUI
 
-/// First-run window: grant Accessibility (needs a relaunch to take effect), then fetch the model.
+/// First-run window: grant Accessibility (needs a relaunch to take effect), then pick and fetch a model.
 struct OnboardingView: View {
     @ObservedObject private var core = Core.shared
-    @ObservedObject private var download = modelDownload
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -17,25 +16,18 @@ struct OnboardingView: View {
                 title: "1. Allow Accessibility",
                 detail: "NexType reads the text before your cursor to suggest what comes next. macOS applies the permission after a relaunch."
             ) {
-                Button("Grant Accessibility…") { core.requestAccessibility() }
-                Button("Relaunch") { core.relaunch() }
+                HStack {
+                    Button("Grant Accessibility…") { core.requestAccessibility() }
+                    Button("Relaunch") { core.relaunch() }
+                }
             }
 
             step(
                 done: core.status == .running,
-                title: "2. Download the model",
-                detail: "One-time 2.8 GB download. Suggestions are generated on your Mac; your text never leaves it."
+                title: "2. Pick a model",
+                detail: "One-time download. The recommended model suits this Mac's \(macMemoryGB) GB of memory. Suggestions are generated on your Mac; your text never leaves it."
             ) {
-                if case .running(let fraction) = download.state {
-                    ProgressView(value: fraction) { Text(downloadLine(download.state) ?? "") }
-                } else if let line = downloadLine(download.state) {
-                    Text(line).foregroundStyle(download.state == .verifying ? Color.secondary : Color.red)
-                }
-                if case .running = download.state { Button("Cancel") { download.cancel() } }
-                if !download.isBusy && core.status != .running {
-                    Button("Download (2.8 GB)") { download.start() }
-                        .disabled(core.status == .needsAccessibility)
-                }
+                ModelList()
             }
 
             if core.status == .running {
@@ -57,7 +49,7 @@ struct OnboardingView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text(title).font(.headline)
                 Text(detail).font(.callout).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-                if !done { HStack { actions() } }
+                if !done { VStack(alignment: .leading) { actions() } }
             }
         }
     }

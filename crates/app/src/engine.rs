@@ -6,7 +6,7 @@ use std::sync::mpsc::{self, Sender};
 
 use crate::settings;
 use dispatch2::DispatchQueue;
-use nextype_core::prompt::{Context, build};
+use nextype_core::prompt::{Context, Template, build};
 use nextype_core::{MID_LINE_WORDS, copy_cut, mid_line_ghost, repeat_cut, sentence_end, tail, word_cut};
 use nextype_engine::{Completer, LlamaBackend, load_model};
 
@@ -46,7 +46,13 @@ pub fn spawn(model_path: String, on_text: fn(u64, String)) -> Sender<Request> {
             backend.void_logs();
             let model = load_model(&backend, &model_path)?;
             let mut completer = Completer::new(&backend, &model, N_CTX)?;
-            eprintln!("engine: model loaded");
+            let arch = model.meta_val_str("general.architecture").unwrap_or_default();
+            let template = Template::from_arch(&arch).unwrap_or_else(|| {
+                eprintln!("engine: unknown architecture {arch:?}, using the Gemma 4 format");
+                Template::default()
+            });
+            eprintln!("engine: model loaded ({arch})");
+            // Ends when the sender is dropped (another model was picked), freeing this one.
             while let Ok(mut req) = rx.recv() {
                 while let Ok(newer) = rx.try_recv() {
                     req = newer;
@@ -55,6 +61,7 @@ pub fn spawn(model_path: String, on_text: fn(u64, String)) -> Sender<Request> {
                 if LATEST.load(Ordering::Relaxed) != id {
                     continue;
                 }
+                req.context.template = template;
                 let prompt = build(tail(&req.before, WINDOW_CHARS), &req.context, &req.instructions, &|s| completer.count_tokens(s));
                 let heal = prompt.heal.as_str();
                 let after_line = req.context.after.lines().next().unwrap_or("");
