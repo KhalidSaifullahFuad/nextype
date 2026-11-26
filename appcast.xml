@@ -5,5 +5,13 @@
   <channel>
     <title>NexType</title>
     <!-- new versions go below -->
+    <item>
+      <title>0.1.0 beta 2</title>
+      <pubDate>Thu, 26 Nov 2026 12:11:12 +0000</pubDate>
+      <sparkle:version>25</sparkle:version>
+      <sparkle:shortVersionString>0.1.0-beta.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/KhalidSaifullahFuad/nextype/releases/download/v0.1.0-beta.2/NexType-0.1.0-beta.2.zip" sparkle:edSignature="OpiXKfIqKFjmpldg5El/BzNG0nmALgCv6L/cgARKE+zhvizIJ71GRJL3o0wZdgCPbD5vNmu9TiKNA61UpjNSAw==" length="6179231" type="application/octet-stream"/>
+    </item>
   </channel>
 </rss>
